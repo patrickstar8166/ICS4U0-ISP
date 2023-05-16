@@ -7,7 +7,7 @@ public class Menu implements ActionListener{
    JPanel panel1, panel2;
    Drawing draw;
    
-   public Menu(){
+   public Menu(){ 
       start = new JButton("Start");
       instr = new JButton("Instructions");
       frame = new JFrame("Menu");
