@@ -30,7 +30,16 @@ public class Game{
                f.setLocation(-5, -30);
                frame.add(f);
                run = false;
-               break;                
+               break;  
+               
+            case 3:
+               Instructions i = new Instructions();
+               f = i.display();
+               frame.getContentPane().removeAll();
+               f.setLocation(-5, -30);
+               frame.add(f);
+               run = false;
+               break;              
          }
       }
    }

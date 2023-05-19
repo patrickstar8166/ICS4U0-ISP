@@ -66,18 +66,13 @@ public class Menu implements ActionListener{
          //text
          g.setColor(Color.black);
          g.setFont(new Font("Sans Serif", Font.BOLD, 40));
-         g.drawString("Fresh Forage Adventure" , 275, 200);
+         g.drawString("Fresh Forage Adventure", 275, 200);
       }
    }
       
    public void actionPerformed (ActionEvent e){
-      if (e.getSource() == start){
-         Game.screenNum++;
-      }
+      if (e.getSource() == start) Game.screenNum = 2; 
       
-      if (e.getSource() == instr){
-         ////Instructions i = new Instructions();
-         //i.display();
-      }
+      if (e.getSource() == instr) Game.screenNum = 3; 
    }
 }
