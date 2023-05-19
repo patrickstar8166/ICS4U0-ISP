@@ -2,16 +2,17 @@ import java.awt.*;
 import java.awt.event.*;  
 import javax.swing.*;
 import java.util.*;
+import java.lang.*;
 
 public class Minigame implements KeyListener, Runnable{
    
    Drawing d = new Drawing();
    private boolean rightHeld, leftHeld, end, win;
-   Player p = new Player();
-   private double timer;
-   ArrayList<FallingObject> f = new ArrayList<FallingObject>();
+   Player p = new Player(); //creates player object
+   private double timer; //timer for object generation
+   ArrayList<FallingObject> f = new ArrayList<FallingObject>(); //array list of all active falling objects
    
-   public Minigame(){
+   public Minigame(){//constructor, generates frame and initializes variables
       timer = 0;
       rightHeld = false; 
       leftHeld = false;
@@ -27,9 +28,12 @@ public class Minigame implements KeyListener, Runnable{
    
    class Drawing extends JComponent
    {
-      public void paint (Graphics g)
+      public void paint (Graphics g)//drawing method
       {
          if(!end){
+         
+            //draws all falling objects in the array list
+            //checks what falling object type it is before displaying
             for(int i = 0; i<f.size(); i++){
                if(f.get(i).getBad()){
                   g.setColor(Color.red);
@@ -39,25 +43,32 @@ public class Minigame implements KeyListener, Runnable{
                }
                g.fillRect(f.get(i).getX(),f.get(i).getY(),20,20);
             }
+            
+            //player entity
             g.setColor(Color.blue);
             g.fillRect(p.getX(),p.getY(),50,100);
             g.setColor(Color.red);
             g.fillRect(p.getX()-50,p.getY()-30,150,30);
             
+            
+            //health bar
             g.setColor(Color.black);
             g.drawRect(29,49,101,31);
             g.setColor(Color.red);
-            g.fillRect(30,50,10*p.getHealth(),30);
+            g.fillRect(30,50,20*p.getHealth(),30);
             
+            //progress bar
             g.setColor(Color.black);
             g.drawRect(829,49,101,31);
             g.setColor(Color.green);
             g.fillRect(830,50,(4*p.getCaught()),30);
          }
+         //win state
          else if(win){
             g.setColor(Color.green);
             g.drawString("You win", 300,400);
          }
+         //lose state
          else{
             g.setColor(Color.red);
             g.drawString("You lose",300,400);
@@ -69,25 +80,39 @@ public class Minigame implements KeyListener, Runnable{
    }
    
    public void run(){
-      display();
+      try{
+         game();
+      }
+      catch(Exception e){
+         
+      }
    }
    
-   public void display(){ //REALLY needs implementation of runnable, this is super jank
+   //handles updates and display, runs on 60 fps
+   public void game() throws InterruptedException{ 
       while(!end){
-         //System.out.println("X: "+p.getX()+ " Y: "+p.getY());
-         timer+= 0.0001;
+         
+         //calls fall method on every falling object         
          for(int i = 0; i<f.size(); i++){
             f.get(i).fall();
          }
+         
+         //checks if right xor left is held, calls move method
          if(rightHeld^leftHeld){
             p.move(rightHeld,leftHeld);
          }
-         if(timer>300){
-            System.out.println("timer");
+         
+         //increments timer
+         timer+= 1;
+         //every 8 frames, resets timer and spawns falling object
+         if(timer>8){
+            //System.out.println("timer");
             timer = 0;
             f.add(generate());
          }
          
+         //feeds player hit detection method every falling object
+         //checks if objects are marked for deletion
          int i = 0;
          while(i< f.size()){
             p.hitDetect(f.get(i));
@@ -99,6 +124,7 @@ public class Minigame implements KeyListener, Runnable{
             }
          }  
          
+         //game end conditions
          if(p.getHealth()<1){
             end = true;
             win = false;
@@ -108,16 +134,24 @@ public class Minigame implements KeyListener, Runnable{
             win = true;
          }
          
+         //updates frame
          d.repaint();
          
-         
+         //delay for 1/60th second
+         Thread.sleep(16,666667);
       }
    }
    
+   
+   //generates a new falling object with x coordinate within bounds of the screen
    public FallingObject generate(){
-      return new FallingObject((int)(Math.random()*1000));
+      return new FallingObject((int)(Math.random()*980));
    }
    
+   //uses keyPressed and keyReleased in conjunction to avoid movement delay
+   
+   
+   //moves direction pressed until key is released
    public void keyPressed(KeyEvent e){
       if(e.getKeyCode()==e.VK_RIGHT){
          rightHeld = true;
@@ -132,129 +166,20 @@ public class Minigame implements KeyListener, Runnable{
    public void keyReleased(KeyEvent e){
       if(e.getKeyCode()==e.VK_RIGHT){
          rightHeld = false;
-         //System.out.println("stopping movement");
       }
       if(e.getKeyCode() == e.VK_LEFT){
          leftHeld = false;
-         //System.out.println("stopping movement");
       }
    }
    
    public void keyTyped(KeyEvent e){
    
    }
+   //gets the end state of the game
    public boolean getEnd(){
       return end;
    }
    
-   class Player{
-      private double x,y;
-      private int caught;
-      private int health;
       
-      public Player(){
-         x = 490;
-         y = 420;
-         caught = 0;
-         health = 10;
-      }
-      public Player(double x, double y){
-         this.x = x;
-         this.y = y;
-      }
-      
-      public void move(boolean right, boolean left){
-         if(left){
-            x-=0.00012;
-         }
-         else if(right){
-            x+=0.00012;
-         }
-         if(x<50){
-            x = 50;
-         }
-         else if(x>900){
-            x = 900;
-         }
-      }
-      
-      public void hitDetect(FallingObject f){
-         if(f.getX() >= x-70 && f.getX() <= x+100 && f.getY() >= y-30 && f.getY() <= y){
-            if(f.getBad()){
-               health --;
-               System.out.println("Health: "+health);
-            }
-            else{
-               caught++;
-               System.out.println("caught: " +caught);
-            }
-            f.setDelete();
-         }
-         
-      }
-      
-      public int getX(){
-         return (int)x;
-      }
-      
-      public int getY(){
-         return (int)y;
-      }
-      
-      public int getHealth(){
-         return health;
-      }
-      
-      public int getCaught(){
-         return caught;
-      }
-      
-   }
-   
-   class FallingObject{
-      private int x;
-      private double y;
-      private boolean bad;
-      private boolean delete;
-      public FallingObject(int x){
-         this.x = x;
-         y = -20;
-         bad = (Math.random()<0.40);
-      }
-      
-      public int getX(){
-         return x;
-      }
-      
-      public int getY(){
-         return (int) y;
-      }
-      
-      public boolean getBad(){
-         return bad;
-      }
-      
-      public boolean getDelete(){
-         return delete;
-      }  
-      
-      public void fall(){
-         y+=0.00004;
-         if(y>680){
-            delete = true;
-         }  
-      }
-      public void setDelete(){
-         delete = true;
-      }
-      
-   
-   }
-   
-   /*public static void main(String[] args)
-   {
-      Minigame m = new Minigame();
-      m.display();
-   }*/
 
 }

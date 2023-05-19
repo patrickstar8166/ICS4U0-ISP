@@ -1,3 +1,5 @@
+import java.lang.*;
+
 
 public class Driver extends Thread{
    
@@ -5,16 +7,6 @@ public class Driver extends Thread{
       Minigame m = new Minigame();
       Thread t = new Thread(m);
       t.start();
-      while(!m.getEnd()){
-         
-         try{
-            Thread.sleep(1000);
-            
-         }
-         catch(Exception e){
-         
-         }
-      }
    }
 
 
