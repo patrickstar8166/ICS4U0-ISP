@@ -6,7 +6,7 @@ public class Level1{
    public Drawing draw; 
    
    public Level1(){ 
-      frame = new JInternalFrame("Level 1");
+      frame = new JInternalFrame();
       draw = new Drawing();
    }
 
