@@ -2,77 +2,52 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 public class Instructions implements ActionListener{
-   public JFrame frame;
+   public JInternalFrame frame;
    public Drawing draw; 
    public int count = 0;
    public JButton left, right, exit;
-   public boolean run = true;
+   public boolean run = false;
    
    public Instructions(){ 
-      frame = new JFrame();
+      frame = new JInternalFrame();
       draw = new Drawing();
       left = new JButton("\u2190");
       right = new JButton("\u2192");
       exit = new JButton("Exit");
    }
 
-   public void display(){
+   public JInternalFrame display(){
       frame.setResizable(false);
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       frame.setSize(1000, 680);
       
-      //while (run){
-         // frame.getContentPane().removeAll();
-         if (count != 0){
-            left.setFont(new Font("Sans Serif", Font.BOLD, 30));
-            left.setBackground(Color.LIGHT_GRAY);
-            left.setBounds(10, 300, 100, 60);
-            left.addActionListener(
-               new ActionListener(){
-                  public void actionPerformed(ActionEvent e){
-                     count--;
-                     System.out.println(count);
-                     draw.repaint();
-                  }
-               });
-            left.removeActionListener(this);   
-            frame.add(left);
-         }  
+      left.setFont(new Font("Sans Serif", Font.BOLD, 30));
+      left.setBackground(Color.LIGHT_GRAY);
+      left.setBounds(10, 300, 100, 60);
+      left.addActionListener(this);
+      frame.add(left);
+   
+      right.setFont(new Font("Sans Serif", Font.BOLD, 30));
+      right.setBackground(Color.LIGHT_GRAY);
+      right.setBounds(875, 300, 100, 60);
+      right.addActionListener(this);
+      frame.add(right);
+   
+      exit.setFont(new Font("Sans Serif", Font.BOLD, 30));
+      exit.setBackground(Color.LIGHT_GRAY);
+      exit.setBounds(875, 550, 100, 60);
+      exit.addActionListener(this);
+      frame.add(exit);
+      exit.setVisible(false);
          
-         if (count != 3){
-            right.setFont(new Font("Sans Serif", Font.BOLD, 30));
-            right.setBackground(Color.LIGHT_GRAY);
-            right.setBounds(875, 300, 100, 60);
-            right.addActionListener(
-               new ActionListener(){
-                  public void actionPerformed(ActionEvent e){
-                     count++;
-                     System.out.println(count);
-                     draw.repaint();
-                  }
-               });
-            right.removeActionListener(this);           
-            frame.add(right);
-         }   
-         
-         if (count == 3){
-            exit.setFont(new Font("Sans Serif", Font.BOLD, 30));
-            exit.setBackground(Color.LIGHT_GRAY);
-            exit.setBounds(875, 300, 100, 60);
-            exit.addActionListener(
-               new ActionListener(){
-                  public void actionPerformed(ActionEvent e){
-                     run = false;
-                  }
-               });
-            frame.add(exit);
-         }
-         
-         frame.add(draw);
-         frame.setVisible(true);
-      //}
+      frame.add(draw);
+      frame.setVisible(true);
       
-      //return frame;*/
+      return frame;
+   }
+   
+   public boolean exitClicked(){
+      return run;
    }
         
    class Drawing extends JComponent{
@@ -94,17 +69,31 @@ public class Instructions implements ActionListener{
          }else if (count == 2){
             g.drawString("Level 2", 450, 50);
             left.setVisible(true);
+            right.setVisible(true);
+            exit.setVisible(false);
          }else{            
             g.drawString("Level 3", 450, 50);
             right.setVisible(false);
+            exit.setVisible(true);
          }  
       }
    }
    
-   public void actionPerformed(ActionEvent e){}
-   
-   public static void main(String[] args){
-      Instructions i = new Instructions();
-      i.display();
+   public void actionPerformed(ActionEvent e){
+      if (e.getSource() == left){
+         count--;
+         draw.repaint();
+      }
+      
+      if (e.getSource() == right){
+         count++;
+         draw.repaint();
+      }
+      
+      if (e.getSource() == exit){
+         left.removeActionListener(this);
+         right.removeActionListener(this);
+         run = true;
+      }
    }
 }
