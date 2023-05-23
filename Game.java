@@ -38,7 +38,13 @@ public class Game{
                frame.getContentPane().removeAll();
                f.setLocation(-5, -30);
                frame.add(f);
-               run = false;
+               while (true){
+                  if (i.exitClicked()){
+                     screenNum = 1;
+                     break;
+                  }
+               }
+               frame.getContentPane().removeAll();
                break;              
          }
       }
