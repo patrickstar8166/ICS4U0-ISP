@@ -3,6 +3,9 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
 import java.lang.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import javax.imageio.ImageIO;
 
 public class Minigame implements KeyListener, Runnable{
    
@@ -11,8 +14,10 @@ public class Minigame implements KeyListener, Runnable{
    Player p = new Player(); //creates player object
    private double timer; //timer for object generation
    ArrayList<FallingObject> f = new ArrayList<FallingObject>(); //array list of all active falling objects
+   private BufferedImage initialApple;
+   private Image resizeApple;
    
-   public Minigame(){//constructor, generates frame and initializes variables
+   public Minigame() throws IOException{//constructor, generates frame and initializes variables
       timer = 0;
       rightHeld = false; 
       leftHeld = false;
@@ -23,15 +28,21 @@ public class Minigame implements KeyListener, Runnable{
       frame.setVisible(true);
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       frame.addKeyListener(this);
+      //image resizing learned from https://stackoverflow.com/questions/5895829/resizing-image-in-java
+      initialApple = ImageIO.read(new File("apple.jpg"));
+      resizeApple = (initialApple.getScaledInstance(200,200,Image.SCALE_SMOOTH));
       
    }
    
    class Drawing extends JComponent
    {
-      public void paint (Graphics g)//drawing method
+      @Override
+      public void paintComponent (Graphics g) //drawing method
       {
-         if(!end){
          
+         
+         if(!end){
+            super.paintComponent(g);
             //draws all falling objects in the array list
             //checks what falling object type it is before displaying
             for(int i = 0; i<f.size(); i++){
@@ -65,13 +76,20 @@ public class Minigame implements KeyListener, Runnable{
          }
          //win state
          else if(win){
+            super.paintComponent(g);
             g.setColor(Color.green);
             g.drawString("You win", 300,400);
          }
          //lose state
          else{
+            super.paintComponent(g);
             g.setColor(Color.red);
             g.drawString("You lose",300,400);
+            //g.drawImage(apple,100,100,this);
+            
+               if(resizeApple != null){
+                  g.drawImage(resizeApple,200,200,this);
+               }
          }
          
          
@@ -139,6 +157,7 @@ public class Minigame implements KeyListener, Runnable{
          
          //delay for 1/60th second
          Thread.sleep(16,666667);
+         //Thread and runnable learned from https://www.geeksforgeeks.org/runnable-interface-in-java/
       }
    }
    
