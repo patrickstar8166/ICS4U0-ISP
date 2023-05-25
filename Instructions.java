@@ -68,7 +68,6 @@ public class Instructions implements ActionListener{
             left.setVisible(true);
          }else if (count == 2){
             g.drawString("Level 2", 450, 50);
-            left.setVisible(true);
             right.setVisible(true);
             exit.setVisible(false);
          }else{            
@@ -91,8 +90,6 @@ public class Instructions implements ActionListener{
       }
       
       if (e.getSource() == exit){
-         left.removeActionListener(this);
-         right.removeActionListener(this);
          run = true;
       }
    }

@@ -3,7 +3,7 @@ import java.awt.event.*;
 import javax.swing.*;
 public class Game{
    public static JFrame frame = new JFrame("Fresh Forage Adventure");
-   public static int screenNum = 1;
+   public static int screenNum = 0;
    public static JInternalFrame f;
    public static boolean run = true;
    
@@ -16,9 +16,23 @@ public class Game{
       
       while (run){
          switch(screenNum){
+            case 0: 
+               Splash s = new Splash();
+               f = s.display();
+               f.setLocation(-5, -30);
+               frame.add(f);
+               while(true){
+                  if (s.isFinished()){
+                     screenNum = 1;
+                     break;
+                  }
+               }
+               break;
+               
             case 1:
                Menu m = new Menu();
                f = m.display();
+               frame.getContentPane().removeAll();
                f.setLocation(-5, -30);
                frame.add(f);
                break;
@@ -44,8 +58,7 @@ public class Game{
                      break;
                   }
                }
-               frame.getContentPane().removeAll();
-               break;              
+               break;   
          }
       }
    }
