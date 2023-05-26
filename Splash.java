@@ -2,28 +2,24 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 public class Splash{
-   public JInternalFrame frame;
-   public Drawing draw; 
-   public int i = 0, a = 255;
-   public boolean b = false, run = false; 
+   private Drawing draw; 
+   private int i = 0, a = 255;
+   private boolean b = false, run = false; 
    
    public Splash(){ 
-      frame = new JInternalFrame();
       draw = new Drawing();
    }
 
-   public JInternalFrame display(){
+   public void display(JFrame frame){
       //frame
-      frame.setResizable(false);
-      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      frame.setSize(1000, 680);
       frame.add(draw);
-      frame.setVisible(true);
       
-      return frame;
+      while(true){
+         if(isFinished()) break;
+      }
    }
    
-   public boolean isFinished(){
+   private boolean isFinished(){
       return run;
    }
    
