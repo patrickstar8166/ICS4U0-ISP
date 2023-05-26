@@ -14,8 +14,8 @@ public class Minigame implements KeyListener, Runnable{
    Player p = new Player(); //creates player object
    private double timer; //timer for object generation
    ArrayList<FallingObject> f = new ArrayList<FallingObject>(); //array list of all active falling objects
-   private BufferedImage initialApple;
-   private Image resizeApple;
+   private BufferedImage initialApple, initialBomb;
+   private Image harvest, bomb;
    
    public Minigame() throws IOException{//constructor, generates frame and initializes variables
       timer = 0;
@@ -29,8 +29,10 @@ public class Minigame implements KeyListener, Runnable{
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       frame.addKeyListener(this);
       //image resizing learned from https://stackoverflow.com/questions/5895829/resizing-image-in-java
-      initialApple = ImageIO.read(new File("apple.jpg"));
-      resizeApple = (initialApple.getScaledInstance(200,200,Image.SCALE_SMOOTH));
+      initialApple = ImageIO.read(new File("harvest.jpg"));
+      harvest = initialApple.getScaledInstance(30,30,Image.SCALE_SMOOTH);
+      initialBomb = ImageIO.read(new File("bomb.png"));
+      bomb = initialBomb.getScaledInstance(30,30,Image.SCALE_SMOOTH);
       
    }
    
@@ -47,12 +49,15 @@ public class Minigame implements KeyListener, Runnable{
             //checks what falling object type it is before displaying
             for(int i = 0; i<f.size(); i++){
                if(f.get(i).getBad()){
-                  g.setColor(Color.red);
+                  if(bomb!= null){
+                     g.drawImage(bomb,f.get(i).getX()-5,f.get(i).getY()-5,this);
+                  }
                }
                else{
-                  g.setColor(Color.green);
+                  if(harvest != null){
+                     g.drawImage(harvest,f.get(i).getX()-5,f.get(i).getY()-5,this);
+                  }
                }
-               g.fillRect(f.get(i).getX(),f.get(i).getY(),20,20);
             }
             
             //player entity
@@ -85,11 +90,9 @@ public class Minigame implements KeyListener, Runnable{
             super.paintComponent(g);
             g.setColor(Color.red);
             g.drawString("You lose",300,400);
-            //g.drawImage(apple,100,100,this);
-            
-               if(resizeApple != null){
-                  g.drawImage(resizeApple,200,200,this);
-               }
+            if(harvest != null){
+               g.drawImage(harvest,200,200,this);
+            }
          }
          
          
