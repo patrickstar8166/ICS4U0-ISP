@@ -1,65 +1,39 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-public class Game{
-   public static JFrame frame = new JFrame("Fresh Forage Adventure");
-   public static int screenNum = 0;
-   public static JInternalFrame f;
+public class Game extends JFrame{
+   public static int screenNum = 1;
    public static boolean run = true;
    
-   public static void main(String[] args){
-      frame.setResizable(false);
-      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      frame.setLayout(null);
-      frame.setSize(1000, 680);
-      frame.setVisible(true);
-      
-      while (run){
+   public Game(){
+      this.setTitle("Fresh Forage Adventure");
+      this.setResizable(false);
+      this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      this.setSize(1000, 680);
+       
+      while(run){
          switch(screenNum){
-            case 0: 
-               Splash s = new Splash();
-               f = s.display();
-               f.setLocation(-5, -30);
-               frame.add(f);
-               while(true){
-                  if (s.isFinished()){
-                     screenNum = 1;
-                     break;
-                  }
-               }
-               break;
-               
             case 1:
                Menu m = new Menu();
-               f = m.display();
-               frame.getContentPane().removeAll();
-               f.setLocation(-5, -30);
-               frame.add(f);
+               this.getContentPane().add(m);
+               //while(m.isFinished()){}
+               //run = false;
                break;
-            
-            case 2:
-               Level1 l = new Level1();
-               f = l.display();
-               frame.getContentPane().removeAll();
-               f.setLocation(-5, -30);
-               frame.add(f);
-               run = false;
-               break;  
                
-            case 3:
+            case 2: 
+               this.getContentPane().removeAll();
                Instructions i = new Instructions();
-               f = i.display();
-               frame.getContentPane().removeAll();
-               f.setLocation(-5, -30);
-               frame.add(f);
-               while (true){
-                  if (i.exitClicked()){
-                     screenNum = 1;
-                     break;
-                  }
-               }
-               break;   
+               this.getContentPane().add(i);
+               //while(i.exitClicked()){}
+               run = false;
+               break;
          }
       }
+         
+      this.setVisible(true);
+   }
+   
+   public static void main(String[] args){
+      Game g = new Game();
    }
 }
