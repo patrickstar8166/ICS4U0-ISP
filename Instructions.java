@@ -25,6 +25,12 @@ public class Instructions extends JPanel implements Runnable{
       exit.setBackground(Color.LIGHT_GRAY);
       exit.setBounds(875, 550, 100, 60);
       
+      this.add(left);
+      this.add(right);
+      this.add(exit);
+      left.setVisible(true);
+      right.setVisible(true);
+      exit.setVisible(false);
    }
 
    public void run(){
@@ -35,8 +41,6 @@ public class Instructions extends JPanel implements Runnable{
                repaint();
             }
          });
-      this.add(left);
-      left.setVisible(true);
       
       right.addActionListener(
          new ActionListener(){
@@ -45,18 +49,17 @@ public class Instructions extends JPanel implements Runnable{
                repaint();
             }
          });
-      this.add(right);
-      right.setVisible(true);
       
       exit.addActionListener(
          new ActionListener(){
             public void actionPerformed(ActionEvent e){
                running = false;
                Game.screenNum = 1;
+               left.removeActionListener(this);
+               right.removeActionListener(this);
+               exit.removeActionListener(this);
             }
          });
-      this.add(exit);
-      exit.setVisible(false);
    }
 
    public boolean isRunning(){
@@ -88,23 +91,6 @@ public class Instructions extends JPanel implements Runnable{
          g.drawString("Level 3", 450, 50);
          right.setVisible(false);
          exit.setVisible(true);
-      } 
-      
+      }    
    }
-   
-   /*public void actionPerformed(ActionEvent e){
-      if (e.getSource() == left){
-         count--;
-         repaint();
-      }
-      
-      if (e.getSource() == right){
-         count++;
-         repaint();
-      }
-      
-      if (e.getSource() == exit){
-         run = false;
-      }
-   }*/
 }

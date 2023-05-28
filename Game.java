@@ -14,36 +14,60 @@ public class Game extends JFrame implements Runnable{
       this.setVisible(true);
    }
    
-   public void run(){
-      while(running){
-         switch(screenNum){
+   public void run() {
+      while (running) {
+         switch (screenNum) {
             case 1:
+               this.getContentPane().removeAll();
+               
                Menu m = new Menu();
                this.getContentPane().add(m);
                Thread menu = new Thread(m);
                menu.start();
-               this.setVisible(true);
-               while(m.isRunning()){}
-               //System.out.println(screenNum);
-               break;
                
-            case 2: 
+               this.setVisible(true);
+               
+               while (m.isRunning()) {
+                  try {
+                     Thread.sleep(100); // Add a small delay to reduce CPU usage
+                  } catch (InterruptedException e) {
+                     e.printStackTrace();
+                  }
+               }
+               
+               menu.interrupt();
+               break;
+         
+            case 2:
                this.getContentPane().removeAll();
+               
                Level1 l1 = new Level1();
                this.getContentPane().add(l1);
+               
                this.setVisible(true);
+               
                running = false;
                break;
-               
-            case 3: 
+         
+            case 3:
                this.getContentPane().removeAll();
-               Instructions i = new Instructions(); 
+               
+               Instructions i = new Instructions();
                this.getContentPane().add(i);
                Thread instr = new Thread(i);
                instr.start();
+               
                this.setVisible(true);
-               while(i.isRunning()){}
-               this.getContentPane().removeAll();
+               
+               while (i.isRunning()) {
+                  try {
+                     Thread.sleep(100); // Add a small delay to reduce CPU usage
+                  } catch (InterruptedException e) {
+                     e.printStackTrace();
+                  }
+               }
+               
+               instr.interrupt();
                break;
          }
       }
