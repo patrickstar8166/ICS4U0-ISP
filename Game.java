@@ -1,9 +1,9 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-public class Game extends JFrame{
+public class Game extends JFrame implements Runnable{
    public static int screenNum = 1;
-   public static boolean run = true;
+   public static boolean running = true;
    
    public Game(){
       this.setTitle("Fresh Forage Adventure");
@@ -11,29 +11,47 @@ public class Game extends JFrame{
       this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       this.setSize(1000, 680);
        
-      while(run){
+      this.setVisible(true);
+   }
+   
+   public void run(){
+      while(running){
          switch(screenNum){
             case 1:
                Menu m = new Menu();
                this.getContentPane().add(m);
-               //while(m.isFinished()){}
-               //run = false;
+               Thread menu = new Thread(m);
+               menu.start();
+               this.setVisible(true);
+               while(m.isRunning()){}
+               //System.out.println(screenNum);
                break;
                
             case 2: 
                this.getContentPane().removeAll();
-               Instructions i = new Instructions();
+               Level1 l1 = new Level1();
+               this.getContentPane().add(l1);
+               this.setVisible(true);
+               running = false;
+               break;
+               
+            case 3: 
+               this.getContentPane().removeAll();
+               Instructions i = new Instructions(); 
                this.getContentPane().add(i);
-               //while(i.exitClicked()){}
-               run = false;
+               Thread instr = new Thread(i);
+               instr.start();
+               this.setVisible(true);
+               while(i.isRunning()){}
+               this.getContentPane().removeAll();
                break;
          }
       }
-         
-      this.setVisible(true);
    }
    
    public static void main(String[] args){
       Game g = new Game();
+      Thread t = new Thread(g);
+      t.start();
    }
 }
