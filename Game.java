@@ -2,7 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 public class Game extends JFrame implements Runnable{
-   public static int screenNum = 1;
+   public static int screenNum = 0;
    public static boolean running = true;
    
    public Game(){
@@ -17,6 +17,23 @@ public class Game extends JFrame implements Runnable{
    public void run() {
       while (running) {
          switch (screenNum) {
+            case 0:
+               Splash s = new Splash();
+               this.getContentPane().add(s);
+               
+               this.setVisible(true);
+               
+               while (s.isRunning()) {
+                  try {
+                     Thread.sleep(100); // Add a small delay to reduce CPU usage
+                  } catch (InterruptedException e) {
+                     e.printStackTrace();
+                  }
+               }
+               
+               screenNum = 1;
+               break;
+               
             case 1:
                this.getContentPane().removeAll();
                
