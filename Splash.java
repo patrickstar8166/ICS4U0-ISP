@@ -20,7 +20,7 @@ public class Splash extends JPanel{
          
       //image
       Toolkit t = Toolkit.getDefaultToolkit();  
-      Image img = t.getImage("logo.png");  
+      Image img = t.getImage("Images/logo.png");  
       g.drawImage(img, 250, 75, this); 
          
       g.setColor(new Color(232, 220, 202, a));
