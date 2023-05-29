@@ -1,29 +1,49 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-public class Menu extends JPanel implements ActionListener{
+public class Menu extends JPanel implements Runnable {
    private JButton start, instr;
-   private boolean run = true;
-   
-   public Menu(){ 
+   private boolean running = true;
+
+   public Menu() {
       start = new JButton("Start");
       instr = new JButton("Instructions");
-      
+   
       this.setLayout(null);
-      
+   
       start.setBackground(Color.LIGHT_GRAY);
       start.setBounds(450, 300, 100, 40);
-      start.addActionListener(this);
-      add(start);
-            
+   
       instr.setBackground(Color.LIGHT_GRAY);
       instr.setBounds(425, 375, 150, 40);
-      instr.addActionListener(this);
-      add(instr);
+   
+      // Add buttons to the panel
+      this.add(start);
+      this.add(instr);
    }
 
-   public boolean isFinished(){
-      return run;
+   public void run() {
+      start.addActionListener(
+         new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+               Game.screenNum = 2;
+               running = false;
+               start.removeActionListener(this);
+            }
+         });
+   
+      instr.addActionListener(
+         new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+               Game.screenNum = 3;
+               running = false;
+               instr.removeActionListener(this);
+            }
+         });
+   }
+   
+   public boolean isRunning() {
+      return running;
    }
       
    public void paintComponent(Graphics g){
@@ -63,14 +83,5 @@ public class Menu extends JPanel implements ActionListener{
       g.setColor(Color.black);
       g.setFont(new Font("Sans Serif", Font.BOLD, 40));
       g.drawString("Fresh Forage Adventure", 275, 200);
-     
-   }
-      
-   public void actionPerformed (ActionEvent e){
-      if (e.getSource() == start) Game.screenNum = 2; 
-      
-      if (e.getSource() == instr) Game.screenNum = 3; 
-      
-      run = false;
    }
 }

@@ -1,9 +1,9 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-public class Game extends JFrame{
-   public static int screenNum = 1;
-   public static boolean run = true;
+public class Game extends JFrame implements Runnable{
+   public static int screenNum = 0;
+   public static boolean running = true;
    
    public Game(){
       this.setTitle("Fresh Forage Adventure");
@@ -11,29 +11,88 @@ public class Game extends JFrame{
       this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       this.setSize(1000, 680);
        
-      while(run){
-         switch(screenNum){
-            case 1:
-               Menu m = new Menu();
-               this.getContentPane().add(m);
-               //while(m.isFinished()){}
-               //run = false;
+      this.setVisible(true);
+   }
+   
+   public void run() {
+      while (running) {
+         switch (screenNum) {
+            case 0:
+               Splash s = new Splash();
+               this.getContentPane().add(s);
+               
+               this.setVisible(true);
+               
+               while (s.isRunning()) {
+                  try {
+                     Thread.sleep(100); // Add a small delay to reduce CPU usage
+                  } catch (InterruptedException e) {
+                     e.printStackTrace();
+                  }
+               }
+               
+               screenNum = 1;
                break;
                
-            case 2: 
+            case 1:
                this.getContentPane().removeAll();
+               
+               Menu m = new Menu();
+               this.getContentPane().add(m);
+               Thread menu = new Thread(m);
+               menu.start();
+               
+               this.setVisible(true);
+               
+               while (m.isRunning()) {
+                  try {
+                     Thread.sleep(100); // Add a small delay to reduce CPU usage
+                  } catch (InterruptedException e) {
+                     e.printStackTrace();
+                  }
+               }
+               
+               menu.interrupt();
+               break;
+         
+            case 2:
+               this.getContentPane().removeAll();
+               
+               Level1 l1 = new Level1();
+               this.getContentPane().add(l1);
+               
+               this.setVisible(true);
+               
+               running = false;
+               break;
+         
+            case 3:
+               this.getContentPane().removeAll();
+               
                Instructions i = new Instructions();
                this.getContentPane().add(i);
-               //while(i.exitClicked()){}
-               run = false;
+               Thread instr = new Thread(i);
+               instr.start();
+               
+               this.setVisible(true);
+               
+               while (i.isRunning()) {
+                  try {
+                     Thread.sleep(100); // Add a small delay to reduce CPU usage
+                  } catch (InterruptedException e) {
+                     e.printStackTrace();
+                  }
+               }
+               
+               instr.interrupt();
                break;
          }
       }
-         
-      this.setVisible(true);
    }
    
    public static void main(String[] args){
       Game g = new Game();
+      Thread t = new Thread(g);
+      t.start();
    }
 }

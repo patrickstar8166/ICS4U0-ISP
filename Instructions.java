@@ -1,10 +1,10 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-public class Instructions extends JPanel implements ActionListener{
+public class Instructions extends JPanel implements Runnable{
    private int count = 0;
    private JButton left, right, exit;
-   private boolean run = true;
+   private boolean running = true;
    
    public Instructions(){ 
       left = new JButton("\u2190");
@@ -16,25 +16,54 @@ public class Instructions extends JPanel implements ActionListener{
       left.setFont(new Font("Sans Serif", Font.BOLD, 30));
       left.setBackground(Color.LIGHT_GRAY);
       left.setBounds(10, 300, 100, 60);
-      left.addActionListener(this);
-      add(left);
    
       right.setFont(new Font("Sans Serif", Font.BOLD, 30));
       right.setBackground(Color.LIGHT_GRAY);
       right.setBounds(875, 300, 100, 60);
-      right.addActionListener(this);
-      add(right);
    
       exit.setFont(new Font("Sans Serif", Font.BOLD, 30));
       exit.setBackground(Color.LIGHT_GRAY);
       exit.setBounds(875, 550, 100, 60);
-      exit.addActionListener(this);
-      add(exit);
+      
+      this.add(left);
+      this.add(right);
+      this.add(exit);
+      left.setVisible(true);
+      right.setVisible(true);
       exit.setVisible(false);
    }
 
-   public boolean exitClicked(){
-      return run;
+   public void run(){
+      left.addActionListener(
+         new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+               count--;
+               repaint();
+            }
+         });
+      
+      right.addActionListener(
+         new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+               count++;
+               repaint();
+            }
+         });
+      
+      exit.addActionListener(
+         new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+               running = false;
+               Game.screenNum = 1;
+               left.removeActionListener(this);
+               right.removeActionListener(this);
+               exit.removeActionListener(this);
+            }
+         });
+   }
+
+   public boolean isRunning(){
+      return running;
    }
         
    public void paintComponent(Graphics g){
@@ -62,23 +91,6 @@ public class Instructions extends JPanel implements ActionListener{
          g.drawString("Level 3", 450, 50);
          right.setVisible(false);
          exit.setVisible(true);
-      } 
-      
-   }
-   
-   public void actionPerformed(ActionEvent e){
-      if (e.getSource() == left){
-         count--;
-         repaint();
-      }
-      
-      if (e.getSource() == right){
-         count++;
-         repaint();
-      }
-      
-      if (e.getSource() == exit){
-         run = false;
-      }
+      }    
    }
 }
