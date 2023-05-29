@@ -14,6 +14,7 @@ public class Level2 implements KeyListener, Runnable{
    private boolean rightHeld, leftHeld, zHeld, interact, freezeLeft, end;
    private int bgOffset, charX, charW, buffer, leftBound, rightBound;
    private ArrayList<BgObject> obj = new ArrayList<BgObject>();
+   private int[] names= {2, 3};
    
    public Level2() throws IOException{
       JFrame frame = new JFrame("Minigame");
@@ -31,6 +32,7 @@ public class Level2 implements KeyListener, Runnable{
       leftBound = 1000;
       rightBound = -1000;
       freezeLeft = false;
+      
    }
    
    public void game() throws InterruptedException{
@@ -46,10 +48,12 @@ public class Level2 implements KeyListener, Runnable{
          }
          else{
          
-            if(bgOffset>1000&&leftHeld){
+            if(leftHeld){
                charX-=5;
-               if(!freezeLeft){
+               //System.out.println("test");
+               if(!freezeLeft&&bgOffset>1000){
                   freezeLeft = true;
+                  //System.out.println("test2");
                }
             }
             else if(rightHeld){
@@ -57,21 +61,23 @@ public class Level2 implements KeyListener, Runnable{
             }
          
             if(charX>1000-charW){
-               charX = 950;
+               charX = 979;
             }
             else if(charX<0){
                charX = 0;
             }
             //below code should unfreeze the camera but it doesnt work lmao
-            /*if(charX>=490&& freezeLeft){
+            if(charX>=490&& freezeLeft){
                charX = 490;
                freezeLeft = false;
-               bgOffset+=5;
-            }
-            else if(charX<=490){
-               charX = 490;
                bgOffset-=5;
-            }*/
+               System.out.println("first");
+            }
+            else if(charX<=490&&!freezeLeft){
+               charX = 490;
+               bgOffset+=5;
+               System.out.println("second");
+            }
          }
          
          
