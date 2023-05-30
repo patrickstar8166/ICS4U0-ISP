@@ -1,53 +1,123 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.imageio.*;
-import java.io.*;
-public class Level1 extends JPanel{
-   private boolean running = true;
-   private String[] names = {"Saskatoon Berries", "Dandelion", "Crown Tipped Coral", "Burdock", "Jack Pine", "Lobster Mushroom", "Morel Mushroom", "Cranberry", "Raspberry", "Cattail"};
-   private String[] images = {"Images/Saskatoon.jpg", "Images/Dandelion.jpg", "Images/Crown.jpg", "Images/Burdock.jpg", "Images/Jack.jpg", "Images/Lobster.jpg", "Images/Morel.jpg", "Images/Cranberry.jpg", "Images/Cranberry.jpg", "Images/Raspberry.jpg", "Images/Cattail.jpg"};
-   private String[] descriptions = {"Large purple-blue berries that grow on trees with gray bark and toothed leaves. Grow to about 5 meters tall and are about 3 meters wide. Berries ripen in June or early June.",
-   "Distributed everywhere from lawns, roadsides, to gardens. Found in May and August. Bright yellow flower with milky white stem. 5 - 45 cm in height.",
-   "Grows on wood. Branch tips have 3-6 points. Resembles sea coral or candelabra. Initially white and then becomes more pale/pink. Found in Spring, Summer, and Fall.",
-   "0.5 - 1.5 meters. Pink or purple flowers with large burrs (spiky envelopes of fruit). Food in roadsides and disturbed areas. Found during August to October.",
-   "Found year-round in boreal forests and open areas. Short needles in clusters of two that are not twisted together, cones are closer and tight to the branch.", 
-   "Bright red/orange mushroom with firm cap/stem. Irregular/deformed appearance. Cap size generally 5-12 cm. Harvested midsummer. Can be found in wooded areas.",
-   "Forests, open meadows, and highly disturbed areas can contain Morel. Long heads with ridges and pitted chambers. Hollow inside from tip of cap to bottom of stalk. Harvested in Spring.",
-   "Mostly under 20cm in height. Flowers are pink with red/purple berries. Found in wet areas near bogs/ponds/lakes. Harversted from September to November.",
-   "Up to 2m in height. Prickly stems with alternate compound leaves with white/green flowers. Found in moist temperate regions. Harvested around summer.",
-   "1 to 3 meters in height. Long, slender, stiff leaves. Flowers form tight cyidnrical clusters. Found in marshes, lakes, streams and calm water. Harvested in spring for flower and pollen, fall to spring for roots/shoots."};
+public class Level1 extends JPanel implements Runnable{
    private Image[] img = new Image[10];
    private Toolkit t = Toolkit.getDefaultToolkit();
-   
+   private int count = -1;
+   private JButton left, right, exit;
+   private boolean running = true;
+      
    public Level1(){
+      left = new JButton("\u2190");
+      right = new JButton("\u2192");
+      exit = new JButton("Exit");
+      
+      this.setLayout(null);
+   
+      left.setFont(new Font("Sans Serif", Font.BOLD, 30));
+      left.setBackground(Color.LIGHT_GRAY);
+      left.setBounds(10, 300, 100, 60);
+   
+      right.setFont(new Font("Sans Serif", Font.BOLD, 30));
+      right.setBackground(Color.LIGHT_GRAY);
+      right.setBounds(875, 300, 100, 60);
+   
+      exit.setFont(new Font("Sans Serif", Font.BOLD, 30));
+      exit.setBackground(Color.LIGHT_GRAY);
+      exit.setBounds(875, 550, 100, 60);
+   
+      this.add(left);
+      this.add(right);
+      this.add(exit);
+      left.setVisible(true);
+      right.setVisible(true);
+      exit.setVisible(false);
+      
       for (int i = 0; i < 10; i++){
-         img[i] = t.getImage(images[i]); 
+         img[i] = t.getImage(Game.images[i]); 
       }
    }
       
+   public void run(){
+      left.addActionListener(
+         new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+               count--;
+               repaint();
+            }
+         });
+   
+      right.addActionListener(
+         new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+               count++;
+               repaint();
+            }
+         });
+   
+      exit.addActionListener(
+         new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+               running = false;
+               Game.screenNum = 1;
+               left.removeActionListener(this);
+               right.removeActionListener(this);
+               exit.removeActionListener(this);
+            }
+         });
+   }
+   
    public boolean isRunning(){
       return running;
    }
       
    public void paintComponent(Graphics g){
-      super.paintComponent(g); 
-                
-      //background
-      g.setColor(Color.blue);
-      g.fillRect(0, 0, 1000, 680);
+      super.paintComponent(g);    
       
-      for (int i = 0; i < 10; i++){
-         g.drawImage(img[i], 250, 75, 100, 100 , this); 
+      g.setFont(new Font("MonoSpaced", Font.BOLD, 40));   
+         
+      if (count == -1){
+         left.setVisible(false);
+         g.setColor(Color.green);
+         g.fillRect(0, 0, 1000, 680);
+         g.setColor(Color.black);
+         g.drawString("Safe Plants", 400, 200);
+      }else if (count == 0){
+         left.setVisible(true);
+      }else if (count == 8){
+         right.setVisible(true);
+         exit.setVisible(false);
+      }else if (count == 10){
+         g.setColor(Color.red);
+         g.fillRect(0, 0, 1000, 680);
+         g.setColor(Color.black);
+         g.drawString("Dangerous Plants", 325, 200);
+         
+         right.setVisible(false);
+         exit.setVisible(true);
+      }
+            
+      if (count != -1 && count != 10){     
+         Image i = t.getImage("Images/Background 1.png");
+         g.drawImage(i, 0, 0, 1000, i.getHeight(this)*1000/i.getWidth(this), this); 
+         g.drawString(Game.names[count], 500-Game.names[count].length()*12, 40);
+         g.drawImage(img[count], 400, 70, 200, img[count].getHeight(this)*200/img[count].getWidth(this), this); 
+         
+         g.setFont(new Font("MonoSpaced", Font.BOLD, 20));
+         g.drawString(Game.descriptions[count], 150, 275);
       }
    }
    
-   public static void main(String[] args){
+   /*public static void main(String[] args){
       JFrame f = new JFrame();
+      f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       Level1 l1 = new Level1();
+      Thread level = new Thread(l1);
+      level.start();
       f.add(l1);
       
       f.setSize(1000, 680);
       f.setVisible(true);
-   }
+   }*/
 }

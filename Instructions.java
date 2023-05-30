@@ -5,14 +5,14 @@ public class Instructions extends JPanel implements Runnable{
    private int count = 0;
    private JButton left, right, exit;
    private boolean running = true;
-   
+
    public Instructions(){ 
       left = new JButton("\u2190");
       right = new JButton("\u2192");
       exit = new JButton("Exit");
-      
+   
       this.setLayout(null);
-      
+   
       left.setFont(new Font("Sans Serif", Font.BOLD, 30));
       left.setBackground(Color.LIGHT_GRAY);
       left.setBounds(10, 300, 100, 60);
@@ -24,7 +24,7 @@ public class Instructions extends JPanel implements Runnable{
       exit.setFont(new Font("Sans Serif", Font.BOLD, 30));
       exit.setBackground(Color.LIGHT_GRAY);
       exit.setBounds(875, 550, 100, 60);
-      
+   
       this.add(left);
       this.add(right);
       this.add(exit);
@@ -41,7 +41,7 @@ public class Instructions extends JPanel implements Runnable{
                repaint();
             }
          });
-      
+   
       right.addActionListener(
          new ActionListener(){
             public void actionPerformed(ActionEvent e){
@@ -49,7 +49,7 @@ public class Instructions extends JPanel implements Runnable{
                repaint();
             }
          });
-      
+   
       exit.addActionListener(
          new ActionListener(){
             public void actionPerformed(ActionEvent e){
@@ -65,18 +65,18 @@ public class Instructions extends JPanel implements Runnable{
    public boolean isRunning(){
       return running;
    }
-        
+  
    public void paintComponent(Graphics g){
       super.paintComponent(g);    
-           
-      //background
+   
+   //background
       g.setColor(new Color(0, 196, 255));
       g.fillRect(0, 0, 1000, 680);
-         
-      //text
+   
+   //text
       g.setColor(Color.black);
       g.setFont(new Font("Sans Serif", Font.BOLD, 40));
-         
+   
       if (count == 0){
          g.drawString("About the Game", 350, 50);
          left.setVisible(false);
