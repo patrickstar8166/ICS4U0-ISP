@@ -7,6 +7,7 @@ public class Driver extends Thread{
       try{
          //Minigame m = new Minigame();
          Level2 l = new Level2();
+         //Level2Backup lB = new Level2Backup();
          Thread t = new Thread(l);
          t.start();
       }

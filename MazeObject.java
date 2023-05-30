@@ -8,11 +8,11 @@ import java.io.*;
 import javax.imageio.ImageIO;
 
 
-public class BgObject{
+public class MazeObject{
    private int x, y, w, h;
    private Image img;
    
-   public BgObject(int x, int y, int w, int h, String img) throws IOException{
+   public MazeObject(int x, int y, int w, int h, String img) throws IOException{
       this.x = x;
       this.y = y;
       BufferedImage tempImg = ImageIO.read(new File(img));
