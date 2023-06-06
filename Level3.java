@@ -9,28 +9,17 @@ import javax.imageio.ImageIO;
 
 public class Level3 implements KeyListener, Runnable{
    private Drawing d = new Drawing();
-<<<<<<< HEAD
    private Image bg, pcU, pcD, pcL, pcR, charImg, inv, endPlate, redX, checkmark;
-=======
-   private Image bg, pcU, pcD, pcL, pcR, charImg, inv;
->>>>>>> ba0da2f5444a169c365ab895af866a4d5be5fcea
    private boolean rightHeld, leftHeld, upHeld, downHeld, lockCamX, lockCamY, zHeld, iHeld, interact, inventory, end;
    private int charX, charY, charW, buffer, bgX, bgY, leftBound, rightBound, topBound, bottomBound, timer, score;
    private ArrayList<MazeObject> obj = new ArrayList<MazeObject>();
    private ArrayList<MazeObject> collected = new ArrayList<MazeObject>();
    private ArrayList<MazeObject> walls = new ArrayList<MazeObject>();
-<<<<<<< HEAD
    private String badItem;
    
    public Level3() throws IOException{
       JFrame frame = new JFrame("Level 3");
       frame.setSize(1000,680);
-=======
-   
-   public Level3() throws IOException{
-      JFrame frame = new JFrame("Level 3");
-      frame.setSize(2000,1360);
->>>>>>> ba0da2f5444a169c365ab895af866a4d5be5fcea
       frame.add(d);
       frame.setVisible(true);
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -41,12 +30,9 @@ public class Level3 implements KeyListener, Runnable{
       pcL = ImageIO.read(new File("Images/Cranberry.jpg")).getScaledInstance(20,20,Image.SCALE_SMOOTH);
       pcR = ImageIO.read(new File("Images/Crown.jpg")).getScaledInstance(20,20,Image.SCALE_SMOOTH);
       inv = ImageIO.read(new File("Images/inv.png")).getScaledInstance(1000,680,Image.SCALE_SMOOTH);
-<<<<<<< HEAD
       endPlate = ImageIO.read(new File("Images/endPlate.png")).getScaledInstance(1000,680,Image.SCALE_SMOOTH);
       redX = ImageIO.read(new File("Images/redX.png")).getScaledInstance(200,200,Image.SCALE_SMOOTH);
       checkmark = ImageIO.read(new File("Images/checkmark.png")).getScaledInstance(200,200,Image.SCALE_SMOOTH);
-=======
->>>>>>> ba0da2f5444a169c365ab895af866a4d5be5fcea
       charImg = pcU;
       end = false;
       charW = 20;
@@ -179,11 +165,7 @@ public class Level3 implements KeyListener, Runnable{
    public void interact(){
       if(!interact){
          for(int i = 0; i<obj.size(); i++){
-<<<<<<< HEAD
             if(charX - bgX + charW + buffer >= obj.get(i).getX()  &&  charX - bgX<= obj.get(i).getX() + obj.get(i).getW() + buffer && charY - bgY + charW + buffer >= obj.get(i).getY() && charY - bgY <= obj.get(i).getY() + obj.get(i).getW() + buffer){
-=======
-            if(charX - bgX + charW + buffer >= obj.get(i).getX()  &&  charX - bgX - charW <= obj.get(i).getX() + obj.get(i).getW() + buffer && charY - bgY + charW + buffer >= obj.get(i).getY() && charY - bgY - charW <= obj.get(i).getY() + obj.get(i).getW() + buffer){
->>>>>>> ba0da2f5444a169c365ab895af866a4d5be5fcea
                interact = true;
                leftHeld = false;
                rightHeld = false;
@@ -211,7 +193,6 @@ public class Level3 implements KeyListener, Runnable{
    }
    
    public void calcScore(){
-<<<<<<< HEAD
       int count= 0;
       boolean badFound = false;
       for(int i = 0; i<collected.size(); i++){
@@ -231,16 +212,6 @@ public class Level3 implements KeyListener, Runnable{
          }
          else{
             score = 2;
-=======
-      for(int i = 0; i<collected.size(); i++){
-         if(!collected.get(i).getPoison()){
-            score++;
-         }
-         else{
-            score = -1;
-            //String poisonItem = the item that is poisonous magically
-            break;
->>>>>>> ba0da2f5444a169c365ab895af866a4d5be5fcea
          }
       }
    }
@@ -249,7 +220,6 @@ public class Level3 implements KeyListener, Runnable{
 
       public void paintComponent(Graphics g){
          super.paintComponent(g);
-<<<<<<< HEAD
          if(!end){
             g.drawImage(bg,bgX-500,bgY-340,this);
             
@@ -306,40 +276,6 @@ public class Level3 implements KeyListener, Runnable{
                g.drawImage(checkmark,400,50,this);
                g.drawString("You succeeded in foraging a meal!! Good job!!!",0,100);
             }
-=======
-         g.drawImage(bg,bgX-500,bgY-340,this);
-         
-         for(int i = 0; i< obj.size(); i++){
-            g.drawImage(obj.get(i).getImg(), obj.get(i).getX()+bgX, obj.get(i).getY()+bgY, this);
-         }
-         for(int i = 0; i<walls.size(); i++){
-            g.drawImage(walls.get(i).getImg(),walls.get(i).getX()+bgX,walls.get(i).getY()+bgY,this);
-         }
-         
-         g.setColor(Color.blue);
-         g.drawImage(charImg,charX,charY,this);
-         //g.fillRect(charX,charY,charW,charW);
-         
-         if(interact){
-            g.setColor(new Color(0,0,0,100));
-            g.fillRect(0,0,1000,680);
-            g.setColor(Color.red);
-            g.fillRect(450,290,50,50);
-            
-         } 
-         
-         if(inventory){
-            g.drawImage(inv,0,0,this);
-            //for(int row = 0; row< collected.size()/5+1; row++){
-               //for(int col = 0; col<5 && col<collected.size(); col++){
-                //  g.drawImage(collected.get(row*5+col).getImg(),col*100,row*100,this);
-              // }
-            //}
-            for(int i = 0; i<collected.size(); i++){
-               g.drawImage(collected.get(i).getImg(),i%8*55+285,i/8*55+245,this);
-            }
-            
->>>>>>> ba0da2f5444a169c365ab895af866a4d5be5fcea
          }
          
          
@@ -434,20 +370,12 @@ public class Level3 implements KeyListener, Runnable{
          collected.add(new MazeObject(-200,300,50,50,"Images/Cranberry.jpg"));
          collected.add(new MazeObject(-200,300,50,50,"Images/Cranberry.jpg"));
          collected.add(new MazeObject(-200,300,50,50,"Images/Cranberry.jpg"));
-<<<<<<< HEAD
          collected.add(new MazeObject(-200,300,50,50,"Images/Cranberry.jpg","Cranberry",true));
          //walls.add(new MazeObject(-200,300,50,50,"Images/bomb.png"));
          //walls.add(new MazeObject(250,300,50,50,"Images/apple.jpg"));
          walls.add(new MazeObject(200,300,50,50,"Images/tree.png"));
          walls.add(new MazeObject(-400,800,50,50,"Images/tree.png"));
          
-=======
-         collected.add(new MazeObject(-200,300,50,50,"Images/Cranberry.jpg"));
-         //walls.add(new MazeObject(-200,300,50,50,"Images/bomb.png"));
-         walls.add(new MazeObject(250,300,50,50,"Images/apple.jpg"));
-         walls.add(new MazeObject(200,300,50,50,"Images/apple.jpg"));
-         walls.add(new MazeObject(250,350,50,50,"Images/apple.jpg"));
->>>>>>> ba0da2f5444a169c365ab895af866a4d5be5fcea
          game();
          
       }
