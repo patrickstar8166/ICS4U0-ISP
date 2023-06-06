@@ -14,7 +14,6 @@ public class Minigame implements KeyListener, Runnable{
    Player p = new Player(); //creates player object
    private double timer; //timer for object generation
    ArrayList<FallingObject> f = new ArrayList<FallingObject>(); //array list of all active falling objects
-   private BufferedImage initialApple;
    private Image resizeApple;
 
    public Minigame() throws IOException{//constructor, generates frame and initializes variables
@@ -29,8 +28,7 @@ public class Minigame implements KeyListener, Runnable{
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       frame.addKeyListener(this);
       //image resizing learned from https://stackoverflow.com/questions/5895829/resizing-image-in-java
-      initialApple = ImageIO.read(new File("apple.jpg"));
-      resizeApple = (initialApple.getScaledInstance(200,200,Image.SCALE_SMOOTH));
+      resizeApple = ImageIO.read(new File("Images/apple.jpg")).getScaledInstance(200,200,Image.SCALE_SMOOTH);
 
    }
 
