@@ -60,7 +60,7 @@ public class Level1 extends JPanel implements Runnable{
          new ActionListener(){
             public void actionPerformed(ActionEvent e){
                running = false;
-               Game.screenNum = 1;
+               Game.screenNum = 4;
                left.removeActionListener(this);
                right.removeActionListener(this);
                exit.removeActionListener(this);

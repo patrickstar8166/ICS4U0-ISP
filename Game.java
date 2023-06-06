@@ -2,7 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 public class Game extends JFrame implements Runnable{
-   public static int screenNum = 0;
+   public static int screenNum = 4;
    public boolean running = true;
    public static String[] names = {"Saskatoon Berries", "Dandelion", "Crown Tipped Coral", "Burdock", "Jack Pine", "Lobster Mushroom", "Morel Mushroom", "Cranberry", "Raspberry", "Cattail"};
    public static String[] images = {"Images/Saskatoon.jpg", "Images/Dandelion.jpg", "Images/Crown.jpg", "Images/Burdock.jpg", "Images/Jack.jpg", "Images/Lobster.png", "Images/Morel.jpg", "Images/Cranberry.jpg", "Images/Raspberry.jpg", "Images/Cattail.jpg"};
@@ -16,7 +16,8 @@ public class Game extends JFrame implements Runnable{
    "Mostly under 20cm in height. Flowers are pink with red/purple berries. Found in wet areas near bogs/ponds/lakes. Harversted from September to November.",
    "Up to 2m in height. Prickly stems with alternate compound leaves with white/green flowers. Found in moist temperate regions. Harvested around summer.",
    "1 to 3 meters in height. Long, slender, stiff leaves. Flowers form tight cyidnrical clusters. Found in marshes, lakes, streams and calm water. Harvested in spring for flower and pollen, fall to spring for roots/shoots."};
-
+   public static int x = 0;
+   
    public Game(){
       this.setTitle("Fresh Forage Adventure");
       this.setResizable(false);
@@ -26,7 +27,7 @@ public class Game extends JFrame implements Runnable{
       this.setVisible(true);
    }
 
-   public void run() {
+   public void run() {     
       while (running) {
          switch (screenNum) {
             case 0:
@@ -107,6 +108,31 @@ public class Game extends JFrame implements Runnable{
                }
             
                instr.interrupt();
+               break;
+               
+            case 4:
+               this.getContentPane().removeAll();
+               
+               Level2 l2 = new Level2();
+               this.getContentPane().add(l2);
+               Thread level2 = new Thread(l2);
+               level2.start();
+               
+               this.setVisible(true);
+               
+               l2.setFocusable(true);
+               l2.requestFocusInWindow();
+               
+               while(l2.isRunning()){
+                  try {
+                     Thread.sleep(100); // Add a small delay to reduce CPU usage
+                  } catch (InterruptedException e) {
+                     e.printStackTrace();
+                  }
+               }
+               
+               level2.interrupt();
+               running = false;
                break;
          }
       }

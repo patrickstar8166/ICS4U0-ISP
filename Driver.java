@@ -5,10 +5,15 @@ public class Driver extends Thread{
    
    public static void main(String[] args){
       try{
-         Minigame m = new Minigame();
+
+         //Minigame m = new Minigame();
          //Level2 l = new Level2();
          //Level2Backup lB = new Level2Backup();
-         Thread t = new Thread(m);
+         //Thread t = new Thread(m);
+         //Minigame m = new Minigame();
+         //Level2 l = new Level2();
+         Level3 l = new Level3();
+         Thread t = new Thread(l);
          t.start();
       }
       catch(Exception e){
