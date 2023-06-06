@@ -13,8 +13,6 @@ public class MazeObject{
    private boolean poison;
    private Image img;
    private String name;
-<<<<<<< HEAD
-=======
    
    public MazeObject(int x, int y, int w, int h, String img, boolean poison) throws IOException{
       this.x = x;
@@ -24,33 +22,22 @@ public class MazeObject{
       BufferedImage tempImg = ImageIO.read(new File(img));
       this.img = tempImg.getScaledInstance(w,h,Image.SCALE_SMOOTH);
    }
->>>>>>> ba0da2f5444a169c365ab895af866a4d5be5fcea
    
    public MazeObject(int x, int y, int w, int h, String img) throws IOException{
       this.x = x;
       this.y = y;
       this.w = w;
-<<<<<<< HEAD
       poison = false;
-=======
->>>>>>> ba0da2f5444a169c365ab895af866a4d5be5fcea
       BufferedImage tempImg = ImageIO.read(new File(img));
       this.img = tempImg.getScaledInstance(w,h,Image.SCALE_SMOOTH);
    }
    
-<<<<<<< HEAD
    public MazeObject(int x, int y, int w, int h, String img, String name, boolean poison) throws IOException{
-=======
-   public MazeObject(int x, int y, int w, int h, String img, String name) throws IOException{
->>>>>>> ba0da2f5444a169c365ab895af866a4d5be5fcea
       this.x = x;
       this.y = y;
       this.w = w;
       this.name = name;
-<<<<<<< HEAD
       this.poison = poison;
-=======
->>>>>>> ba0da2f5444a169c365ab895af866a4d5be5fcea
       BufferedImage tempImg = ImageIO.read(new File(img));
       this.img = tempImg.getScaledInstance(w,h,Image.SCALE_SMOOTH);
    }
