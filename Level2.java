@@ -17,7 +17,7 @@ public class Level2 extends JPanel implements Runnable{
    private ArrayList<Integer> pic = new ArrayList<Integer>();
    private ArrayList<Integer> img = new ArrayList<Integer>();
    private int x = 1, y = 0, count = 0;
-   private boolean running = true, move = true;
+   private boolean running = true, move = true, start = false;
    private JButton yes, no;
    private Toolkit t = Toolkit.getDefaultToolkit();
                               
@@ -86,6 +86,10 @@ System.out.println(x);
                for (int i = 0; i < pic.size()-1; i += 2){
                   if (x == pic.get(i) && y == pic.get(i+1)){
                      move = false;
+                     maze[x][y] = 1;
+                     pic.remove(i);
+                     pic.remove(i);
+                     start = true;
                   }
                }
                               
@@ -138,11 +142,8 @@ System.out.println(x);
                }
                
                if (maze[i][j] == 2){
-               g.setColor(Color.green);
-                  g.fillRect(j*50+25, i*50+50, 50, 50);
-                  // Image image = t.getImage(Game.images[img.get(count)]);
-//                   g.drawImage(image, j*50+25, i*50+50, 50, image.getHeight(this)*50/image.getWidth(this), this); 
-//                   count++;
+                  g.setColor(Color.red);
+                  g.fillRect(j*50+35, i*50+60, 30, 30);
                   pic.add(i); pic.add(j);
                }
             }
@@ -155,6 +156,16 @@ System.out.println(x);
          g.fillRect(0, 0, 1000, 680);
          yes.setVisible(true);
          no.setVisible(true);
+         System.out.println(count + " " + Game.images[img.get(count)]);
+         Image image = t.getImage(Game.images[img.get(count)]);
+         g.drawImage(image, 400, 70, 200, image.getHeight(this)*200/image.getWidth(this), this); 
+         if (start){
+            count++;
+            start = false;
+         }
+         
+         g.setFont(new Font("MonoSpaced", Font.BOLD, 20));
+         g.drawString("Is this edible?", 100, 400);
       }
    }
 }
