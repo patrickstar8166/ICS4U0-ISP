@@ -7,10 +7,9 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import javax.imageio.ImageIO;
 
-public class Level3 implements KeyListener, Runnable{
-   private Drawing d = new Drawing();
+public class Level3 extends JPanel implements Runnable{
    private Image bg, pcU, pcD, pcL, pcR, charImg, inv, endPlate, redX, checkmark, bush, bigApple;
-   private boolean rightHeld, leftHeld, upHeld, downHeld, lockCamX, lockCamY, zHeld, iHeld, interact, inventory, pause, end;
+   private boolean rightHeld, leftHeld, upHeld, downHeld, lockCamX, lockCamY, zHeld, iHeld, interact, inventory, pause, end, run;
    private int charX, charY, charW, buffer, bgX, bgY, leftBound, rightBound, topBound, bottomBound, timer, score;
    private ArrayList<MazeObject> obj = new ArrayList<MazeObject>();
    private ArrayList<MazeObject> collected = new ArrayList<MazeObject>();
@@ -18,12 +17,6 @@ public class Level3 implements KeyListener, Runnable{
    private String badItem;
    
    public Level3() throws IOException{
-      JFrame frame = new JFrame("Level 3");
-      frame.setSize(1000,680);
-      frame.add(d);
-      frame.setVisible(true);
-      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      frame.addKeyListener(this);
       bg = ImageIO.read(new File("Images/lab bg.png")).getScaledInstance(2000,1360,Image.SCALE_SMOOTH);
       pcU = ImageIO.read(new File("Images/apple.jpg")).getScaledInstance(20,20,Image.SCALE_SMOOTH);
       pcD = ImageIO.read(new File("Images/bomb.png")).getScaledInstance(20,20,Image.SCALE_SMOOTH);
@@ -37,6 +30,7 @@ public class Level3 implements KeyListener, Runnable{
       bigApple = ImageIO.read(new File("Images/apple.jpg")).getScaledInstance(50,50,Image.SCALE_SMOOTH);
       charImg = pcU;
       end = false;
+      run = true;
       charW = 20;
       charX = 500 - charW/2;
       charY = 340 - charW/2;
@@ -59,9 +53,15 @@ public class Level3 implements KeyListener, Runnable{
             calcScore();
          }
          move();
-         d.repaint();
+         repaint();
          Thread.sleep(16,666667);
       }
+      Thread.sleep(5000);
+      run = false;
+   }
+   
+   public boolean isRunning(){
+      return run;
    }
    
    public void move(){
@@ -164,12 +164,98 @@ public class Level3 implements KeyListener, Runnable{
       return true;
    }
    
+   public void keyInput(){
+      this.addKeyListener(
+         new KeyListener(){
+            public void keyPressed(KeyEvent e){
+               if(!interact&&!inventory){
+                  if(e.getKeyCode()==e.VK_RIGHT){
+                     rightHeld = true;
+                     charImg = pcR;
+                  }
+                  if(e.getKeyCode() == e.VK_LEFT){
+                     leftHeld = true;
+                     charImg = pcL;
+                  }
+                  if(e.getKeyCode() == e.VK_DOWN){
+                     downHeld = true;
+                     charImg = pcD;
+                  }
+                  if(e.getKeyCode() == e.VK_UP){
+                     upHeld = true;
+                     charImg = pcU;
+                  }
+               }
+               if(!inventory){
+                  if(e.getKeyChar() == 'z'&&!zHeld){
+                     interact();
+                     zHeld = true;
+                  }
+               }
+      
+               if(!interact){
+                  if(e.getKeyChar() == 'i' && !iHeld){
+                     inventory();
+                     iHeld = true;
+                  }
+               }
+            }
    
+            public void keyReleased(KeyEvent e){
+            
+               if(e.getKeyCode()==e.VK_RIGHT){
+                  rightHeld = false;
+               }
+               
+               if(e.getKeyCode() == e.VK_LEFT){
+                  leftHeld = false;
+               }
+         
+               if(e.getKeyCode() == e.VK_UP){
+                  upHeld = false;
+               }
+               
+               if(e.getKeyCode() == e.VK_DOWN){
+                  downHeld = false;
+               }
+         
+               if(e.getKeyChar() == 'z' && zHeld){
+                  zHeld = false;
+               }
+               
+               if(e.getKeyChar() == 'i' && iHeld){
+                  iHeld = false;
+               }
+               
+            }
+            public void keyTyped(KeyEvent e){
+            }
+         });
+      }
+      
+   public void minigame(MazeObject o) throws IOException{
+      Minigame m = new Minigame(o.getImg());
+      this.add(m);
+      Thread minigame = new Thread(m);
+      minigame.start();
+      this.setVisible(true);
+      while(m.isRunning()){
+         try {
+            Thread.sleep(100); // Add a small delay to reduce CPU usage
+         } catch (InterruptedException e) {
+            e.printStackTrace();
+         }
+      }
+      minigame.interrupt();
+   }
    
    public void interact(){
       if(!interact){
          for(int i = 0; i<obj.size(); i++){
             if(charX - bgX + charW>= obj.get(i).getX()  &&  charX - bgX<= obj.get(i).getX() + obj.get(i).getW() && charY - bgY + charW >= obj.get(i).getY() && charY - bgY <= obj.get(i).getY() + obj.get(i).getW()){
+               try{
+                  minigame(obj.get(i));
+               }catch(IOException e){}
                interact = true;
                leftHeld = false;
                rightHeld = false;
@@ -208,7 +294,7 @@ public class Level3 implements KeyListener, Runnable{
             count++;
          }
          else{
-            System.out.println(collected.get(i).getPoison());
+            //System.out.println(collected.get(i).getPoison());
             score = 0;
             badItem = collected.get(i).getName();
             badFound = true;
@@ -652,143 +738,69 @@ public class Level3 implements KeyListener, Runnable{
       
    }
    
-   class Drawing extends JComponent{
 
-      public void paintComponent(Graphics g){
-         super.paintComponent(g);
-         if(!end){
-            g.drawImage(bg,bgX-500,bgY-340,this);
-            
-            for(int i = 0; i< obj.size(); i++){
-               g.drawImage(obj.get(i).getImg(), obj.get(i).getX()+bgX, obj.get(i).getY()+bgY, this);
-            }
-            for(int i = 0; i<walls.size(); i++){
-               g.drawImage(walls.get(i).getImg(),walls.get(i).getX()+bgX,walls.get(i).getY()+bgY,this);
-            }
-            
-            g.setColor(Color.blue);
-            g.drawImage(charImg,charX,charY,this);
-            //g.fillRect(charX,charY,charW,charW);
-            
-            if(interact){
-               g.setColor(new Color(0,0,0,100));
-               g.fillRect(0,0,1000,680);
-               g.setColor(Color.red);
-               g.fillRect(450,290,50,50);
-               
-            }
-            
-            if(inventory){
-               g.drawImage(inv,0,0,this);
-               for(int i = 0; i<collected.size(); i++){
-                  g.drawImage(collected.get(i).getBigImg(),i%8*55+285,i/8*55+245,this);
-               }
-            }
-            g.setColor(Color.orange);
-            g.fillRect(875,25,0+(10800-timer)/108,40);
-            g.setColor(Color.black);
-            g.drawRect(875,25,100,40);
+   public void paintComponent(Graphics g){
+      super.paintComponent(g);
+      if(!end){
+         g.drawImage(bg,bgX-500,bgY-340,this);
+         
+         for(int i = 0; i< obj.size(); i++){
+            g.drawImage(obj.get(i).getImg(), obj.get(i).getX()+bgX, obj.get(i).getY()+bgY, this);
+         }
+         for(int i = 0; i<walls.size(); i++){
+            g.drawImage(walls.get(i).getImg(),walls.get(i).getX()+bgX,walls.get(i).getY()+bgY,this);
          }
          
-         if(end){
-            g.drawImage(endPlate,0,0,this);
+         g.setColor(Color.blue);
+         g.drawImage(charImg,charX,charY,this);
+         //g.fillRect(charX,charY,charW,charW);
+         
+         if(interact){
+            g.setColor(new Color(0,0,0,100));
+            g.fillRect(0,0,1000,680);
+            g.setColor(Color.red);
+            g.fillRect(450,290,50,50);
+            
+         }
+         
+         if(inventory){
+            g.drawImage(inv,0,0,this);
             for(int i = 0; i<collected.size(); i++){
-                  g.drawImage(collected.get(i).getImg(),i%8*55+285,i/8*55+245,this);
-            }
-            if(score==0){
-               g.drawImage(redX,400,50,this);
-               g.drawString("You failed to forage a meal. You foraged the "+badItem+", which is inedible.",0,100);
-            }
-            else if(score ==1){
-               g.drawImage(redX,400,50,this);
-               g.drawString("You failed to forage a meal. You did not forage enough food. Forage at least 10 items.", 0,100);
-            }
-            else{
-               g.drawImage(checkmark,400,50,this);
-               g.drawString("You succeeded in foraging a meal!! Good job!!!",0,100);
+               g.drawImage(collected.get(i).getBigImg(),i%8*55+285,i/8*55+245,this);
             }
          }
-         
-         
-      }
-   }
-   
-   public void keyPressed(KeyEvent e){
-      if(!interact&&!inventory){
-         if(e.getKeyCode()==e.VK_RIGHT){
-            rightHeld = true;
-            charImg = pcR;
-         }
-         if(e.getKeyCode() == e.VK_LEFT){
-            leftHeld = true;
-            charImg = pcL;
-         }
-         if(e.getKeyCode() == e.VK_DOWN){
-            downHeld = true;
-            charImg = pcD;
-         }
-         if(e.getKeyCode() == e.VK_UP){
-            upHeld = true;
-            charImg = pcU;
-         }
-         
-         
-      }
-      if(!inventory){
-         if(e.getKeyChar() == 'z'&&!zHeld){
-            interact();
-            zHeld = true;
-         }
+         g.setColor(Color.orange);
+         g.fillRect(875,25,0+(10800-timer)/108,40);
+         g.setColor(Color.black);
+         g.drawRect(875,25,100,40);
       }
       
-      if(!interact){
-         if(e.getKeyChar() == 'i' && !iHeld){
-            inventory();
-            iHeld = true;
+      if(end){
+         g.drawImage(endPlate,0,0,this);
+         for(int i = 0; i<collected.size(); i++){
+               g.drawImage(collected.get(i).getBigImg(),i%8*55+285,i/8*55+245,this);
+         }
+         if(score==0){
+            g.drawImage(redX,400,50,this);
+            g.drawString("You failed to forage a meal. You foraged the "+badItem+", which is inedible.",0,100);
+         }
+         else if(score ==1){
+            g.drawImage(redX,400,50,this);
+            g.drawString("You failed to forage a meal. You did not forage enough food. Forage at least 10 items.", 0,100);
+         }
+         else{
+            g.drawImage(checkmark,400,50,this);
+            g.drawString("You succeeded in foraging a meal!! Good job!!!",0,100);
          }
       }
-      /*if(e.getKeyChar() =='e'){
-         bgX = 0;
-         bgY = 0;
-      }*/
       
       
    }
    
-   public void keyReleased(KeyEvent e){
    
-      if(e.getKeyCode()==e.VK_RIGHT){
-         rightHeld = false;
-      }
-      
-      if(e.getKeyCode() == e.VK_LEFT){
-         leftHeld = false;
-      }
-
-      if(e.getKeyCode() == e.VK_UP){
-         upHeld = false;
-      }
-      
-      if(e.getKeyCode() == e.VK_DOWN){
-         downHeld = false;
-      }
-
-      if(e.getKeyChar() == 'z' && zHeld){
-         zHeld = false;
-      }
-      
-      if(e.getKeyChar() == 'i' && iHeld){
-         iHeld = false;
-      }
-      
-   }
-   public void keyTyped(KeyEvent e){
-      
-   }
-   
-   public void run(){
+      public void run(){
       try{
-         
+         keyInput();
          addWalls();
          generateObjects();
          game();

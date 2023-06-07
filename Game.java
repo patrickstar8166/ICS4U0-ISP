@@ -1,11 +1,14 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.io.*;
 public class Game extends JFrame implements Runnable{
-   public static int screenNum = 4;
+   public static int screenNum = 5;
    public boolean running = true;
+   private Toolkit t = Toolkit.getDefaultToolkit();
    public static String[] names = {"Saskatoon Berries", "Dandelion", "Crown Tipped Coral", "Burdock", "Jack Pine", "Lobster Mushroom", "Morel Mushroom", "Cranberry", "Raspberry", "Cattail", "Lily of the Valley", "False Morel", "Gilled Mushroom (Destroying Angel)", "Gilled Mushroom (Deadly Galerina)", "Poison Ivy", "Baneberry Red", " Blub-bearing Water Hemlock", "Poison Hemlock", "Water Hemlock", "Blue Flag Iris"};
    public static String[] images = {"Images/Saskatoon.jpg", "Images/Dandelion.jpg", "Images/Crown.jpg", "Images/Burdock.jpg", "Images/Jack.jpg", "Images/Lobster.png", "Images/Morel.jpg", "Images/Cranberry.jpg", "Images/Raspberry.jpg", "Images/Cattail.jpg"};
+   public static Image[] imgs = new Image[images.length];
    public static String[] descriptions = {"Large purple-blue berries that grow on trees with gray bark and toothed leaves. Grow to about 5 meters tall and are about 3 meters wide. Berries ripen in June or early June.",
    "Distributed everywhere from lawns, roadsides, to gardens. Found in May and August. Bright yellow flower with milky white stem. 5 - 45 cm in height.",
    "Grows on wood. Branch tips have 3-6 points. Resembles sea coral or candelabra. Initially white and then becomes more pale/pink. Found in Spring, Summer, and Fall.",
@@ -25,18 +28,23 @@ public class Game extends JFrame implements Runnable{
   "The Blub-bearing water Hemlock is a spindly plant with narrow/fine leaves. They are generally found in wet areas such as marhes, shores, and swamps in Ontario, growing to a height of 1-2 meters. Flowers are found in the summer and are white with 5 petals in umbrella-like clusters. The stem is also hollow as well with many widely spaced branches coming from the stem. This plant is deadly poisonous.",
   "The Poison Hemlock is a plant with a spotted stem and white flowers occuring around summer. It contains 5 white petals and are located in fields and open areas in Ontario. Consuming them is deadly, as they are deadly poisonous.",
   "The Water Hemlock is a plant found in wet areas such as marshes, swamps, and shore lines. They flower during the summer and contain 5 white petals in an umbrella-like cluster. The stem is branched, smooth, and hollow. The leaves are pointed with many teeth, showing occasionally a slight red color. They are a deadly poisonous plant.",
-  "The Blue Flag Iris is a poisonous to eat plant and is found in wet areas around Ontario. They generally grow in the sun, being found in the summer with 3 blue/violet petals. They can grow to about 30-80 cm.
+  "The Blue Flag Iris is a poisonous to eat plant and is found in wet areas around Ontario. They generally grow in the sun, being found in the summer with 3 blue/violet petals. They can grow to about 30-80 cm."
 
  };
   public static int x = 0;
 
    public Game(){
+      
       this.setTitle("Fresh Forage Adventure");
       this.setResizable(false);
       this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       this.setSize(1000, 680);
    
       this.setVisible(true);
+      
+      for (int i = 0; i < imgs.length; i++){
+         imgs[i] = t.getImage(Game.images[i]); 
+      }
    }
 
    public void run() {     
@@ -121,7 +129,7 @@ public class Game extends JFrame implements Runnable{
             
                instr.interrupt();
                break;
-                case 4:
+            case 4:
                this.getContentPane().removeAll();
                
                Level2 l2 = new Level2();
@@ -143,6 +151,32 @@ public class Game extends JFrame implements Runnable{
                }
                
                level2.interrupt();
+               running = false;
+               break;
+               
+            case 5:
+               this.getContentPane().removeAll();
+               try{
+                  Level3 l3 = new Level3();
+                  this.getContentPane().add(l3);
+                  Thread level3 = new Thread(l3);
+                  level3.start();
+                  this.setVisible(true);
+                  
+                  l3.setFocusable(true);
+                  l3.requestFocusInWindow();
+                  while(l3.isRunning()){
+                     try {
+                        Thread.sleep(100); // Add a small delay to reduce CPU usage
+                     } catch (InterruptedException e) {
+                        e.printStackTrace();
+                     }
+                  }
+                  
+                  level3.interrupt();
+               }
+               catch(IOException e){
+               }
                running = false;
                break;
          }

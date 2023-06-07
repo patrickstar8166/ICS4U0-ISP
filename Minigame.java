@@ -7,105 +7,129 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import javax.imageio.ImageIO;
 
-public class Minigame implements KeyListener, Runnable{
+public class Minigame extends JPanel implements Runnable{
 
-   Drawing d = new Drawing();
-   private boolean rightHeld, leftHeld, end, win;
+   private boolean rightHeld, leftHeld, end, win, run;
    Player p = new Player(); //creates player object
    private double timer; //timer for object generation
    ArrayList<FallingObject> f = new ArrayList<FallingObject>(); //array list of all active falling objects
-   private Image resizeApple;
+   private Image plantImg;
 
-   public Minigame() throws IOException{//constructor, generates frame and initializes variables
+   public Minigame(Image img) throws IOException{//constructor, generates frame and initializes variables
       timer = 0;
       rightHeld = false; 
       leftHeld = false;
       end = false;
-      JFrame frame = new JFrame("Minigame");
-      frame.setSize(1000,680);
-      frame.add(d);
-      frame.setVisible(true);
-      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      frame.addKeyListener(this);
-      //image resizing learned from https://stackoverflow.com/questions/5895829/resizing-image-in-java
-      resizeApple = ImageIO.read(new File("Images/apple.jpg")).getScaledInstance(200,200,Image.SCALE_SMOOTH);
+      run = true;
+      plantImg = img;
 
    }
 
-   class Drawing extends JComponent
+   public void paintComponent (Graphics g) //drawing method
    {
-      public void paintComponent (Graphics g) //drawing method
-      {
-
-         if(!end){
-            super.paintComponent(g);
-            //draws all falling objects in the array list
-            //checks what falling object type it is before displaying
-            for(int i = 0; i<f.size(); i++){
-               if(f.get(i).getBad()){
-                  g.setColor(Color.red);
-               }
-               else{
-                  g.setColor(Color.green);
-               }
+      System.out.println("paint");
+      if(!end){
+         
+         super.paintComponent(g);
+         //draws all falling objects in the array list
+         //checks what falling object type it is before displaying
+         for(int i = 0; i<f.size(); i++){
+            if(f.get(i).getBad()){
                g.fillRect(f.get(i).getX(),f.get(i).getY(),20,20);
             }
+            else{
+               g.drawImage(plantImg,f.get(i).getX(),f.get(i).getY(),this);
+            }
             
-            //player entity
-            g.setColor(Color.blue);
-            g.fillRect(p.getX(),p.getY(),50,100);
-            g.setColor(Color.red);
-            g.fillRect(p.getX()-50,p.getY()-30,150,30);
-            
-            
-            //health bar
-            g.setColor(Color.black);
-            g.drawRect(29,49,101,31);
-            g.setColor(Color.red);
-            g.fillRect(30,50,20*p.getHealth(),30);
-            
-            //progress bar
-            g.setColor(Color.black);
-            g.drawRect(829,49,101,31);
-            g.setColor(Color.green);
-            g.fillRect(830,50,(4*p.getCaught()),30);
          }
-         //win state
-         else if(win){
-            super.paintComponent(g);
-            g.setColor(Color.green);
-            g.drawString("You win", 300,400);
-         }
-         //lose state
-         else{
-            super.paintComponent(g);
-            g.setColor(Color.red);
-            g.drawString("You lose",300,400);
-            //g.drawImage(apple,100,100,this);
-
-               if(resizeApple != null){
-                  g.drawImage(resizeApple,200,200,this);
-               }
-         }
-
-
          
+         //player entity
+         g.setColor(Color.blue);
+         g.fillRect(p.getX(),p.getY(),50,100);
+         g.setColor(Color.red);
+         g.fillRect(p.getX()-50,p.getY()-30,150,30);
+         
+         
+         //health bar
+         g.setColor(Color.black);
+         g.drawRect(29,49,101,31);
+         g.setColor(Color.red);
+         g.fillRect(30,50,20*p.getHealth(),30);
+         
+         //progress bar
+         g.setColor(Color.black);
+         g.drawRect(829,49,101,31);
+         g.setColor(Color.green);
+         g.fillRect(830,50,(4*p.getCaught()),30);
       }
+      //win state
+      else if(win){
+         super.paintComponent(g);
+         g.setColor(Color.green);
+         g.drawString("You win", 300,400);
+      }
+      //lose state
+      else{
+         super.paintComponent(g);
+         g.setColor(Color.red);
+         g.drawString("You lose",300,400);
+         //g.drawImage(apple,100,100,this);
+
+            if(plantImg != null){
+               g.drawImage(plantImg,200,200,this);
+            }
+      }
+
+
+      
    }
    
    public void run(){
       try{
+         keyInput();
          game();
       }
       catch(Exception e){
          
       }
+      
    }
+   
+   public void keyInput(){
+      this.addKeyListener(
+         new KeyListener(){
+            public void keyPressed(KeyEvent e){
+               if(e.getKeyCode()==e.VK_RIGHT){
+                  rightHeld = true;
+         
+               }
+               if(e.getKeyCode() == e.VK_LEFT){
+                  leftHeld = true;
+                  
+               }
+            }
+   
+            public void keyReleased(KeyEvent e){
+            
+               if(e.getKeyCode()==e.VK_RIGHT){
+                  rightHeld = false;
+               }
+               if(e.getKeyCode() == e.VK_LEFT){
+                  leftHeld = false;
+               }
+            }
+            public void keyTyped(KeyEvent e){
+            }
+         });
+      }
+
+   
    
    //handles updates and display, runs on 60 fps
    public void game() throws InterruptedException{ 
+      
       while(!end){
-         
+         System.out.println("game");
          //calls fall method on every falling object         
          for(int i = 0; i<f.size(); i++){
             f.get(i).fall();
@@ -149,12 +173,16 @@ public class Minigame implements KeyListener, Runnable{
          }
          
          //updates frame
-         d.repaint();
+         //System.out.println("repaint");
+         paintImmediately();
+         //System.out.println("repaint2");
 
          //delay for 1/60th second
          Thread.sleep(16,666667);
          //Thread and runnable learned from https://www.geeksforgeeks.org/runnable-interface-in-java/
       }
+      Thread.sleep(5000);
+      run = false;
    }
 
    
@@ -163,36 +191,9 @@ public class Minigame implements KeyListener, Runnable{
       return new FallingObject((int)(Math.random()*980));
    }
    
-   //uses keyPressed and keyReleased in conjunction to avoid movement delay
-   
-   
-   //moves direction pressed until key is released
-   public void keyPressed(KeyEvent e){
-      if(e.getKeyCode()==e.VK_RIGHT){
-         rightHeld = true;
-         
-      }
-      if(e.getKeyCode() == e.VK_LEFT){
-         leftHeld = true;
-         
-      }
-   }
-   
-   public void keyReleased(KeyEvent e){
-      if(e.getKeyCode()==e.VK_RIGHT){
-         rightHeld = false;
-      }
-      if(e.getKeyCode() == e.VK_LEFT){
-         leftHeld = false;
-      }
-   }
-   
-   public void keyTyped(KeyEvent e){
-   
-   }
    //gets the end state of the game
-   public boolean getEnd(){
-      return end;
+   public boolean isRunning(){
+      return run;
    }
    
       

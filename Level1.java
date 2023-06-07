@@ -2,7 +2,6 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 public class Level1 extends JPanel implements Runnable{
-   private Image[] img = new Image[10];
    private Toolkit t = Toolkit.getDefaultToolkit();
    private int count = -1;
    private JButton left, right, exit;
@@ -34,9 +33,7 @@ public class Level1 extends JPanel implements Runnable{
       right.setVisible(true);
       exit.setVisible(false);
       
-      for (int i = 0; i < 10; i++){
-         img[i] = t.getImage(Game.images[i]); 
-      }
+      
    }
       
    public void run(){
@@ -102,7 +99,7 @@ public class Level1 extends JPanel implements Runnable{
          Image i = t.getImage("Images/Background 1.png");
          g.drawImage(i, 0, 0, 1000, i.getHeight(this)*1000/i.getWidth(this), this); 
          g.drawString(Game.names[count], 500-Game.names[count].length()*12, 40);
-         g.drawImage(img[count], 400, 70, 200, img[count].getHeight(this)*200/img[count].getWidth(this), this); 
+         g.drawImage(Game.imgs[count], 400, 70, 200, Game.imgs[count].getHeight(this)*200/Game.imgs[count].getWidth(this), this); 
          
          g.setFont(new Font("MonoSpaced", Font.BOLD, 20));
          g.drawString(Game.descriptions[count], 150, 275);
