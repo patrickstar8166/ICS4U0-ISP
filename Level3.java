@@ -9,8 +9,8 @@ import javax.imageio.ImageIO;
 
 public class Level3 implements KeyListener, Runnable{
    private Drawing d = new Drawing();
-   private Image bg, pcU, pcD, pcL, pcR, charImg, inv, endPlate, redX, checkmark;
-   private boolean rightHeld, leftHeld, upHeld, downHeld, lockCamX, lockCamY, zHeld, iHeld, interact, inventory, end;
+   private Image bg, pcU, pcD, pcL, pcR, charImg, inv, endPlate, redX, checkmark, bush, bigApple;
+   private boolean rightHeld, leftHeld, upHeld, downHeld, lockCamX, lockCamY, zHeld, iHeld, interact, inventory, pause, end;
    private int charX, charY, charW, buffer, bgX, bgY, leftBound, rightBound, topBound, bottomBound, timer, score;
    private ArrayList<MazeObject> obj = new ArrayList<MazeObject>();
    private ArrayList<MazeObject> collected = new ArrayList<MazeObject>();
@@ -33,6 +33,8 @@ public class Level3 implements KeyListener, Runnable{
       endPlate = ImageIO.read(new File("Images/endPlate.png")).getScaledInstance(1000,680,Image.SCALE_SMOOTH);
       redX = ImageIO.read(new File("Images/redX.png")).getScaledInstance(200,200,Image.SCALE_SMOOTH);
       checkmark = ImageIO.read(new File("Images/checkmark.png")).getScaledInstance(200,200,Image.SCALE_SMOOTH);
+      bush = ImageIO.read(new File("Images/bush.png")).getScaledInstance(40,40,Image.SCALE_SMOOTH);
+      bigApple = ImageIO.read(new File("Images/apple.jpg")).getScaledInstance(50,50,Image.SCALE_SMOOTH);
       charImg = pcU;
       end = false;
       charW = 20;
@@ -49,7 +51,9 @@ public class Level3 implements KeyListener, Runnable{
    }
    public void game() throws InterruptedException{
       while(!end){
-         timer++;
+         if(!pause){
+            timer++;
+         }
          if(timer>10800){ //3 minutes
             end = true;
             calcScore();
@@ -99,7 +103,7 @@ public class Level3 implements KeyListener, Runnable{
                charY+=5;
          }
          if(upHeld){
-            if(collision(charX,charY-4))
+            if(collision(charX,charY-5))
                charY-=5;
          }
       }
@@ -165,12 +169,14 @@ public class Level3 implements KeyListener, Runnable{
    public void interact(){
       if(!interact){
          for(int i = 0; i<obj.size(); i++){
-            if(charX - bgX + charW + buffer >= obj.get(i).getX()  &&  charX - bgX<= obj.get(i).getX() + obj.get(i).getW() + buffer && charY - bgY + charW + buffer >= obj.get(i).getY() && charY - bgY <= obj.get(i).getY() + obj.get(i).getW() + buffer){
+            if(charX - bgX + charW>= obj.get(i).getX()  &&  charX - bgX<= obj.get(i).getX() + obj.get(i).getW() && charY - bgY + charW >= obj.get(i).getY() && charY - bgY <= obj.get(i).getY() + obj.get(i).getW()){
                interact = true;
                leftHeld = false;
                rightHeld = false;
                upHeld = false;
                downHeld = false;
+               collected.add(obj.get(i));
+               obj.remove(obj.get(i));
             }
          }
       }
@@ -186,9 +192,11 @@ public class Level3 implements KeyListener, Runnable{
          rightHeld = false;
          upHeld = false;
          downHeld = false;
+         pause = true;
       }
       else{
          inventory = false;
+         pause = false;
       }
    }
    
@@ -216,6 +224,434 @@ public class Level3 implements KeyListener, Runnable{
       }
    }
    
+   public void generateObjects() throws IOException{ //
+      int[] tempX = {100,380,720,820,980,1140,1280,1340,1660,1820,180,860,1100,1480,1660,1960,1940,460,1340,1420,1700,320,580,880,1100,1800,1080,840,500,240,360,1340,1740,1360,500,980,1220,1300,1400,1960,1880,1740,1620,1400,1000,880,680,520,340,320,80};
+      int[] tempY = {100,100,60,180,280,360,320,120,200,40,480,400,540,500,520,460,600,620,640,680,740,720,760,740,740,900,880,880,840,900,980,960,1060,1040,1080,1140,1180,1200,1120,1260,1280,1180,1200,1280,1280,1220,1280,1180,1220,1300,1260};
+      ArrayList<Integer> x = new ArrayList<Integer>();
+      ArrayList<Integer> y = new ArrayList<Integer>();
+      for(int i = 0; i<tempX.length; i++){
+         x.add(tempX[i]);
+         y.add(tempY[i]);
+      }
+      for(int i = 0; i < 15; i++){
+         int num = (int)(Math.random()*x.size());
+         obj.add(new MazeObject(x.get(num)-500,y.get(num)-340,20,20,pcU,bigApple)); //replace with random plants!!!!!
+         x.remove(num);
+         y.remove(num);
+      }
+      
+      
+   }
+   
+   public void addWalls() throws IOException{ //im so fuckin sorry man. 
+      //top left corner: -500,-340
+      walls.add(new MazeObject(-420,-320,40,40,bush));
+      walls.add(new MazeObject(-400,-310+30,40,40,bush));
+      walls.add(new MazeObject(-440+60,-290+50,40,40,bush));
+      walls.add(new MazeObject(-440+60,-270+70,40,40,bush));
+      walls.add(new MazeObject(-440+60,-250+90,40,40,bush));
+      walls.add(new MazeObject(-440+60,-240+100,40,40,bush));
+      walls.add(new MazeObject(-450+50,-230+110,40,40,bush));
+      walls.add(new MazeObject(-460+40,-220+120,40,40,bush));
+      
+      walls.add(new MazeObject(-280+220,-320+20,40,40,bush));
+      walls.add(new MazeObject(-290+210,-310+30,40,40,bush));
+      walls.add(new MazeObject(-290+210,-300+40,40,40,bush));
+      walls.add(new MazeObject(-300+200,-300+40,40,40,bush));
+      walls.add(new MazeObject(-300+200,-290+50,40,40,bush));
+      walls.add(new MazeObject(-310+190,-280+60,40,40,bush));
+      walls.add(new MazeObject(-330+170,-270+70,40,40,bush));
+      
+      walls.add(new MazeObject(-500+640,-340+40,40,40,bush));
+      walls.add(new MazeObject(-500+660,-340+60,40,40,bush));
+      walls.add(new MazeObject(-500+700,-340+80,40,40,bush));
+      walls.add(new MazeObject(-500+740,-340+100,40,40,bush));
+      
+      walls.add(new MazeObject(-500+920,-340+100,40,40,bush));
+      walls.add(new MazeObject(-500+940,-340+80,40,40,bush));
+      walls.add(new MazeObject(-500+960,-340+60,40,40,bush));
+      walls.add(new MazeObject(-500+980,-340+40,40,40,bush));
+      walls.add(new MazeObject(-500+1000,-340+20,40,40,bush));
+      
+      walls.add(new MazeObject(-500+610*2,-340+40*2,40,40,bush));
+      walls.add(new MazeObject(-500+620*2,-340+60*2,40,40,bush));
+      walls.add(new MazeObject(-500+630*2,-340+70*2,40,40,bush));
+      walls.add(new MazeObject(-500+650*2,-340+80*2,40,40,bush));
+      walls.add(new MazeObject(-500+670*2,-340+70*2,40,40,bush));
+      walls.add(new MazeObject(-500+680*2,-340+60*2,40,40,bush));
+      walls.add(new MazeObject(-500+700*2,-340+60*2,40,40,bush));
+      walls.add(new MazeObject(-500+720*2,-340+70*2,40,40,bush));
+      walls.add(new MazeObject(-500+740*2,-340+80*2,40,40,bush));
+      walls.add(new MazeObject(-500+760*2,-340+90*2,40,40,bush));
+      walls.add(new MazeObject(-500+770*2,-340+100*2,40,40,bush));
+      walls.add(new MazeObject(-500+790*2,-340+110*2,40,40,bush));
+      walls.add(new MazeObject(-500+810*2,-340+110*2,40,40,bush));
+      walls.add(new MazeObject(-500+830*2,-340+110*2,40,40,bush));
+      walls.add(new MazeObject(-500+850*2,-340+120*2,40,40,bush));
+      walls.add(new MazeObject(-500+860*2,-340+120*2,40,40,bush));
+      walls.add(new MazeObject(-500+870*2,-340+130*2,40,40,bush));
+      walls.add(new MazeObject(-500+880*2,-340+140*2,40,40,bush));
+      
+      walls.add(new MazeObject(-500+1660,-340,40,40,bush));
+      walls.add(new MazeObject(-500+1680,-340+40,40,40,bush));
+      walls.add(new MazeObject(-500+1720,-340+40,40,40,bush));
+      walls.add(new MazeObject(-500+1740,-340+60,40,40,bush));
+      walls.add(new MazeObject(-500+1780,-340+80,40,40,bush));
+      walls.add(new MazeObject(-500+1820,-340+100,40,40,bush));
+      walls.add(new MazeObject(-500+1840,-340+100,40,40,bush));
+      walls.add(new MazeObject(-500+1880,-340+120,40,40,bush));
+      walls.add(new MazeObject(-500+1900,-340+160,40,40,bush));
+      
+      walls.add(new MazeObject(-500+180,-340+280,40,40,bush));
+      walls.add(new MazeObject(-500+160,-340+300,40,40,bush));
+      walls.add(new MazeObject(-500+160,-340+340,40,40,bush));
+      walls.add(new MazeObject(-500+160,-340+380,40,40,bush));
+      walls.add(new MazeObject(-500+160,-340+400,40,40,bush));
+      walls.add(new MazeObject(-500+160,-340+420,40,40,bush));
+      walls.add(new MazeObject(-500+140,-340+440,40,40,bush));
+      walls.add(new MazeObject(-500+140,-340+460,40,40,bush));
+      walls.add(new MazeObject(-500+120,-340+500,40,40,bush));
+      walls.add(new MazeObject(-500+140,-340+520,40,40,bush));
+      walls.add(new MazeObject(-500+160,-340+540,40,40,bush));
+      walls.add(new MazeObject(-500+180,-340+560,40,40,bush));
+      walls.add(new MazeObject(-500+200,-340+580,40,40,bush));
+      walls.add(new MazeObject(-500+220,-340+620,40,40,bush));
+      walls.add(new MazeObject(-500+200,-340+640,40,40,bush));
+      walls.add(new MazeObject(-500+180,-340+660,40,40,bush));
+      
+      walls.add(new MazeObject(-500+320,-340+480,40,40,bush));
+      walls.add(new MazeObject(-500+320,-340+500,40,40,bush));
+      walls.add(new MazeObject(-500+300,-340+540,40,40,bush));
+      walls.add(new MazeObject(-500+300,-340+560,40,40,bush));
+      walls.add(new MazeObject(-500+280,-340+600,40,40,bush));
+      walls.add(new MazeObject(-500+280,-340+620,40,40,bush));
+      walls.add(new MazeObject(-500+300,-340+660,40,40,bush));
+      walls.add(new MazeObject(-500+300,-340+680,40,40,bush));
+      walls.add(new MazeObject(-500+340,-340+700,40,40,bush));
+      
+      walls.add(new MazeObject(-500+540,-340+300,40,40,bush));
+      walls.add(new MazeObject(-500+540,-340+260,40,40,bush));
+      walls.add(new MazeObject(-500+540,-340+240,40,40,bush));
+      walls.add(new MazeObject(-500+560,-340+220,40,40,bush));
+      walls.add(new MazeObject(-500+580,-340+200,40,40,bush));
+      walls.add(new MazeObject(-500+620,-340+200,40,40,bush));
+      walls.add(new MazeObject(-500+640,-340+180,40,40,bush));
+      walls.add(new MazeObject(-500+680,-340+180,40,40,bush));
+      walls.add(new MazeObject(-500+700,-340+180,40,40,bush));
+      walls.add(new MazeObject(-500+720,-340+200,40,40,bush));
+      walls.add(new MazeObject(-500+760,-340+220,40,40,bush));
+      walls.add(new MazeObject(-500+800,-340+240,40,40,bush));
+      walls.add(new MazeObject(-500+820,-340+220,40,40,bush));
+      walls.add(new MazeObject(-500+860,-340+220,40,40,bush));
+      walls.add(new MazeObject(-500+880,-340+200,40,40,bush));
+      walls.add(new MazeObject(-500+900,-340+180,40,40,bush));
+      
+      walls.add(new MazeObject(-500+520,-340+480,40,40,bush));
+      walls.add(new MazeObject(-500+560,-340+460,40,40,bush));
+      walls.add(new MazeObject(-500+600,-340+440,40,40,bush));
+      walls.add(new MazeObject(-500+640,-340+420,40,40,bush));
+      walls.add(new MazeObject(-500+660,-340+400,40,40,bush));
+      walls.add(new MazeObject(-500+680,-340+380,40,40,bush));
+      walls.add(new MazeObject(-500+700,-340+360,40,40,bush));
+      walls.add(new MazeObject(-500+740,-340+380,40,40,bush));
+      walls.add(new MazeObject(-500+780,-340+400,40,40,bush));
+      walls.add(new MazeObject(-500+800,-340+420,40,40,bush));
+      walls.add(new MazeObject(-500+820,-340+440,40,40,bush));
+      walls.add(new MazeObject(-500+860,-340+440,40,40,bush));
+      walls.add(new MazeObject(-500+900,-340+440,40,40,bush));
+      walls.add(new MazeObject(-500+900,-340+480,40,40,bush));
+      walls.add(new MazeObject(-500+880,-340+520,40,40,bush));
+      walls.add(new MazeObject(-500+860,-340+540,40,40,bush));
+      walls.add(new MazeObject(-500+820,-340+560,40,40,bush));
+      walls.add(new MazeObject(-500+900,-340+400,40,40,bush));
+      walls.add(new MazeObject(-500+920,-340+360,40,40,bush));
+      walls.add(new MazeObject(-500+940,-340+320,40,40,bush));
+      walls.add(new MazeObject(-500+980,-340+300,40,40,bush));
+      walls.add(new MazeObject(-500+1000,-340+280,40,40,bush));
+      walls.add(new MazeObject(-500+1040,-340+260,40,40,bush));
+      walls.add(new MazeObject(-500+1060,-340+240,40,40,bush));
+      walls.add(new MazeObject(-500+1080,-340+240,40,40,bush));
+      walls.add(new MazeObject(-500+1080,-340+220,40,40,bush));
+      walls.add(new MazeObject(-500+1080,-340+240,40,40,bush));
+      walls.add(new MazeObject(-500+1120,-340+240,40,40,bush));
+      walls.add(new MazeObject(-500+1140,-340+280,40,40,bush));
+      walls.add(new MazeObject(-500+1120,-340+300,40,40,bush));
+      walls.add(new MazeObject(-500+1100,-340+340,40,40,bush));
+      walls.add(new MazeObject(-500+1100,-340+360,40,40,bush));
+      walls.add(new MazeObject(-500+1120,-340+400,40,40,bush));
+      walls.add(new MazeObject(-500+1140,-340+440,40,40,bush));
+      walls.add(new MazeObject(-500+1160,-340+480,40,40,bush));
+      walls.add(new MazeObject(-500+1180,-340+520,40,40,bush));
+      walls.add(new MazeObject(-500+1200,-340+560,40,40,bush));
+      walls.add(new MazeObject(-500+1220,-340+580,40,40,bush));
+      walls.add(new MazeObject(-500+1220,-340+620,40,40,bush));
+      walls.add(new MazeObject(-500+1200,-340+660,40,40,bush));
+      
+      walls.add(new MazeObject(-500+1300,-340+420,40,40,bush));
+      walls.add(new MazeObject(-500+1300,-340+400,40,40,bush));
+      walls.add(new MazeObject(-500+1280,-340+400,40,40,bush));
+      walls.add(new MazeObject(-500+1280,-340+360,40,40,bush));
+      walls.add(new MazeObject(-500+1300,-340+340,40,40,bush));
+      walls.add(new MazeObject(-500+1300,-340+300,40,40,bush));
+      walls.add(new MazeObject(-500+1320,-340+280,40,40,bush));
+      walls.add(new MazeObject(-500+1360,-340+260,40,40,bush));
+      walls.add(new MazeObject(-500+1380,-340+260,40,40,bush));
+      
+      walls.add(new MazeObject(-500+1440,-340+380,40,40,bush));
+      walls.add(new MazeObject(-500+1460,-340+400,40,40,bush));
+      walls.add(new MazeObject(-500+1480,-340+420,40,40,bush));
+      walls.add(new MazeObject(-500+1500,-340+460,40,40,bush));
+      walls.add(new MazeObject(-500+1500,-340+500,40,40,bush));
+      walls.add(new MazeObject(-500+1480,-340+540,40,40,bush));
+      walls.add(new MazeObject(-500+1460,-340+560,40,40,bush));
+      walls.add(new MazeObject(-500+1440,-340+600,40,40,bush));
+      walls.add(new MazeObject(-500+1420,-340+620,40,40,bush));
+      walls.add(new MazeObject(-500+1440,-340+660,40,40,bush));
+      walls.add(new MazeObject(-500+1440,-340+700,40,40,bush));
+      walls.add(new MazeObject(-500+1460,-340+740,40,40,bush));
+      walls.add(new MazeObject(-500+1460,-340+760,40,40,bush));
+      
+      walls.add(new MazeObject(-500+1620,-340+820,40,40,bush));
+      walls.add(new MazeObject(-500+1640,-340+820,40,40,bush));
+      walls.add(new MazeObject(-500+1680,-340+800,40,40,bush));
+      walls.add(new MazeObject(-500+1720,-340+780,40,40,bush));
+      walls.add(new MazeObject(-500+1740,-340+760,40,40,bush));
+      walls.add(new MazeObject(-500+1760,-340+720,40,40,bush));
+      walls.add(new MazeObject(-500+1740,-340+680,40,40,bush));
+      walls.add(new MazeObject(-500+1720,-340+640,40,40,bush));
+      walls.add(new MazeObject(-500+1680,-340+600,40,40,bush));
+      walls.add(new MazeObject(-500+1660,-340+580,40,40,bush));
+      walls.add(new MazeObject(-500+1640,-340+540,40,40,bush));
+      walls.add(new MazeObject(-500+1620,-340+500,40,40,bush));
+      walls.add(new MazeObject(-500+1640,-340+460,40,40,bush));
+      walls.add(new MazeObject(-500+1660,-340+420,40,40,bush));
+      walls.add(new MazeObject(-500+1700,-340+400,40,40,bush));
+      walls.add(new MazeObject(-500+1680,-340+380,40,40,bush));
+      
+      walls.add(new MazeObject(-500+1820,-340+440,40,40,bush));
+      walls.add(new MazeObject(-500+1840,-340+420,40,40,bush));
+      walls.add(new MazeObject(-500+1880,-340+400,40,40,bush));
+      walls.add(new MazeObject(-500+1920,-340+400,40,40,bush));
+      walls.add(new MazeObject(-500+1940,-340+380,40,40,bush));
+      walls.add(new MazeObject(-500+1980,-340+380,40,40,bush));
+      
+      walls.add(new MazeObject(-500+1360,-340+720,40,40,bush));
+      walls.add(new MazeObject(-500+1360,-340+700,40,40,bush));
+      walls.add(new MazeObject(-500+1340,-340+660,40,40,bush));
+      walls.add(new MazeObject(-500+1300,-340+640,40,40,bush));
+      
+      walls.add(new MazeObject(-500+1960,-340+680,40,40,bush));
+      walls.add(new MazeObject(-500+1980,-340+660,40,40,bush));
+      walls.add(new MazeObject(-500+1920,-340+660,40,40,bush));
+      walls.add(new MazeObject(-500+1880,-340+640,40,40,bush));
+      walls.add(new MazeObject(-500+1840,-340+620,40,40,bush));
+      walls.add(new MazeObject(-500+1840,-340+600,40,40,bush));
+      walls.add(new MazeObject(-500+1820,-340+580,40,40,bush));
+      walls.add(new MazeObject(-500+1820,-340+560,40,40,bush));
+      walls.add(new MazeObject(-500+1840,-340+540,40,40,bush));
+      walls.add(new MazeObject(-500+1860,-340+560,40,40,bush));
+      
+      walls.add(new MazeObject(-500+1320,-340+900,40,40,bush));
+      walls.add(new MazeObject(-500+1320,-340+860,40,40,bush));
+      walls.add(new MazeObject(-500+1320,-340+820,40,40,bush));
+      walls.add(new MazeObject(-500+1320,-340+780,40,40,bush));
+      
+      walls.add(new MazeObject(-500+860,-340+900,40,40,bush));
+      walls.add(new MazeObject(-500+860,-340+880,40,40,bush));
+      walls.add(new MazeObject(-500+840,-340+840,40,40,bush));
+      walls.add(new MazeObject(-500+820,-340+840,40,40,bush));
+      walls.add(new MazeObject(-500+820,-340+820,40,40,bush));
+      walls.add(new MazeObject(-500+780,-340+820,40,40,bush));
+      walls.add(new MazeObject(-500+800,-340+800,40,40,bush));
+      walls.add(new MazeObject(-500+780,-340+780,40,40,bush));
+      walls.add(new MazeObject(-500+760,-340+800,40,40,bush));
+      walls.add(new MazeObject(-500+760,-340+760,40,40,bush));
+      walls.add(new MazeObject(-500+720,-340+760,40,40,bush));
+      walls.add(new MazeObject(-500+680,-340+760,40,40,bush));
+      walls.add(new MazeObject(-500+720,-340+740,40,40,bush));
+      walls.add(new MazeObject(-500+680,-340+740,40,40,bush));
+      walls.add(new MazeObject(-500+640,-340+740,40,40,bush));
+      walls.add(new MazeObject(-500+640,-340+900,40,40,bush));
+      walls.add(new MazeObject(-500+640,-340+860,40,40,bush));
+      walls.add(new MazeObject(-500+640,-340+820,40,40,bush));
+      walls.add(new MazeObject(-500+640,-340+780,40,40,bush));
+      walls.add(new MazeObject(-500+600,-340+720,40,40,bush));
+      walls.add(new MazeObject(-500+560,-340+740,40,40,bush));
+      walls.add(new MazeObject(-500+600,-340+700,40,40,bush));
+      walls.add(new MazeObject(-500+620,-340+680,40,40,bush));
+      walls.add(new MazeObject(-500+620,-340+660,40,40,bush));
+      walls.add(new MazeObject(-500+660,-340+640,40,40,bush));
+      
+      walls.add(new MazeObject(-500+960,-340+1020,40,40,bush));
+      walls.add(new MazeObject(-500+1000,-340+1000,40,40,bush));
+      walls.add(new MazeObject(-500+1020,-340+980,40,40,bush));
+      walls.add(new MazeObject(-500+1040,-340+960,40,40,bush));
+      walls.add(new MazeObject(-500+1020,-340+920,40,40,bush));
+      walls.add(new MazeObject(-500+1040,-340+880,40,40,bush));
+      walls.add(new MazeObject(-500+1040,-340+840,40,40,bush));
+      walls.add(new MazeObject(-500+1060,-340+820,40,40,bush));
+      walls.add(new MazeObject(-500+1100,-340+800,40,40,bush));
+      walls.add(new MazeObject(-500+1120,-340+780,40,40,bush));
+      walls.add(new MazeObject(-500+1140,-340+760,40,40,bush));
+      walls.add(new MazeObject(-500+1160,-340+720,40,40,bush));
+      
+      walls.add(new MazeObject(-500+80,-340+1020,40,40,bush));
+      walls.add(new MazeObject(-500+60,-340+1000,40,40,bush));
+      walls.add(new MazeObject(-500+60,-340+960,40,40,bush));
+      walls.add(new MazeObject(-500+60,-340+920,40,40,bush));
+      walls.add(new MazeObject(-500+60,-340+900,40,40,bush));
+      walls.add(new MazeObject(-500+80,-340+880,40,40,bush));
+      
+      walls.add(new MazeObject(-500+120,-340+1300,40,40,bush));
+      walls.add(new MazeObject(-500+100,-340+1260,40,40,bush));
+      walls.add(new MazeObject(-500+100,-340+1240,40,40,bush));
+      walls.add(new MazeObject(-500+80,-340+1220,40,40,bush));
+      walls.add(new MazeObject(-500+60,-340+1180,40,40,bush));
+      walls.add(new MazeObject(-500+80,-340+1160,40,40,bush));
+      walls.add(new MazeObject(-500+120,-340+1140,40,40,bush));
+      
+      walls.add(new MazeObject(-500+760,-340+1320,40,40,bush));
+      walls.add(new MazeObject(-500+720,-340+1300,40,40,bush));
+      walls.add(new MazeObject(-500+680,-340+1300,40,40,bush));
+      walls.add(new MazeObject(-500+660,-340+1300,40,40,bush));
+      walls.add(new MazeObject(-500+620,-340+1280,40,40,bush));
+      walls.add(new MazeObject(-500+600,-340+1260,40,40,bush));
+      
+      walls.add(new MazeObject(-500+440,-340+1300,40,40,bush));
+      walls.add(new MazeObject(-500+420,-340+1320,40,40,bush));
+      walls.add(new MazeObject(-500+380,-340+1320,40,40,bush));
+      walls.add(new MazeObject(-500+340,-340+1300,40,40,bush));
+      walls.add(new MazeObject(-500+320,-340+1280,40,40,bush));
+      walls.add(new MazeObject(-500+300,-340+1280,40,40,bush));
+      walls.add(new MazeObject(-500+320,-340+1240,40,40,bush));
+      walls.add(new MazeObject(-500+300,-340+1200,40,40,bush));
+      walls.add(new MazeObject(-500+300,-340+1180,40,40,bush));
+      
+      walls.add(new MazeObject(-500+840,-340+1300,40,40,bush));
+      walls.add(new MazeObject(-500+860,-340+1280,40,40,bush));
+      walls.add(new MazeObject(-500+880,-340+1260,40,40,bush));
+      walls.add(new MazeObject(-500+900,-340+1220,40,40,bush));
+      walls.add(new MazeObject(-500+900,-340+1180,40,40,bush));
+      walls.add(new MazeObject(-500+920,-340+1160,40,40,bush));
+      walls.add(new MazeObject(-500+940,-340+1140,40,40,bush));
+      walls.add(new MazeObject(-500+980,-340+1160,40,40,bush));
+      walls.add(new MazeObject(-500+1000,-340+1160,40,40,bush));
+      walls.add(new MazeObject(-500+1020,-340+1180,40,40,bush));
+      
+      walls.add(new MazeObject(-500+680,-340+1100,40,40,bush));
+      walls.add(new MazeObject(-500+700,-340+1060,40,40,bush));
+      walls.add(new MazeObject(-500+700,-340+1040,40,40,bush));
+      walls.add(new MazeObject(-500+720,-340+1000,40,40,bush));
+      
+      walls.add(new MazeObject(-500+1780,-340+1000,40,40,bush));
+      walls.add(new MazeObject(-500+1800,-340+960,40,40,bush));
+      walls.add(new MazeObject(-500+1800,-340+940,40,40,bush));
+      walls.add(new MazeObject(-500+1820,-340+900,40,40,bush));
+      walls.add(new MazeObject(-500+1820,-340+880,40,40,bush));
+      walls.add(new MazeObject(-500+1800,-340+840,40,40,bush));
+      
+      walls.add(new MazeObject(-500+1700,-340+1220,40,40,bush));
+      walls.add(new MazeObject(-500+1720,-340+1200,40,40,bush));
+      walls.add(new MazeObject(-500+1760,-340+1180,40,40,bush));
+      walls.add(new MazeObject(-500+1760,-340+1140,40,40,bush));
+      walls.add(new MazeObject(-500+1780,-340+1120,40,40,bush));
+      walls.add(new MazeObject(-500+1820,-340+1100,40,40,bush));
+      walls.add(new MazeObject(-500+1860,-340+1080,40,40,bush));
+      walls.add(new MazeObject(-500+1880,-340+1060,40,40,bush));
+      walls.add(new MazeObject(-500+1920,-340+1040,40,40,bush));
+      
+      walls.add(new MazeObject(-500+1960,-340+1320,40,40,bush));
+      walls.add(new MazeObject(-500+1920,-340+1300,40,40,bush));
+      walls.add(new MazeObject(-500+1900,-340+1280,40,40,bush));
+      walls.add(new MazeObject(-500+1880,-340+1240,40,40,bush));
+      walls.add(new MazeObject(-500+1860,-340+1220,40,40,bush));
+      walls.add(new MazeObject(-500+1840,-340+1220,40,40,bush));
+      
+      walls.add(new MazeObject(-500+1120,-340+1300,40,40,bush));
+      walls.add(new MazeObject(-500+1120,-340+1280,40,40,bush));
+      walls.add(new MazeObject(-500+1140,-340+1240,40,40,bush));
+      walls.add(new MazeObject(-500+1160,-340+1200,40,40,bush));
+      walls.add(new MazeObject(-500+1160,-340+1180,40,40,bush));
+      walls.add(new MazeObject(-500+1180,-340+1140,40,40,bush));
+      walls.add(new MazeObject(-500+1200,-340+1120,40,40,bush));
+      walls.add(new MazeObject(-500+1220,-340+1120,40,40,bush));
+      walls.add(new MazeObject(-500+1220,-340+1080,40,40,bush));
+      walls.add(new MazeObject(-500+1200,-340+1060,40,40,bush));
+      walls.add(new MazeObject(-500+1180,-340+1060,40,40,bush));
+      walls.add(new MazeObject(-500+1180,-340+1040,40,40,bush));
+      walls.add(new MazeObject(-500+1140,-340+1040,40,40,bush));
+      walls.add(new MazeObject(-500+1240,-340+1140,40,40,bush));
+      walls.add(new MazeObject(-500+1240,-340+1180,40,40,bush));
+      walls.add(new MazeObject(-500+1240,-340+1200,40,40,bush));
+      walls.add(new MazeObject(-500+1260,-340+1240,40,40,bush));
+      walls.add(new MazeObject(-500+1300,-340+1260,40,40,bush));
+      walls.add(new MazeObject(-500+1320,-340+1280,40,40,bush));
+      walls.add(new MazeObject(-500+1340,-340+1240,40,40,bush));
+      walls.add(new MazeObject(-500+1360,-340+1200,40,40,bush));
+      walls.add(new MazeObject(-500+1360,-340+1180,40,40,bush));
+      walls.add(new MazeObject(-500+1340,-340+1140,40,40,bush));
+      walls.add(new MazeObject(-500+1360,-340+1100,40,40,bush));
+      walls.add(new MazeObject(-500+1380,-340+1060,40,40,bush));
+      walls.add(new MazeObject(-500+1400,-340+1020,40,40,bush));
+      walls.add(new MazeObject(-500+1400,-340+1000,40,40,bush));
+      walls.add(new MazeObject(-500+1360,-340+980,40,40,bush));
+      walls.add(new MazeObject(-500+1340,-340+980,40,40,bush));
+      walls.add(new MazeObject(-500+1300,-340+1000,40,40,bush));
+      walls.add(new MazeObject(-500+1280,-340+1000,40,40,bush));
+      walls.add(new MazeObject(-500+1260,-340+980,40,40,bush));
+      walls.add(new MazeObject(-500+1240,-340+960,40,40,bush));
+      walls.add(new MazeObject(-500+1360,-340+1300,40,40,bush));
+      walls.add(new MazeObject(-500+1400,-340+1320,40,40,bush));
+      walls.add(new MazeObject(-500+1440,-340+1320,40,40,bush));
+      walls.add(new MazeObject(-500+1480,-340+1300,40,40,bush));
+      walls.add(new MazeObject(-500+1520,-340+1300,40,40,bush));
+      walls.add(new MazeObject(-500+1520,-340+1280,40,40,bush));
+      walls.add(new MazeObject(-500+1540,-340+1280,40,40,bush));
+      walls.add(new MazeObject(-500+1540,-340+1260,40,40,bush));
+      walls.add(new MazeObject(-500+1560,-340+1240,40,40,bush));
+      walls.add(new MazeObject(-500+1560,-340+1200,40,40,bush));
+      walls.add(new MazeObject(-500+1560,-340+1180,40,40,bush));
+      walls.add(new MazeObject(-500+1580,-340+1160,40,40,bush));
+      walls.add(new MazeObject(-500+1600,-340+1120,40,40,bush));
+      walls.add(new MazeObject(-500+1620,-340+1100,40,40,bush));
+      walls.add(new MazeObject(-500+1620,-340+1080,40,40,bush));
+      walls.add(new MazeObject(-500+1640,-340+1040,40,40,bush));
+      walls.add(new MazeObject(-500+1680,-340+1040,40,40,bush));
+      
+      walls.add(new MazeObject(-500+760,-340+1200,40,40,bush));
+      walls.add(new MazeObject(-500+740,-340+1200,40,40,bush));
+      walls.add(new MazeObject(-500+720,-340+1180,40,40,bush));
+      walls.add(new MazeObject(-500+680,-340+1180,40,40,bush));
+      walls.add(new MazeObject(-500+660,-340+1160,40,40,bush));
+      walls.add(new MazeObject(-500+620,-340+1160,40,40,bush));
+      walls.add(new MazeObject(-500+580,-340+1160,40,40,bush));
+      walls.add(new MazeObject(-500+540,-340+1160,40,40,bush));
+      walls.add(new MazeObject(-500+520,-340+1140,40,40,bush));
+      walls.add(new MazeObject(-500+480,-340+1140,40,40,bush));
+      walls.add(new MazeObject(-500+440,-340+1120,40,40,bush));
+      walls.add(new MazeObject(-500+400,-340+1080,40,40,bush));
+      walls.add(new MazeObject(-500+380,-340+1100,40,40,bush));
+      walls.add(new MazeObject(-500+360,-340+1060,40,40,bush));
+      walls.add(new MazeObject(-500+340,-340+1060,40,40,bush));
+      walls.add(new MazeObject(-500+340,-340+1040,40,40,bush));
+      walls.add(new MazeObject(-500+320,-340+1020,40,40,bush));
+      walls.add(new MazeObject(-500+300,-340+1000,40,40,bush));
+      walls.add(new MazeObject(-500+320,-340+1000,40,40,bush));
+      walls.add(new MazeObject(-500+320,-340+960,40,40,bush));
+      walls.add(new MazeObject(-500+300,-340+960,40,40,bush));
+      walls.add(new MazeObject(-500+300,-340+940,40,40,bush));
+      walls.add(new MazeObject(-500+280,-340+940,40,40,bush));
+      walls.add(new MazeObject(-500+280,-340+900,40,40,bush));
+      walls.add(new MazeObject(-500+260,-340+900,40,40,bush));
+      walls.add(new MazeObject(-500+260,-340+860,40,40,bush));
+      walls.add(new MazeObject(-500+240,-340+860,40,40,bush));
+      walls.add(new MazeObject(-500+260,-340+820,40,40,bush));
+      walls.add(new MazeObject(-500+240,-340+820,40,40,bush));
+      walls.add(new MazeObject(-500+220,-340+840,40,40,bush));
+      walls.add(new MazeObject(-500+260,-340+780,40,40,bush));
+      
+   }
+   
    class Drawing extends JComponent{
 
       public void paintComponent(Graphics g){
@@ -240,17 +676,12 @@ public class Level3 implements KeyListener, Runnable{
                g.setColor(Color.red);
                g.fillRect(450,290,50,50);
                
-            } 
+            }
             
             if(inventory){
                g.drawImage(inv,0,0,this);
-               //for(int row = 0; row< collected.size()/5+1; row++){
-                  //for(int col = 0; col<5 && col<collected.size(); col++){
-                   //  g.drawImage(collected.get(row*5+col).getImg(),col*100,row*100,this);
-                 // }
-               //}
                for(int i = 0; i<collected.size(); i++){
-                  g.drawImage(collected.get(i).getImg(),i%8*55+285,i/8*55+245,this);
+                  g.drawImage(collected.get(i).getBigImg(),i%8*55+285,i/8*55+245,this);
                }
             }
             g.setColor(Color.orange);
@@ -357,25 +788,9 @@ public class Level3 implements KeyListener, Runnable{
    
    public void run(){
       try{
-         obj.add(new MazeObject(200,300,30,30,"Images/apple.jpg"));
-         obj.add(new MazeObject(500,300,30,30, "Images/bomb.png"));
-         collected.add(new MazeObject(-200,300,50,50,"Images/apple.jpg"));
-         collected.add(new MazeObject(-200,300,50,50,"Images/Cranberry.jpg"));
-         collected.add(new MazeObject(-200,300,50,50,"Images/Cranberry.jpg"));
-         collected.add(new MazeObject(-200,300,50,50,"Images/Cranberry.jpg"));
-         collected.add(new MazeObject(-200,300,50,50,"Images/Cranberry.jpg"));
-         collected.add(new MazeObject(-200,300,50,50,"Images/Cranberry.jpg"));
-         collected.add(new MazeObject(-200,300,50,50,"Images/apple.jpg"));
-         collected.add(new MazeObject(-200,300,50,50,"Images/Cranberry.jpg"));
-         collected.add(new MazeObject(-200,300,50,50,"Images/Cranberry.jpg"));
-         collected.add(new MazeObject(-200,300,50,50,"Images/Cranberry.jpg"));
-         collected.add(new MazeObject(-200,300,50,50,"Images/Cranberry.jpg"));
-         collected.add(new MazeObject(-200,300,50,50,"Images/Cranberry.jpg","Cranberry",true));
-         //walls.add(new MazeObject(-200,300,50,50,"Images/bomb.png"));
-         //walls.add(new MazeObject(250,300,50,50,"Images/apple.jpg"));
-         walls.add(new MazeObject(200,300,50,50,"Images/tree.png"));
-         walls.add(new MazeObject(-400,800,50,50,"Images/tree.png"));
          
+         addWalls();
+         generateObjects();
          game();
          
       }
