@@ -7,6 +7,7 @@ public class Game extends JFrame implements Runnable{
    public static int screenNum = 5;
    public boolean running = true;
    private Level3 l3;
+   private Minigame mi;
    private Toolkit t = Toolkit.getDefaultToolkit();
    public static String[] names = {"Saskatoon Berries", "Dandelion", "Crown Tipped Coral", "Burdock", "Jack Pine", "Lobster Mushroom", "Morel Mushroom", "Cranberry", "Raspberry", "Cattail", "Lily of the Valley", "False Morel", "Gilled Mushroom", "Deadly Galerina", "Poison Ivy", "Baneberry Red", " Blub-bearing Water Hemlock", "Poison Hemlock", "Water Hemlock", "Blue Flag Iris"};
    public static String[] images = {"Images/Saskatoon.jpg", "Images/Dandelion.jpg", "Images/Crown.jpg", "Images/Burdock.jpg", "Images/Jack.jpg", "Images/Lobster.png", "Images/Morel.jpg", "Images/Cranberry.jpg", "Images/Raspberry.jpg", "Images/Cattail.jpg","Images/LilyValley.jpeg","Images/FalseMorel.jpeg","Images/DestroyingAngel.jpeg","Images/DeadlyG.jpeg","Images/PoisonIvy.jpeg","Images/BaneBerryREd.jpeg","Images/BulbBearingWater.jpeg", "Images/PoisonHemlock.jpeg", "Images/WaterHemlock.jpeg","Images/BlueFlagIris.jpeg"  };
@@ -32,7 +33,6 @@ public class Game extends JFrame implements Runnable{
    "The Water Hemlock is a plant found in wet areas such as marshes, swamps, and shore lines. They flower during the summer and contain 5 white petals in an umbrella-like cluster. The stem is branched, smooth, and hollow. The leaves are pointed with many teeth, showing occasionally a slight red color. They are a deadly poisonous plant.",
    "The Blue Flag Iris is a poisonous to eat plant and is found in wet areas around Ontario. They generally grow in the sun, being found in the summer with 3 blue/violet petals. They can grow to about 30-80 cm."
    };
-   public static Image[] imgs = new Image[20];
    public static int x = 0;
 
    public Game(){
@@ -201,7 +201,7 @@ public class Game extends JFrame implements Runnable{
             case 6:
                this.getContentPane().removeAll();
                try{
-                  Minigame mi = new Minigame(l3.getObjImage());
+                  mi = new Minigame(l3.getCurrentObj());
                   this.add(mi);
                   Thread minigame = new Thread(mi);
                   minigame.start();
@@ -214,6 +214,9 @@ public class Game extends JFrame implements Runnable{
                      } catch (InterruptedException e) {
                         e.printStackTrace();
                      }
+                  }
+                  if(mi.gameWon()){
+                     l3.addCollected(mi.getObj());
                   }
                   minigame.interrupt();
                }

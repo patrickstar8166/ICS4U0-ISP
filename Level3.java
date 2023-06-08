@@ -15,6 +15,7 @@ public class Level3 extends JPanel implements Runnable{
    public ArrayList<MazeObject> collected = new ArrayList<MazeObject>();
    private ArrayList<MazeObject> walls = new ArrayList<MazeObject>();
    private String badItem;
+   private MazeObject currentObj;
    
    public Level3() throws IOException{
       bg = ImageIO.read(new File("Images/lab bg.png")).getScaledInstance(2000,1360,Image.SCALE_SMOOTH);
@@ -272,16 +273,18 @@ public class Level3 extends JPanel implements Runnable{
    public void interact(){
       for(int i = 0; i<obj.size(); i++){
          if(charX - bgX + charW>= obj.get(i).getX()  &&  charX - bgX<= obj.get(i).getX() + obj.get(i).getW() && charY - bgY + charW >= obj.get(i).getY() && charY - bgY <= obj.get(i).getY() + obj.get(i).getW()){
-            objImage = obj.get(i).getImg();
+            
             Game.screenNum = 6;
+            objImage = obj.get(i).getImg();
+            currentObj = obj.get(i);
+            obj.remove(obj.get(i));
             end = true;
             run = false;
             leftHeld = false;
             rightHeld = false;
             upHeld = false;
             downHeld = false;
-            collected.add(obj.get(i));
-            obj.remove(obj.get(i));
+            break;
          }
       }
    }
@@ -330,15 +333,39 @@ public class Level3 extends JPanel implements Runnable{
       int[] tempY = {100,100,60,180,280,360,320,120,200,40,480,400,540,500,520,460,600,620,640,680,740,720,760,740,740,900,880,880,840,900,980,960,1060,1040,1080,1140,1180,1200,1120,1260,1280,1180,1200,1280,1280,1220,1280,1180,1220,1300,1260};
       ArrayList<Integer> x = new ArrayList<Integer>();
       ArrayList<Integer> y = new ArrayList<Integer>();
+      ArrayList<MazeObject> plants = new ArrayList<MazeObject>();
+      plants.add(new MazeObject(0,0,20,20,Game.img[0],"Saskatoon Berries",false));
+      plants.add(new MazeObject(0,0,20,20,Game.img[1],"Dandelion",false));
+      plants.add(new MazeObject(0,0,20,20,Game.img[2],"Crown Tipped Coral",false));
+      plants.add(new MazeObject(0,0,20,20,Game.img[3],"Burdock",false));
+      plants.add(new MazeObject(0,0,20,20,Game.img[4],"Jack Pine",false));
+      plants.add(new MazeObject(0,0,20,20,Game.img[5],"Lobster Mushroom",false));
+      plants.add(new MazeObject(0,0,20,20,Game.img[6],"Morel Mushroom",false));
+      plants.add(new MazeObject(0,0,20,20,Game.img[7],"Cranberry",false));
+      plants.add(new MazeObject(0,0,20,20,Game.img[8],"Raspberry",false));
+      plants.add(new MazeObject(0,0,20,20,Game.img[9],"Cattail",false));
+      plants.add(new MazeObject(0,0,20,20,Game.img[10],"Lily of the Valley",true));
+      plants.add(new MazeObject(0,0,20,20,Game.img[11],"False Morel",true));
+      plants.add(new MazeObject(0,0,20,20,Game.img[12],"Gilled Mushroom",true));
+      plants.add(new MazeObject(0,0,20,20,Game.img[13],"Deadly Galerina",true));
+      plants.add(new MazeObject(0,0,20,20,Game.img[14],"Poison Ivy",true));
+      plants.add(new MazeObject(0,0,20,20,Game.img[15],"Baneberry Red",true));
+      plants.add(new MazeObject(0,0,20,20,Game.img[16],"Blub-bearing Water Hemlock",true));
+      plants.add(new MazeObject(0,0,20,20,Game.img[17],"Poison Hemlock",true));
+      plants.add(new MazeObject(0,0,20,20,Game.img[18],"Water Hemlock",true));
+      plants.add(new MazeObject(0,0,20,20,Game.img[19],"Blue Flag Iris",true));
       for(int i = 0; i<tempX.length; i++){
          x.add(tempX[i]);
          y.add(tempY[i]);
       }
-      for(int i = 0; i < 15; i++){
+      for(int i = 0; i < 20; i++){
          int num = (int)(Math.random()*x.size());
-         obj.add(new MazeObject(x.get(num)-500,y.get(num)-340,20,20,pcU,bigApple)); //replace with random plants!!!!!
+         plants.get(i).setX(x.get(num));
+         plants.get(i).setY(y.get(num));
          x.remove(num);
          y.remove(num);
+         obj.add(plants.get(i));
+         
       } 
    }
    
@@ -749,6 +776,17 @@ public class Level3 extends JPanel implements Runnable{
       walls.add(new MazeObject(-500+220,-340+840,40,40,bush));
       walls.add(new MazeObject(-500+260,-340+780,40,40,bush));
       
+      for(int i = 0; i<2000/40; i++){
+         walls.add(new MazeObject(-500+i*40,-340,40,40,bush));
+         walls.add(new MazeObject(-500+i*40,960,40,40,bush));
+      }
+      for(int i = 0; i<1360/40; i++){
+         walls.add(new MazeObject(-500, -340+i*40,40,40,bush));
+         walls.add(new MazeObject(1480, -340+i*40,40,40,bush));
+      }
+      
+      
+      
    }
    
 
@@ -758,20 +796,20 @@ public class Level3 extends JPanel implements Runnable{
          g.drawImage(bg,bgX-500,bgY-340,this);
          
          for(int i = 0; i< obj.size(); i++){
-            g.drawImage(obj.get(i).getImg(), obj.get(i).getX()+bgX, obj.get(i).getY()+bgY, this);
+            g.drawImage(obj.get(i).getImg(), obj.get(i).getX()+bgX, obj.get(i).getY()+bgY,20,20, this);
          }
          for(int i = 0; i<walls.size(); i++){
-            g.drawImage(walls.get(i).getImg(),walls.get(i).getX()+bgX,walls.get(i).getY()+bgY,this);
+            g.drawImage(walls.get(i).getImg(),walls.get(i).getX()+bgX,walls.get(i).getY()+bgY,40,40,this);
          }
          
          g.setColor(Color.blue);
-         g.drawImage(charImg,charX,charY,this);
+         g.drawImage(charImg,charX,charY,20,20,this);
          //g.fillRect(charX,charY,charW,charW);
          
          if(inventory){
             g.drawImage(inv,0,0,this);
             for(int i = 0; i<collected.size(); i++){
-               g.drawImage(collected.get(i).getBigImg(),i%8*55+285,i/8*55+245,this);
+               g.drawImage(collected.get(i).getImg(),i%8*55+285,i/8*55+245,50,50,this);
             }
          }
          g.setColor(Color.orange);
@@ -783,7 +821,7 @@ public class Level3 extends JPanel implements Runnable{
       if(end){
          g.drawImage(endPlate,0,0,this);
          for(int i = 0; i<collected.size(); i++){
-               g.drawImage(collected.get(i).getBigImg(),i%8*55+285,i/8*55+245,this);
+               g.drawImage(collected.get(i).getImg(),i%8*55+285,i/8*55+245,50,50,this);
          }
          if(score==0){
             g.drawImage(redX,400,50,this);
@@ -830,9 +868,17 @@ public class Level3 extends JPanel implements Runnable{
    public Image getObjImage(){
       return objImage;
    }
+   public MazeObject getCurrentObj(){
+      return currentObj;
+   }
+   
+   public void addCollected(MazeObject m){
+      collected.add(m);
+   }
    
    public void run(){
       try{
+         
          end = false;
          keyInput();
          game();

@@ -11,14 +11,14 @@ public class Player{
       x = 490;
       y = 420;
       caught = 0;
-      health = 5;
+      health = 10;
    }
    
    public Player(int x, int y){ //alternate constructor with specific coordinates
       this.x = x;
       this.y = y;
       caught = 0;
-      health = 5;
+      health = 10;
    }
    
    public void move(boolean right, boolean left){ //movement method, updates x coordinate
