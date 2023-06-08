@@ -105,9 +105,11 @@ public class Level1 extends JPanel implements Runnable{
          
          g.setFont(new Font("MonoSpaced", Font.BOLD, 20));
          
+         
          length = Game.descriptions[count].length();
          counter = 0; 
          location = 375;
+         
          while(length>60)
          {
           length -= 60;
