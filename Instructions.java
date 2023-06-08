@@ -5,6 +5,9 @@ public class Instructions extends JPanel implements Runnable{
    private int count = 0;
    private JButton left, right, exit;
    private boolean running = true;
+   private int counter = 0;
+   private int length = 0;
+   private int location = 180; 
 
    public Instructions(){ 
       left = new JButton("\u2190");
@@ -77,71 +80,142 @@ public class Instructions extends JPanel implements Runnable{
       g.setColor(Color.black);
       g.setFont(new Font("Sans Serif", Font.BOLD, 40));
    
-      if (count == 0){
+      if (count == 0){   
          g.drawString("About the Game", 350, 50);
          g.setFont(new Font("Sans Serif",Font.BOLD, 20)); 
-         g.drawString(" Welcome to “Fresh Foraging Adventure! ", 300,120);
-         g.drawString("Within this game, you’ll be exposed to three different levels of increas-",85,180);
-         g.drawString("-ing skill and difficulty. To navigate please follow the instructions. To",85,210);
-         g.drawString("navigate on this page, please use the arrow buttons by right-clicking ",85,240);
-         g.drawString("with a mouse/trackpad! This single-player game is intended to teach kids",85, 270);
-         g.drawString("aged 5-10 about foraged plants in a fun and engaging way. As the game", 85, 300);
-         g.drawString("progresses through the three levels the difficulty increases. As well all ", 85, 330);
-         g.drawString("levels must be played in sequential order, where the previous level " ,85,360); 
-         g.drawString("must be successfully done.", 85, 390); 
+         g.drawString(" Welcome to “Fresh Foraging Adventure! ", 300,120);      
+         length = Game.instructions[count].length();
+         counter = 0; 
+         location = 180;     
+         while(length>60)
+         {
+          length -= 60;
+          counter++; 
+         }
+         for(int j = 0; j <= counter; j++)
+         {
+          if(j!=counter)
+          {
+           if(Game.instructions[count].substring((j+1)*60, ((j+1) * 60 + 1 )).equals(" "))
+           {
+             g.drawString(Game.instructions[count].substring(j*60,(j+1)*60), 200, location);
+             location += 30; 
+           }
+           else
+           {
+            g.drawString(Game.instructions[count].substring(j*60,(j+1)*60) + "-", 200, location);
+            location += 30;
+           }
+          } 
+          else 
+          {
+            g.drawString(Game.instructions[count].substring(j*60), 200, location);
+          }
+         }
          left.setVisible(false);
           g.setFont(new Font("Sans Serif", Font.BOLD, 40));
        
            }else if (count == 1){
          g.drawString("Level 1", 450, 50);
          g.setFont(new Font("Sans Serif",Font.BOLD, 20)); 
-         g.drawString(" Welcome to the first level! ", 300,120);
-         g.drawString("This level involves various slides you will navigate through.",145,180);
-         g.drawString("They will provide detailed information about foods that are",145,210);
-         g.drawString("edible and inedible (this will be tested in the later levels). ",145,240);
-         g.drawString("The main goal of this level is not to be tested, but to learn.",145, 270);
-         g.drawString("After going through all given slides in this level, users will be", 145, 300);
-         g.drawString("given access to the next level in the game. Please navigate", 145, 330);
-         g.drawString("through this level simply by right clicking the arrows on the  " ,145,360); 
-         g.drawString("screen. This will change the slides and change the content", 145, 390); 
-         g.drawString("being displayed. Have fun! ", 145, 420);
-         
+         g.drawString(" Welcome to the first level! ", 360,120);
+         length = Game.instructions[count].length();
+         counter = 0; 
+         location = 180;     
+         while(length>60)
+         {
+          length -= 60;
+          counter++; 
+         }
+         for(int j = 0; j <= counter; j++)
+         {
+          if(j!=counter)
+          {
+           if(Game.instructions[count].substring((j+1)*60, ((j+1) * 60 + 1 )).equals(" "))
+           {
+             g.drawString(Game.instructions[count].substring(j*60,(j+1)*60), 200, location);
+             location += 30; 
+           }
+           else
+           {
+            g.drawString(Game.instructions[count].substring(j*60,(j+1)*60) + "-", 200, location);
+            location += 30;
+           }
+          } 
+          else 
+          {
+            g.drawString(Game.instructions[count].substring(j*60), 200, location);
+          }
+         }
          left.setVisible(true);
       }else if (count == 2){
          g.drawString("Level 2", 450, 50);
          g.setFont(new Font("Sans Serif",Font.BOLD, 20)); 
-         g.drawString(" Welcome to the second level! ", 300,120);
-         g.drawString("This level involves various a pre-set path to navigate.",145,180);
-         g.drawString("Through the path, there will be checkpoints to test your",145,210);
-         g.drawString("knowledge on the different plants to be foraged. A screen",145,240);
-         g.drawString("will pop up asking for the answer, check means the food is ",145, 270);
-         g.drawString("edible and an x means the food is not. The answer can be", 145, 300);
-         g.drawString("selected by right clicking the correct option. If a wrong", 145, 330);
-         g.drawString("answer is selected, a prompt will indicate to re-select." ,145,360); 
-         g.drawString("As well, the maze can be navigated through with the 4 arrow", 145, 390); 
-         g.drawString("keys! After you reach the end, the third level can be played.", 145, 420);
-         g.drawString("This will test you on your forage knowledge, so have fun!", 145, 450);
+         g.drawString(" Welcome to the second level! ", 360,120);
+         length = Game.instructions[count].length();
+         counter = 0; 
+         location = 180;     
+         while(length>60)
+         {
+          length -= 60;
+          counter++; 
+         }
+         for(int j = 0; j <= counter; j++)
+         {
+          if(j!=counter)
+          {
+           if(Game.instructions[count].substring((j+1)*60, ((j+1) * 60 + 1 )).equals(" "))
+           {
+             g.drawString(Game.instructions[count].substring(j*60,(j+1)*60), 200, location);
+             location += 30; 
+           }
+           else
+           {
+            g.drawString(Game.instructions[count].substring(j*60,(j+1)*60) + "-", 200, location);
+            location += 30;
+           }
+          } 
+          else 
+          {
+            g.drawString(Game.instructions[count].substring(j*60), 200, location);
+          }
+         }
+
          right.setVisible(true);
          exit.setVisible(false);
       }else{            
          g.drawString("Level 3", 450, 50);
          g.setFont(new Font("Sans Serif",Font.BOLD, 20)); 
-         g.drawString(" Welcome to the third level! ", 300,120);
-         g.drawString("This level involves a un-set path that you will navigate!",145,180);
-         g.drawString("On the map there will have randomly spawned items.",145,210);
-         g.drawString("These items may be dangerous OR safe so choose carefully!",145,240);
-         g.drawString("Whether the item is safe or not will not be directly prompted ",145, 270);
-         g.drawString("until the end screen, which will tell you if what you've chosen", 145, 300);
-         g.drawString("is good! During this time, you will have to collect the right items", 145, 330);
-         g.drawString("and enough items before the 3 minute timer (right corner) runs out!" ,145,360); 
-         g.drawString("Afterwards, your results will be disapled. During the came you can", 145, 390); 
-         g.drawString("view your inventory by pressing \"i\". To pick up an item please press", 145, 420);
-         g.drawString("\"z\", a mini-game will be displayed where you will be asked to collect", 145, 450);
-         g.drawString("enough of the item while avoiding getting stung by the bees. If you ", 145, 480);
-         g.drawString("are stung too much, the game will end completely. You will have", 145, 510);
-         g.drawString("successfully collecte the item if the green bar is full.", 145, 540);
-         g.drawString("Then you will be back to the main map. You can ", 145, 570);
-          g.drawString("navigate through the map using the 4 arrow keys!",145, 600);
+         g.drawString(" Welcome to the third level! ", 360,120);
+         length = Game.instructions[count].length();
+         counter = 0; 
+         location = 160;     
+         while(length>60)
+         {
+          length -= 60;
+          counter++; 
+         }
+         for(int j = 0; j <= counter; j++)
+         {
+          if(j!=counter)
+          {
+           if(Game.instructions[count].substring((j+1)*60, ((j+1) * 60 + 1 )).equals(" "))
+           {
+             g.drawString(Game.instructions[count].substring(j*60,(j+1)*60), 200, location);
+             location += 30; 
+           }
+           else
+           {
+            g.drawString(Game.instructions[count].substring(j*60,(j+1)*60) + "-", 200, location);
+            location += 30;
+           }
+          } 
+          else 
+          {
+            g.drawString(Game.instructions[count].substring(j*60), 200, location);
+          }
+         }
+
 
          right.setVisible(false);
          exit.setVisible(true);

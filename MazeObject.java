@@ -32,14 +32,6 @@ public class MazeObject{
       this.img = img;
    }
    
-   public MazeObject(int x, int y, int w, int h, Image img, Image imgLarge) throws IOException{
-      this.x = x;
-      this.y = y;
-      this.w = w;
-      poison = false;
-      this.img = img;
-      bigImg = imgLarge;
-   }
    
    public MazeObject(int x, int y, int w, int h, Image img, String name, boolean poison) throws IOException{
       this.x = x;
@@ -78,6 +70,14 @@ public class MazeObject{
    
    public boolean getPoison(){
       return poison;
+   }
+   
+   public void setX(int x){
+      this.x = x; 
+   }
+   
+   public void setY(int y){
+      this.y = y;
    }
    
 }

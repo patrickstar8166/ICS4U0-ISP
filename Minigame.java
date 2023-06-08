@@ -14,14 +14,16 @@ public class Minigame extends JPanel implements Runnable{
    private double timer; //timer for object generation
    ArrayList<FallingObject> f = new ArrayList<FallingObject>(); //array list of all active falling objects
    private Image plantImg;
+   private MazeObject obj;
 
-   public Minigame(Image img) throws IOException{//constructor, generates frame and initializes variables
+   public Minigame(MazeObject m) throws IOException{//constructor, generates frame and initializes variables
       timer = 0;
       rightHeld = false; 
       leftHeld = false;
       end = false;
       run = true;
-      plantImg = img;
+      obj = m;
+      plantImg = m.getImg();
 
    }
 
@@ -37,7 +39,7 @@ public class Minigame extends JPanel implements Runnable{
                g.fillRect(f.get(i).getX(),f.get(i).getY(),20,20);
             }
             else{
-               g.drawImage(plantImg,f.get(i).getX(),f.get(i).getY(),this);
+               g.drawImage(plantImg,f.get(i).getX(),f.get(i).getY(),20,20,this);
             }
             
          }
@@ -53,7 +55,7 @@ public class Minigame extends JPanel implements Runnable{
          g.setColor(Color.black);
          g.drawRect(29,49,101,31);
          g.setColor(Color.red);
-         g.fillRect(30,50,20*p.getHealth(),30);
+         g.fillRect(30,50,10*p.getHealth(),30);
          
          //progress bar
          g.setColor(Color.black);
@@ -183,7 +185,7 @@ public class Minigame extends JPanel implements Runnable{
       Thread.sleep(1000);
       run = false;
    }
-
+   
    
    //generates a new falling object with x coordinate within bounds of the screen
    public FallingObject generate(){
@@ -193,6 +195,12 @@ public class Minigame extends JPanel implements Runnable{
    //gets the end state of the game
    public boolean isRunning(){
       return run;
+   }
+   public boolean gameWon(){
+      return win;
+   }
+   public MazeObject getObj(){
+      return obj;
    }
    
       
