@@ -41,26 +41,15 @@ public class Level2 extends JPanel implements Runnable{
       yes.setVisible(false);
       no.setVisible(false);
       
-      /*boolean b = true;
-      for (int i = 0; i < 13; i++){
-         b = true;
-         while (b){
-            int x = (int)(Math.random()*20);
-            for (int j = 0; j < img.size(); j++){
-                if (img.get(j) == x) break;
-                if (j == img.size()-1){
-                  b = false;
-                  
-               }
-            }
-            img.add(x);
-         System.out.print(x + " ");
-         }
-         
-      }*/
+      ArrayList<Integer> temp = new ArrayList<Integer>();
+      for (int i = 0; i < 20; i++){
+         temp.add(i);
+      }
+      
+      Collections.shuffle(temp);
       
       for (int i = 0; i < 13; i++){
-         img.add(i + 2);
+         img.add(temp.get(i));
       }
    }
    
@@ -89,6 +78,7 @@ public class Level2 extends JPanel implements Runnable{
                if (y == 18 && x == 9){
                   running = false;
                   removeKeyListener(this);
+                  Game.screenNum = 5;
                }
                
                for (int i = 0; i < pic.size()-1; i += 2){
@@ -120,9 +110,9 @@ public class Level2 extends JPanel implements Runnable{
                }
                
                if (good){
-                  System.out.println("right");
+                  JOptionPane.showMessageDialog(Level2.this, "Correct!"); 
                }else{
-                  System.out.println("wrong");
+                  JOptionPane.showMessageDialog(Level2.this, "Incorrect. This is not edible."); 
                }
             }
          });
@@ -138,9 +128,9 @@ public class Level2 extends JPanel implements Runnable{
                }
                
                if (!good){
-                  System.out.println("right");
+                  JOptionPane.showMessageDialog(Level2.this, "Correct!"); 
                }else{
-                  System.out.println("wrong");
+                  JOptionPane.showMessageDialog(Level2.this, "Incorrect. This is edible."); 
                }
             }
          });
