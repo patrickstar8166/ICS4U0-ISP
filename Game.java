@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.io.*;
 import java.util.*;
 public class Game extends JFrame implements Runnable{
-   public static int screenNum = 4;
+   public static int screenNum = 3;
    public boolean running = true;
    private Level3 l3;
    private Toolkit t = Toolkit.getDefaultToolkit();
@@ -32,6 +32,10 @@ public class Game extends JFrame implements Runnable{
    "The Water Hemlock is a plant found in wet areas such as marshes, swamps, and shore lines. They flower during the summer and contain 5 white petals in an umbrella-like cluster. The stem is branched, smooth, and hollow. The leaves are pointed with many teeth, showing occasionally a slight red color. They are a deadly poisonous plant.",
    "The Blue Flag Iris is a poisonous to eat plant and is found in wet areas around Ontario. They generally grow in the sun, being found in the summer with 3 blue/violet petals. They can grow to about 30-80 cm."
    };
+   public static String[] instructions = {"Within this game, you’ll be exposed to three different levels of increasing skill and difficulty. To navigate please follow the instructions. To navigate on this page, please use the arrow buttons by right-clicking with a mouse/trackpad! This single-player game is intended to teach kids aged 5-10 about foraged plants in a fun and engaging way. As the game progresses through the three levels the difficulty increases. As well, all levels must be played in sequential order, where the previous level must be successfully done.", 
+   "This level involves various slides you will navigate through. They will provide detailed information about foods that are edible and inedible (this will be tested in the later levels). The main goal of this level is not to be tested, but to learn. After going through all given slides in this level, users will be given access to the next level in the game. Please navigate through this level simply by right clicking the arrows on the screen. This will change the slides and change the content being displayed. Have fun!",
+   "This level involves various a pre-set path to navigate. Through the path, there will be checkpoints to test your knowledge on the different plants to be foraged. A screen will pop up asking for the answer, check means the food is edible and an x means the food is not. The answer can be selected by right clicking the correct option. If a wrong answer is selected, a prompt will indicate to re-select. As well, the maze can be navigated through with the 4 arrow keys! After you reach the end, the third level can be played. This will test you on your forage knowledge, so have fun!",
+   "This level involves a free-roam path that you will navigate! On the map there will have randomly spawned items. These items may be dangerous OR safe so choose carefully! Whether the item is safe or not will not be directly prompted until the end screen, which will tell you if what you've chosen is good! During this time, you will have to collect the right items and enough items before the 3 minute timer (right corner) runs out! Afterwards, your results will be disapled. During the game you can view your inventory by pressing \"i\". To pick up an item please press \"z\", a mini-game will be displayed where you will be asked to collect enough of the item while avoiding getting stung by the bees. If you are stung too much, the game will end completely. You will have successfully collected the item if the green bar is full. Then you will be back to the main map. You can navigate through the map using the 4 arrow keys!"};
    public static Image[] imgs = new Image[20];
    public static int x = 0;
 
