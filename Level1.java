@@ -5,10 +5,7 @@ public class Level1 extends JPanel implements Runnable{
    private Toolkit t = Toolkit.getDefaultToolkit();
    private int count = -1;
    private JButton left, right, exit;
-   private boolean running = true;
-   private int length = 0; 
-   private int location = 375;
-   private int counter = 0;
+   private boolean running = true, finished = false;
 
       
    public Level1(){
@@ -58,13 +55,22 @@ public class Level1 extends JPanel implements Runnable{
       exit.addActionListener(
          new ActionListener(){
             public void actionPerformed(ActionEvent e){
-               running = false;
-               Game.screenNum = 4;
-               left.removeActionListener(this);
-               right.removeActionListener(this);
-               exit.removeActionListener(this);
-               
-               JOptionPane.showMessageDialog(Level1.this, "Congrats on finishing Level 1! Now you're ready for Level 2.");
+               if (!finished){
+                  left.removeActionListener(this);
+                  right.removeActionListener(this);
+                  
+                  finished = true;
+                  JOptionPane.showMessageDialog(Level1.this, "Congrats on finishing Level 1! Now you're ready for Level 2.");
+                  repaint();
+                  
+                  left.setVisible(false);
+                  right.setVisible(false);
+               }else{
+                  running = false;
+                  Game.screenNum = 4;
+                  exit.setVisible(false);
+                  exit.removeActionListener(this);
+               }
             }
          });
    }
@@ -103,47 +109,51 @@ public class Level1 extends JPanel implements Runnable{
       }
             
       if (count != -1 && count != 10){     
-         Image i = t.getImage("Images/Background 1.png");
-         g.drawImage(i, 0, 0, 1000, i.getHeight(this)*1000/i.getWidth(this), this); 
+         Image image = t.getImage("Images/Background 1.png");
+         g.drawImage(image, 0, 0, 1000, image.getHeight(this)*1000/image.getWidth(this), this); 
          g.drawString(Game.names[count], 500-Game.names[count].length()*12, 40);
          g.drawImage(Game.img[count], 400, 70, 200, Game.img[count].getHeight(this)*200/Game.img[count].getWidth(this), this); 
          
          g.setFont(new Font("MonoSpaced", Font.BOLD, 20));
          
          
-         length = Game.descriptions[count].length();
-         counter = 0; 
-         location = 375;
+         String[] words = Game.descriptions[count].split("\\s+");
+         StringBuilder line = new StringBuilder(words[0]);
+         int location = 300;
+         for (int i = 1; i < words.length; i++) {
+            if (line.length() + words[i].length() + 1 <= 60) {
+               line.append(" ").append(words[i]);
+            } else {
+               g.drawString(line.toString(), 130, location);
+               location += 30;
+               line = new StringBuilder(words[i]);
+            }
+         }
+         g.drawString(line.toString(), 130, location);
+      }
+      
+      if (finished){
+         g.setColor(new Color(0, 196, 255));
+         g.fillRect(0, 0, 1000, 680);
          
-         while(length>60)
-         {
-          length -= 60;
-          counter++; 
+         g.setColor(Color.black);
+         g.setFont(new Font("Sans Serif",Font.BOLD, 40)); 
+         g.drawString("Level 2", 450, 100);
+         
+         g.setFont(new Font("Sans Serif",Font.BOLD, 20)); 
+         String[] words = Game.instructions[2].split("\\s+");
+         StringBuilder line = new StringBuilder(words[0]);
+         int location = 200;
+         for (int i = 1; i < words.length; i++) {
+            if (line.length() + words[i].length() + 1 <= 60) {
+               line.append(" ").append(words[i]);
+            } else {
+               g.drawString(line.toString(), 200, location);
+               location += 30;
+               line = new StringBuilder(words[i]);
+            }
          }
-         for(int j = 0; j <= counter; j++)
-         {
-          if(j!=counter)
-          {
-            g.drawString(Game.descriptions[count].substring(j*60,(j+1)*60) + "-", 140, location);
-            location += 20;
-           } 
-          else 
-          {
-            g.drawString(Game.descriptions[count].substring(j*60), 140, location);
-          }
-         }
+         g.drawString(line.toString(), 200, location);
       }
    }
-   
-   /*public static void main(String[] args){
-      JFrame f = new JFrame();
-      f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      Level1 l1 = new Level1();
-      Thread level = new Thread(l1);
-      level.start();
-      f.add(l1);
-      
-      f.setSize(1000, 680);
-      f.setVisible(true);
-   }*/
 }

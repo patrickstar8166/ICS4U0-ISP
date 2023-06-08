@@ -2,12 +2,9 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 public class Instructions extends JPanel implements Runnable{
-   private int count = 0;
+   private int count = 0; 
    private JButton left, right, exit;
    private boolean running = true;
-   private int counter = 0;
-   private int length = 0;
-   private int location = 180; 
 
    public Instructions(){ 
       left = new JButton("\u2190");
@@ -85,61 +82,39 @@ public class Instructions extends JPanel implements Runnable{
          g.setFont(new Font("Sans Serif",Font.BOLD, 20)); 
          g.drawString(" Welcome to “Fresh Foraging Adventure! ", 300,120); 
               
-         length = Game.instructions[count].length();
-         String msg = Game.instructions[count];
-         location = 180; 
-         int start = 0;
-         for (int i = 0; i < length; i++){
-            if (i%60 == 0 && i != 0){
-               int temp = i;
-               if (msg.charAt(i) == ' '){
-                  g.drawString(msg.substring(start, i), 200, location);
-                  location += 30;
-               }else{
-                  while(true){
-                     temp--;
-                     if (msg.charAt(temp) == ' '){
-                        g.drawString(msg.substring(start, temp), 200, location);
-                        location += 30;
-                        start = temp;
-                        break;
-                     }
-                  }
-               }
+         String[] words = Game.instructions[count].split("\\s+");
+         StringBuilder line = new StringBuilder(words[0]);
+         int location = 180;
+         for (int i = 1; i < words.length; i++) {
+            if (line.length() + words[i].length() + 1 <= 70) {
+               line.append(" ").append(words[i]);
+            } else {
+               g.drawString(line.toString(), 120, location);
+               location += 30;
+               line = new StringBuilder(words[i]);
             }
-            if (i == length-1) g.drawString(msg.substring(start, i+1), 200, location);
-         }         
+         }
+         g.drawString(line.toString(), 120, location);
+       
          left.setVisible(false);
-         g.setFont(new Font("Sans Serif", Font.BOLD, 40));
       }else if (count == 1){
          g.drawString("Level 1", 450, 50);
          g.setFont(new Font("Sans Serif",Font.BOLD, 20)); 
          g.drawString(" Welcome to the first level! ", 360,120);
          
-         length = Game.instructions[count].length();
-         String msg = Game.instructions[count];
-         location = 180; 
-         int start = 0;
-         for (int i = 0; i < length; i++){
-            if (i%60 == 59){
-               int temp = i;
-               if (msg.charAt(i) == ' '){
-                  g.drawString(msg.substring(start, i), 200, location);
-                  location += 30;
-               }else{
-                  while(true){
-                     temp--;
-                     if (msg.charAt(temp) == ' '){
-                        g.drawString(msg.substring(start, temp), 200, location);
-                        location += 30;
-                        start = temp;
-                        break;
-                     }
-                  }
-               }
+         String[] words = Game.instructions[count].split("\\s+");
+         StringBuilder line = new StringBuilder(words[0]);
+         int location = 180;
+         for (int i = 1; i < words.length; i++) {
+            if (line.length() + words[i].length() + 1 <= 70) {
+               line.append(" ").append(words[i]);
+            } else {
+               g.drawString(line.toString(), 120, location);
+               location += 30;
+               line = new StringBuilder(words[i]);
             }
-            if (i == length-1) g.drawString(msg.substring(start, i+1), 200, location);
          }
+         g.drawString(line.toString(), 120, location);
          
          left.setVisible(true);
       }else if (count == 2){
@@ -147,31 +122,19 @@ public class Instructions extends JPanel implements Runnable{
          g.setFont(new Font("Sans Serif",Font.BOLD, 20)); 
          g.drawString(" Welcome to the second level! ", 360,120);
          
-         length = Game.instructions[count].length();
-         String msg = Game.instructions[count];
-         location = 180; 
-         int start = 0;
-         for (int i = 0; i < length; i++){
-            if (i%60 == 0 && i != 0){
-               int temp = i;
-               if (msg.charAt(i) == ' '){
-                  g.drawString(msg.substring(start, i), 200, location);
-                  location += 30;
-               }else{
-                  while(true){
-                     temp--;
-                     if (msg.charAt(temp) == ' '){
-                        g.drawString(msg.substring(start, temp), 200, location);
-                        location += 30;
-                        start = temp;
-                        break;
-                     }
-                  }
-               }
+         String[] words = Game.instructions[count].split("\\s+");
+         StringBuilder line = new StringBuilder(words[0]);
+         int location = 180;
+         for (int i = 1; i < words.length; i++) {
+            if (line.length() + words[i].length() + 1 <= 70) {
+               line.append(" ").append(words[i]);
+            } else {
+               g.drawString(line.toString(), 120, location);
+               location += 30;
+               line = new StringBuilder(words[i]);
             }
-            if (i == length-1) g.drawString(msg.substring(start, i+1), 200, location);
          }
-               
+         g.drawString(line.toString(), 120, location);         
          right.setVisible(true);
          exit.setVisible(false);
       }else{            
@@ -179,31 +142,20 @@ public class Instructions extends JPanel implements Runnable{
          g.setFont(new Font("Sans Serif",Font.BOLD, 20)); 
          g.drawString(" Welcome to the third level! ", 360,120);
          
-         length = Game.instructions[count].length();
-         String msg = Game.instructions[count];
-         location = 180; 
-         int start = 0;
-         for (int i = 0; i < length; i++){
-            if (i%60 == 0 && i != 0){
-               int temp = i;
-               if (msg.charAt(i) == ' '){
-                  g.drawString(msg.substring(start, i), 200, location);
-                  location += 30;
-               }else{
-                  while(true){
-                     temp--;
-                     if (msg.charAt(temp) == ' '){
-                        g.drawString(msg.substring(start, temp), 200, location);
-                        location += 30;
-                        start = temp;
-                        break;
-                     }
-                  }
-               }
+         String[] words = Game.instructions[count].split("\\s+");
+         StringBuilder line = new StringBuilder(words[0]);
+         int location = 180;
+         for (int i = 1; i < words.length; i++) {
+            if (line.length() + words[i].length() + 1 <= 70) {
+               line.append(" ").append(words[i]);
+            } else {
+               g.drawString(line.toString(), 120, location);
+               location += 30;
+               line = new StringBuilder(words[i]);
             }
-            if (i == length-1) g.drawString(msg.substring(start, i+1), 200, location);
          }
-               
+         g.drawString(line.toString(), 120, location);
+                
          right.setVisible(false);
          exit.setVisible(true);
       }    

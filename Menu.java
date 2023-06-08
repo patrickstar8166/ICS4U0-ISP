@@ -3,11 +3,13 @@ import java.awt.event.*;
 import javax.swing.*;
 public class Menu extends JPanel implements Runnable {
    private JButton start, instr;
-   private boolean running = true;
+   private boolean running = true, finished = false;
+   private JButton next;
 
    public Menu() {
       start = new JButton("Start");
       instr = new JButton("Instructions");
+      next = new JButton("Next");
    
       this.setLayout(null);
    
@@ -16,19 +18,27 @@ public class Menu extends JPanel implements Runnable {
    
       instr.setBackground(Color.LIGHT_GRAY);
       instr.setBounds(425, 375, 150, 40);
+      
+      next.setBackground(Color.LIGHT_GRAY);
+      next.setBounds(875, 550, 100, 60);
    
       // Add buttons to the panel
       this.add(start);
       this.add(instr);
+      this.add(next);
+      next.setVisible(false);
    }
 
    public void run() {
       start.addActionListener(
          new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-               Game.screenNum = 2;
-               running = false;
                start.removeActionListener(this);
+               finished = true;
+               next.setVisible(true);
+               start.setVisible(false);
+               instr.setVisible(false);
+               repaint();
             }
          });
    
@@ -40,6 +50,15 @@ public class Menu extends JPanel implements Runnable {
                instr.removeActionListener(this);
             }
          });
+         
+      next.addActionListener(
+         new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+               Game.screenNum = 2;
+               running = false;
+               next.removeActionListener(this);
+            }
+         });   
    }
    
    public boolean isRunning() {
@@ -83,5 +102,29 @@ public class Menu extends JPanel implements Runnable {
       g.setColor(Color.black);
       g.setFont(new Font("Sans Serif", Font.BOLD, 40));
       g.drawString("Fresh Forage Adventure", 275, 200);
+      
+      if (finished){
+         g.setColor(new Color(0, 196, 255));
+         g.fillRect(0, 0, 1000, 680);
+         
+         g.setColor(Color.black);
+         g.setFont(new Font("Sans Serif",Font.BOLD, 40)); 
+         g.drawString("Level 1", 450, 100);
+         
+         g.setFont(new Font("Sans Serif",Font.BOLD, 20)); 
+         String[] words = Game.instructions[1].split("\\s+");
+         StringBuilder line = new StringBuilder(words[0]);
+         int location = 200;
+         for (int i = 1; i < words.length; i++) {
+            if (line.length() + words[i].length() + 1 <= 60) {
+               line.append(" ").append(words[i]);
+            } else {
+               g.drawString(line.toString(), 200, location);
+               location += 30;
+               line = new StringBuilder(words[i]);
+            }
+         }
+         g.drawString(line.toString(), 200, location);
+      }
    }
 }
