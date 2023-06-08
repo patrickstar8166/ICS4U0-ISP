@@ -187,7 +187,7 @@ public class Level3 extends JPanel implements Runnable{
                   }
                }
                if(!inventory){
-                  if(e.getKeyChar() == 'z'&&!zHeld){
+                  if(e.getKeyChar() == 'z' && !zHeld){
                      interact();
                      zHeld = true;
                   }

@@ -174,7 +174,7 @@ public class Minigame extends JPanel implements Runnable{
          
          //updates frame
          //System.out.println("repaint");
-         paintImmediately();
+         repaint();
          //System.out.println("repaint2");
 
          //delay for 1/60th second
