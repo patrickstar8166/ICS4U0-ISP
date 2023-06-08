@@ -83,140 +83,127 @@ public class Instructions extends JPanel implements Runnable{
       if (count == 0){   
          g.drawString("About the Game", 350, 50);
          g.setFont(new Font("Sans Serif",Font.BOLD, 20)); 
-         g.drawString(" Welcome to “Fresh Foraging Adventure! ", 300,120);      
+         g.drawString(" Welcome to “Fresh Foraging Adventure! ", 300,120); 
+              
          length = Game.instructions[count].length();
-         counter = 0; 
-         location = 180;     
-         while(length>60)
-         {
-          length -= 60;
-          counter++; 
-         }
-         for(int j = 0; j <= counter; j++)
-         {
-          if(j!=counter)
-          {
-           if(Game.instructions[count].substring((j+1)*60, ((j+1) * 60 + 1 )).equals(" "))
-           {
-             g.drawString(Game.instructions[count].substring(j*60,(j+1)*60), 200, location);
-             location += 30; 
-           }
-           else
-           {
-            g.drawString(Game.instructions[count].substring(j*60,(j+1)*60) + "-", 200, location);
-            location += 30;
-           }
-          } 
-          else 
-          {
-            g.drawString(Game.instructions[count].substring(j*60), 200, location);
-          }
-         }
+         String msg = Game.instructions[count];
+         location = 180; 
+         int start = 0;
+         for (int i = 0; i < length; i++){
+            if (i%60 == 0 && i != 0){
+               int temp = i;
+               if (msg.charAt(i) == ' '){
+                  g.drawString(msg.substring(start, i), 200, location);
+                  location += 30;
+               }else{
+                  while(true){
+                     temp--;
+                     if (msg.charAt(temp) == ' '){
+                        g.drawString(msg.substring(start, temp), 200, location);
+                        location += 30;
+                        start = temp;
+                        break;
+                     }
+                  }
+               }
+            }
+            if (i == length-1) g.drawString(msg.substring(start, i+1), 200, location);
+         }         
          left.setVisible(false);
-          g.setFont(new Font("Sans Serif", Font.BOLD, 40));
-       
-           }else if (count == 1){
+         g.setFont(new Font("Sans Serif", Font.BOLD, 40));
+      }else if (count == 1){
          g.drawString("Level 1", 450, 50);
          g.setFont(new Font("Sans Serif",Font.BOLD, 20)); 
          g.drawString(" Welcome to the first level! ", 360,120);
+         
          length = Game.instructions[count].length();
-         counter = 0; 
-         location = 180;     
-         while(length>60)
-         {
-          length -= 60;
-          counter++; 
+         String msg = Game.instructions[count];
+         location = 180; 
+         int start = 0;
+         for (int i = 0; i < length; i++){
+            if (i%60 == 59){
+               int temp = i;
+               if (msg.charAt(i) == ' '){
+                  g.drawString(msg.substring(start, i), 200, location);
+                  location += 30;
+               }else{
+                  while(true){
+                     temp--;
+                     if (msg.charAt(temp) == ' '){
+                        g.drawString(msg.substring(start, temp), 200, location);
+                        location += 30;
+                        start = temp;
+                        break;
+                     }
+                  }
+               }
+            }
+            if (i == length-1) g.drawString(msg.substring(start, i+1), 200, location);
          }
-         for(int j = 0; j <= counter; j++)
-         {
-          if(j!=counter)
-          {
-           if(Game.instructions[count].substring((j+1)*60, ((j+1) * 60 + 1 )).equals(" "))
-           {
-             g.drawString(Game.instructions[count].substring(j*60,(j+1)*60), 200, location);
-             location += 30; 
-           }
-           else
-           {
-            g.drawString(Game.instructions[count].substring(j*60,(j+1)*60) + "-", 200, location);
-            location += 30;
-           }
-          } 
-          else 
-          {
-            g.drawString(Game.instructions[count].substring(j*60), 200, location);
-          }
-         }
+         
          left.setVisible(true);
       }else if (count == 2){
          g.drawString("Level 2", 450, 50);
          g.setFont(new Font("Sans Serif",Font.BOLD, 20)); 
          g.drawString(" Welcome to the second level! ", 360,120);
+         
          length = Game.instructions[count].length();
-         counter = 0; 
-         location = 180;     
-         while(length>60)
-         {
-          length -= 60;
-          counter++; 
+         String msg = Game.instructions[count];
+         location = 180; 
+         int start = 0;
+         for (int i = 0; i < length; i++){
+            if (i%60 == 0 && i != 0){
+               int temp = i;
+               if (msg.charAt(i) == ' '){
+                  g.drawString(msg.substring(start, i), 200, location);
+                  location += 30;
+               }else{
+                  while(true){
+                     temp--;
+                     if (msg.charAt(temp) == ' '){
+                        g.drawString(msg.substring(start, temp), 200, location);
+                        location += 30;
+                        start = temp;
+                        break;
+                     }
+                  }
+               }
+            }
+            if (i == length-1) g.drawString(msg.substring(start, i+1), 200, location);
          }
-         for(int j = 0; j <= counter; j++)
-         {
-          if(j!=counter)
-          {
-           if(Game.instructions[count].substring((j+1)*60, ((j+1) * 60 + 1 )).equals(" "))
-           {
-             g.drawString(Game.instructions[count].substring(j*60,(j+1)*60), 200, location);
-             location += 30; 
-           }
-           else
-           {
-            g.drawString(Game.instructions[count].substring(j*60,(j+1)*60) + "-", 200, location);
-            location += 30;
-           }
-          } 
-          else 
-          {
-            g.drawString(Game.instructions[count].substring(j*60), 200, location);
-          }
-         }
-
+               
          right.setVisible(true);
          exit.setVisible(false);
       }else{            
          g.drawString("Level 3", 450, 50);
          g.setFont(new Font("Sans Serif",Font.BOLD, 20)); 
          g.drawString(" Welcome to the third level! ", 360,120);
+         
          length = Game.instructions[count].length();
-         counter = 0; 
-         location = 160;     
-         while(length>60)
-         {
-          length -= 60;
-          counter++; 
+         String msg = Game.instructions[count];
+         location = 180; 
+         int start = 0;
+         for (int i = 0; i < length; i++){
+            if (i%60 == 0 && i != 0){
+               int temp = i;
+               if (msg.charAt(i) == ' '){
+                  g.drawString(msg.substring(start, i), 200, location);
+                  location += 30;
+               }else{
+                  while(true){
+                     temp--;
+                     if (msg.charAt(temp) == ' '){
+                        g.drawString(msg.substring(start, temp), 200, location);
+                        location += 30;
+                        start = temp;
+                        break;
+                     }
+                  }
+               }
+            }
+            if (i == length-1) g.drawString(msg.substring(start, i+1), 200, location);
          }
-         for(int j = 0; j <= counter; j++)
-         {
-          if(j!=counter)
-          {
-           if(Game.instructions[count].substring((j+1)*60, ((j+1) * 60 + 1 )).equals(" "))
-           {
-             g.drawString(Game.instructions[count].substring(j*60,(j+1)*60), 200, location);
-             location += 30; 
-           }
-           else
-           {
-            g.drawString(Game.instructions[count].substring(j*60,(j+1)*60) + "-", 200, location);
-            location += 30;
-           }
-          } 
-          else 
-          {
-            g.drawString(Game.instructions[count].substring(j*60), 200, location);
-          }
-         }
-
-
+               
          right.setVisible(false);
          exit.setVisible(true);
       }    
