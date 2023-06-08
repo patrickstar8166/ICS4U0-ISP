@@ -6,6 +6,10 @@ public class Level1 extends JPanel implements Runnable{
    private int count = -1;
    private JButton left, right, exit;
    private boolean running = true;
+   private int length = 0; 
+   private int location = 375;
+   private int counter = 0;
+
       
    public Level1(){
       left = new JButton("\u2190");
@@ -100,7 +104,27 @@ public class Level1 extends JPanel implements Runnable{
          g.drawImage(Game.img[count], 400, 70, 200, Game.img[count].getHeight(this)*200/Game.img[count].getWidth(this), this); 
          
          g.setFont(new Font("MonoSpaced", Font.BOLD, 20));
-         g.drawString(Game.descriptions[count], 150, 275);
+         
+         length = Game.descriptions[count].length();
+         counter = 0; 
+         location = 375;
+         while(length>60)
+         {
+          length -= 60;
+          counter++; 
+         }
+         for(int j = 0; j <= counter; j++)
+         {
+          if(j!=counter)
+          {
+           g.drawString(Game.descriptions[count].substring(j*60,((j+1)*60+1)), 140, location);
+           location += 20; 
+          }
+          else 
+          {
+            g.drawString(Game.descriptions[count].substring(j*60), 140, location);
+          }
+         }
       }
    }
    
