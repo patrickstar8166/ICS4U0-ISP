@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.io.*;
 import java.util.*;
 public class Game extends JFrame implements Runnable{
-   public static int screenNum = 5;
+   public static int screenNum = 4;
    public boolean running = true;
    private Level3 l3;
    private Toolkit t = Toolkit.getDefaultToolkit();
@@ -132,6 +132,7 @@ public class Game extends JFrame implements Runnable{
             
                instr.interrupt();
                break;
+               
             case 4:
                this.getContentPane().removeAll();
                
@@ -154,7 +155,6 @@ public class Game extends JFrame implements Runnable{
                }
                
                level2.interrupt();
-               running = false;
                break;
                
            case 5:
