@@ -20,6 +20,9 @@ public class Level2 extends JPanel implements Runnable{
    private boolean running = true, move = true, start = false, good = true;
    private JButton yes, no;
    private Toolkit t = Toolkit.getDefaultToolkit();
+   private Image sprite1 = t.getImage("Images/StandingStillView.png");
+   private Image sprite2 = t.getImage("Images/WalkingView.png");
+   private Image draw = sprite2;
                               
    public Level2(){
       yes = new JButton("\u2714");
@@ -75,10 +78,15 @@ public class Level2 extends JPanel implements Runnable{
                   }
                }
                
+               repaint();
+               
                if (y == 18 && x == 9){
                   running = false;
                   removeKeyListener(this);
                   Game.screenNum = 5;
+                  
+                  JOptionPane.showMessageDialog(Level2.this, "Congrats on finishing Level 2! Now you're ready for Level 3.");
+                  try{Thread.sleep(1000);}catch(Exception p){}
                }
                
                for (int i = 0; i < pic.size()-1; i += 2){
@@ -90,8 +98,6 @@ public class Level2 extends JPanel implements Runnable{
                      start = true;
                   }
                }
-                              
-               repaint();
             }
 
             public void keyReleased(KeyEvent e) { }
@@ -158,9 +164,10 @@ public class Level2 extends JPanel implements Runnable{
                }
             }
          }
-
-         g.setColor(Color.green);
-         g.fillRect(y*50+25, x*50+50, 50, 50);
+         
+         g.drawImage(draw, y*50+25, x*50+50, 50, 50, this);
+         if (draw == sprite1) draw = sprite2;
+         else draw = sprite1;
       }else{
          if (start && count < 12){
             count++;
@@ -176,7 +183,7 @@ public class Level2 extends JPanel implements Runnable{
          
          g.setColor(Color.black);
          g.setFont(new Font("MonoSpaced", Font.BOLD, 40));
-         g.drawString(Game.names[img.get(count)], 500-Game.names[img.get(count)].length()*12, 350);
+         g.drawString(Game.names[img.get(count)], 500-Game.names[img.get(count)].length()*12, 400);
          g.drawString("Is this edible?", 340, 100);
          
          if (img.get(count) < 10) good = true;

@@ -4,12 +4,12 @@ import javax.swing.*;
 import java.io.*;
 import java.util.*;
 public class Game extends JFrame implements Runnable{
-   public static int screenNum = 4;
+   public static int screenNum = 1;
    public boolean running = true;
    private Level3 l3;
    private Toolkit t = Toolkit.getDefaultToolkit();
    public static String[] names = {"Saskatoon Berries", "Dandelion", "Crown Tipped Coral", "Burdock", "Jack Pine", "Lobster Mushroom", "Morel Mushroom", "Cranberry", "Raspberry", "Cattail", "Lily of the Valley", "False Morel", "Gilled Mushroom", "Deadly Galerina", "Poison Ivy", "Baneberry Red", " Blub-bearing Water Hemlock", "Poison Hemlock", "Water Hemlock", "Blue Flag Iris"};
-   public static String[] images = {"Images/Saskatoon.jpg", "Images/Dandelion.jpg", "Images/Crown.jpg", "Images/Burdock.jpg", "Images/Jack.jpg", "Images/Lobster.png", "Images/Morel.jpg", "Images/Cranberry.jpg", "Images/Raspberry.jpg", "Images/Cattail.jpg","Images/LilyValley.jpeg","Images/FalseMorel.jpeg","Images/DestroyingAngel.jpeg","Images/DeadlyG.jpeg","Images/PoisonIvy.jpeg","Images/BaneBerryREd.jpeg","Images/BulbBearingWater.jpeg", "Images/PoisonHemlock.jpeg", "Images/WaterHemlock.jpeg","Images/BlueFlagIris.jpeg"  };
+   public static String[] images = {"Images/Saskatoon.jpg", "Images/Dandelion.jpg", "Images/Crown.jpg", "Images/Burdock.jpg", "Images/Jack.jpg", "Images/Lobster.png", "Images/Morel.jpg", "Images/Cranberry.jpg", "Images/Raspberry.jpg", "Images/Cattail.jpg","Images/LilyValley.jpeg","Images/FalseM.jpeg","Images/DestroyingAngel.jpeg","Images/DeadlyG.jpeg","Images/PoisonIvy.jpeg","Images/BaneBerryREd.jpeg","Images/BulbBearingWater.jpeg", "Images/PoisonHemlock.jpeg", "Images/WaterHemlock.jpeg","Images/BlueF.jpeg"  };
    public static Image[] img = new Image[images.length];
    public static String[] descriptions = {"Large purple-blue berries that grow on trees with gray bark and toothed leaves. Grow to about 5 meters tall and are about 3 meters wide. Berries ripen in June or early June.",
    "Distributed everywhere from lawns, roadsides, to gardens. Found in May and August. Bright yellow flower with milky white stem. 5 - 45 cm in height.",
@@ -137,14 +137,13 @@ public class Game extends JFrame implements Runnable{
                this.getContentPane().removeAll();
                
                Level2 l2 = new Level2();
+               l2.setFocusable(true);
+               l2.requestFocusInWindow();
                this.getContentPane().add(l2);
                Thread level2 = new Thread(l2);
                level2.start();
                
                this.setVisible(true);
-               
-               l2.setFocusable(true);
-               l2.requestFocusInWindow();
                
                while(l2.isRunning()){
                   try {
@@ -177,13 +176,14 @@ public class Game extends JFrame implements Runnable{
                      
                      l3 = new Level3(timer, charX, charY, bgX, bgY, lockCamX, lockCamY, obj, collected);
                   }
+                  
+                  l3.setFocusable(true);
+                  l3.requestFocusInWindow();
                   this.getContentPane().add(l3);
                   Thread level3 = new Thread(l3);
                   level3.start();
                   this.setVisible(true);
                   
-                  l3.setFocusable(true);
-                  l3.requestFocusInWindow();
                   while(l3.isRunning()){
                      try {
                         Thread.sleep(100); // Add a small delay to reduce CPU usage

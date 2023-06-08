@@ -14,7 +14,7 @@ public class Level1 extends JPanel implements Runnable{
    public Level1(){
       left = new JButton("\u2190");
       right = new JButton("\u2192");
-      exit = new JButton("Exit");
+      exit = new JButton("Next");
       
       this.setLayout(null);
    
@@ -63,6 +63,8 @@ public class Level1 extends JPanel implements Runnable{
                left.removeActionListener(this);
                right.removeActionListener(this);
                exit.removeActionListener(this);
+               
+               JOptionPane.showMessageDialog(Level1.this, "Congrats on finishing Level 1! Now you're ready for Level 2.");
             }
          });
    }
@@ -92,6 +94,9 @@ public class Level1 extends JPanel implements Runnable{
          g.fillRect(0, 0, 1000, 680);
          g.setColor(Color.black);
          g.drawString("Dangerous Plants", 325, 200);
+      }else if (count == 18){
+         right.setVisible(true);
+         exit.setVisible(false);
       }else if (count == 19){
          right.setVisible(false);
          exit.setVisible(true);
