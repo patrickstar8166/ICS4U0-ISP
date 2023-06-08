@@ -119,9 +119,9 @@ public class Level1 extends JPanel implements Runnable{
          {
           if(j!=counter)
           {
-           g.drawString(Game.descriptions[count].substring(j*60,((j+1)*60+1)), 140, location);
-           location += 20; 
-          }
+            g.drawString(Game.descriptions[count].substring(j*60,(j+1)*60) + "-", 140, location);
+            location += 20;
+           } 
           else 
           {
             g.drawString(Game.descriptions[count].substring(j*60), 140, location);
