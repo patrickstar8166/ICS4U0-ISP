@@ -99,7 +99,7 @@ public class Level1 extends JPanel implements Runnable{
          Image i = t.getImage("Images/Background 1.png");
          g.drawImage(i, 0, 0, 1000, i.getHeight(this)*1000/i.getWidth(this), this); 
          g.drawString(Game.names[count], 500-Game.names[count].length()*12, 40);
-         g.drawImage(Game.imgs[count], 400, 70, 200, Game.imgs[count].getHeight(this)*200/Game.imgs[count].getWidth(this), this); 
+         g.drawImage(Game.img[count], 400, 70, 200, Game.img[count].getHeight(this)*200/Game.img[count].getWidth(this), this); 
          
          g.setFont(new Font("MonoSpaced", Font.BOLD, 20));
          g.drawString(Game.descriptions[count], 150, 275);

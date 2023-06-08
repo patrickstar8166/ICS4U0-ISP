@@ -8,11 +8,11 @@ import java.io.*;
 import javax.imageio.ImageIO;
 
 public class Level3 extends JPanel implements Runnable{
-   private Image bg, pcU, pcD, pcL, pcR, charImg, inv, endPlate, redX, checkmark, bush, bigApple;
-   private boolean rightHeld, leftHeld, upHeld, downHeld, lockCamX, lockCamY, zHeld, iHeld, interact, inventory, pause, end, run;
+   private Image bg, pcU, pcD, pcL, pcR, charImg, inv, endPlate, redX, checkmark, bush, bigApple, objImage;
+   private boolean rightHeld, leftHeld, upHeld, downHeld, lockCamX, lockCamY, zHeld, iHeld, inventory, pause, end, run;
    private int charX, charY, charW, buffer, bgX, bgY, leftBound, rightBound, topBound, bottomBound, timer, score;
    private ArrayList<MazeObject> obj = new ArrayList<MazeObject>();
-   private ArrayList<MazeObject> collected = new ArrayList<MazeObject>();
+   public ArrayList<MazeObject> collected = new ArrayList<MazeObject>();
    private ArrayList<MazeObject> walls = new ArrayList<MazeObject>();
    private String badItem;
    
@@ -42,7 +42,46 @@ public class Level3 extends JPanel implements Runnable{
       topBound = 335;
       bottomBound = -335;
       timer = 0;
+      generateObjects();
+      addWalls();
    }
+   
+   public Level3(int timer, int charX, int charY, int bgX, int bgY, boolean lockCamX, boolean lockCamY, ArrayList<MazeObject> obj, ArrayList<MazeObject> collected ) throws IOException{
+      bg = ImageIO.read(new File("Images/lab bg.png")).getScaledInstance(2000,1360,Image.SCALE_SMOOTH);
+      pcU = ImageIO.read(new File("Images/apple.jpg")).getScaledInstance(20,20,Image.SCALE_SMOOTH);
+      pcD = ImageIO.read(new File("Images/bomb.png")).getScaledInstance(20,20,Image.SCALE_SMOOTH);
+      pcL = ImageIO.read(new File("Images/Cranberry.jpg")).getScaledInstance(20,20,Image.SCALE_SMOOTH);
+      pcR = ImageIO.read(new File("Images/Crown.jpg")).getScaledInstance(20,20,Image.SCALE_SMOOTH);
+      inv = ImageIO.read(new File("Images/inv.png")).getScaledInstance(1000,680,Image.SCALE_SMOOTH);
+      endPlate = ImageIO.read(new File("Images/endPlate.png")).getScaledInstance(1000,680,Image.SCALE_SMOOTH);
+      redX = ImageIO.read(new File("Images/redX.png")).getScaledInstance(200,200,Image.SCALE_SMOOTH);
+      checkmark = ImageIO.read(new File("Images/checkmark.png")).getScaledInstance(200,200,Image.SCALE_SMOOTH);
+      bush = ImageIO.read(new File("Images/bush.png")).getScaledInstance(40,40,Image.SCALE_SMOOTH);
+      bigApple = ImageIO.read(new File("Images/apple.jpg")).getScaledInstance(50,50,Image.SCALE_SMOOTH);
+      charImg = pcU;
+      end = false;
+      run = true;
+      charW = 20;
+      buffer = 50;
+      leftBound = 495;
+      rightBound = -495;
+      topBound = 335;
+      bottomBound = -335;
+      addWalls();
+      this.timer = timer;
+      this.charX = charX;
+      this.charY = charY;
+      this.bgX = bgX;
+      this.bgY = bgY;
+      this.lockCamX = lockCamX;
+      this.lockCamY = lockCamY;
+      this.obj = obj;
+      this.collected = collected;
+      
+      
+   }
+   
+   
    public void game() throws InterruptedException{
       while(!end){
          if(!pause){
@@ -63,6 +102,7 @@ public class Level3 extends JPanel implements Runnable{
    public boolean isRunning(){
       return run;
    }
+   
    
    public void move(){
    
@@ -168,7 +208,7 @@ public class Level3 extends JPanel implements Runnable{
       this.addKeyListener(
          new KeyListener(){
             public void keyPressed(KeyEvent e){
-               if(!interact&&!inventory){
+               if(!inventory){
                   if(e.getKeyCode()==e.VK_RIGHT){
                      rightHeld = true;
                      charImg = pcR;
@@ -185,19 +225,14 @@ public class Level3 extends JPanel implements Runnable{
                      upHeld = true;
                      charImg = pcU;
                   }
-               }
-               if(!inventory){
                   if(e.getKeyChar() == 'z'&&!zHeld){
                      interact();
                      zHeld = true;
                   }
                }
-      
-               if(!interact){
-                  if(e.getKeyChar() == 'i' && !iHeld){
-                     inventory();
-                     iHeld = true;
-                  }
+               if(e.getKeyChar() == 'i' && !iHeld){
+                  inventory();
+                  iHeld = true;
                }
             }
    
@@ -233,41 +268,21 @@ public class Level3 extends JPanel implements Runnable{
          });
       }
       
-   public void minigame(MazeObject o) throws IOException{
-      Minigame m = new Minigame(o.getImg());
-      this.add(m);
-      Thread minigame = new Thread(m);
-      minigame.start();
-      this.setVisible(true);
-      while(m.isRunning()){
-         try {
-            Thread.sleep(100); // Add a small delay to reduce CPU usage
-         } catch (InterruptedException e) {
-            e.printStackTrace();
-         }
-      }
-      minigame.interrupt();
-   }
    
    public void interact(){
-      if(!interact){
-         for(int i = 0; i<obj.size(); i++){
-            if(charX - bgX + charW>= obj.get(i).getX()  &&  charX - bgX<= obj.get(i).getX() + obj.get(i).getW() && charY - bgY + charW >= obj.get(i).getY() && charY - bgY <= obj.get(i).getY() + obj.get(i).getW()){
-               try{
-                  minigame(obj.get(i));
-               }catch(IOException e){}
-               interact = true;
-               leftHeld = false;
-               rightHeld = false;
-               upHeld = false;
-               downHeld = false;
-               collected.add(obj.get(i));
-               obj.remove(obj.get(i));
-            }
+      for(int i = 0; i<obj.size(); i++){
+         if(charX - bgX + charW>= obj.get(i).getX()  &&  charX - bgX<= obj.get(i).getX() + obj.get(i).getW() && charY - bgY + charW >= obj.get(i).getY() && charY - bgY <= obj.get(i).getY() + obj.get(i).getW()){
+            objImage = obj.get(i).getImg();
+            Game.screenNum = 6;
+            end = true;
+            run = false;
+            leftHeld = false;
+            rightHeld = false;
+            upHeld = false;
+            downHeld = false;
+            collected.add(obj.get(i));
+            obj.remove(obj.get(i));
          }
-      }
-      else{
-         interact = false;
       }
    }
    
@@ -324,9 +339,7 @@ public class Level3 extends JPanel implements Runnable{
          obj.add(new MazeObject(x.get(num)-500,y.get(num)-340,20,20,pcU,bigApple)); //replace with random plants!!!!!
          x.remove(num);
          y.remove(num);
-      }
-      
-      
+      } 
    }
    
    public void addWalls() throws IOException{ //im so fuckin sorry man. 
@@ -755,14 +768,6 @@ public class Level3 extends JPanel implements Runnable{
          g.drawImage(charImg,charX,charY,this);
          //g.fillRect(charX,charY,charW,charW);
          
-         if(interact){
-            g.setColor(new Color(0,0,0,100));
-            g.fillRect(0,0,1000,680);
-            g.setColor(Color.red);
-            g.fillRect(450,290,50,50);
-            
-         }
-         
          if(inventory){
             g.drawImage(inv,0,0,this);
             for(int i = 0; i<collected.size(); i++){
@@ -793,16 +798,43 @@ public class Level3 extends JPanel implements Runnable{
             g.drawString("You succeeded in foraging a meal!! Good job!!!",0,100);
          }
       }
-      
-      
    }
    
+   public int getTimer(){
+      return timer;
+   }
+   public int getCharX(){
+      return charX;
+   }
+   public int getCharY(){
+      return charY;
+   }
+   public int getBgX(){
+      return bgX;
+   }
+   public int getBgY(){
+      return bgY;
+   }
+   public boolean getLockCamX(){
+      return lockCamX;
+   }
+   public boolean getLockCamY(){
+      return lockCamY;
+   }
+   public ArrayList<MazeObject> getObj(){
+      return obj;
+   }
+   public ArrayList<MazeObject> getCollected(){
+      return collected;
+   }
+   public Image getObjImage(){
+      return objImage;
+   }
    
-      public void run(){
+   public void run(){
       try{
+         end = false;
          keyInput();
-         addWalls();
-         generateObjects();
          game();
          
       }

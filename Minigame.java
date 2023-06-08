@@ -27,7 +27,6 @@ public class Minigame extends JPanel implements Runnable{
 
    public void paintComponent (Graphics g) //drawing method
    {
-      System.out.println("paint");
       if(!end){
          
          super.paintComponent(g);
@@ -129,7 +128,6 @@ public class Minigame extends JPanel implements Runnable{
    public void game() throws InterruptedException{ 
       
       while(!end){
-         System.out.println("game");
          //calls fall method on every falling object         
          for(int i = 0; i<f.size(); i++){
             f.get(i).fall();
@@ -174,14 +172,15 @@ public class Minigame extends JPanel implements Runnable{
          
          //updates frame
          //System.out.println("repaint");
-         paintImmediately();
+         repaint();
          //System.out.println("repaint2");
 
          //delay for 1/60th second
          Thread.sleep(16,666667);
          //Thread and runnable learned from https://www.geeksforgeeks.org/runnable-interface-in-java/
       }
-      Thread.sleep(5000);
+      System.out.println(win);
+      Thread.sleep(1000);
       run = false;
    }
 
