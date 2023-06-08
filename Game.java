@@ -142,12 +142,12 @@ public class Game extends JFrame implements Runnable{
                this.getContentPane().removeAll();
                
                Level2 l2 = new Level2();
-               l2.setFocusable(true);
-               l2.requestFocusInWindow();
                this.getContentPane().add(l2);
                Thread level2 = new Thread(l2);
                level2.start();
                
+               l2.setFocusable(true);
+               l2.requestFocusInWindow();
                this.setVisible(true);
                
                while(l2.isRunning()){
@@ -182,11 +182,12 @@ public class Game extends JFrame implements Runnable{
                      l3 = new Level3(timer, charX, charY, bgX, bgY, lockCamX, lockCamY, obj, collected);
                   }
                   
-                  l3.setFocusable(true);
-                  l3.requestFocusInWindow();
                   this.getContentPane().add(l3);
                   Thread level3 = new Thread(l3);
                   level3.start();
+                  
+                  l3.setFocusable(true);
+                  l3.requestFocusInWindow();
                   this.setVisible(true);
                   
                   while(l3.isRunning()){
