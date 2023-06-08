@@ -32,8 +32,6 @@ public class Level1 extends JPanel implements Runnable{
       left.setVisible(true);
       right.setVisible(true);
       exit.setVisible(false);
-      
-      
    }
       
    public void run(){
@@ -90,7 +88,7 @@ public class Level1 extends JPanel implements Runnable{
          g.fillRect(0, 0, 1000, 680);
          g.setColor(Color.black);
          g.drawString("Dangerous Plants", 325, 200);
-         
+      }else if (count == 19){
          right.setVisible(false);
          exit.setVisible(true);
       }

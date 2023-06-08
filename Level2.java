@@ -16,8 +16,8 @@ public class Level2 extends JPanel implements Runnable{
                            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
    private ArrayList<Integer> pic = new ArrayList<Integer>();
    private ArrayList<Integer> img = new ArrayList<Integer>();
-   private int x = 1, y = 0, count = 0;
-   private boolean running = true, move = true, start = false;
+   private int x = 1, y = 0, count = -1;
+   private boolean running = true, move = true, start = false, good = true;
    private JButton yes, no;
    private Toolkit t = Toolkit.getDefaultToolkit();
                               
@@ -41,18 +41,26 @@ public class Level2 extends JPanel implements Runnable{
       yes.setVisible(false);
       no.setVisible(false);
       
-      boolean b = true;
+      /*boolean b = true;
       for (int i = 0; i < 13; i++){
          b = true;
-         //while (b){
-            int x = (int)(Math.random()*10);
-            // for (int j = 0; j < img.size(); j++){
-//                if (img.get(j) == x) break;
-//                if (j == img.size()-1) b = false;
-//             }
-System.out.println(x);
+         while (b){
+            int x = (int)(Math.random()*20);
+            for (int j = 0; j < img.size(); j++){
+                if (img.get(j) == x) break;
+                if (j == img.size()-1){
+                  b = false;
+                  
+               }
+            }
             img.add(x);
-         //}
+         System.out.print(x + " ");
+         }
+         
+      }*/
+      
+      for (int i = 0; i < 13; i++){
+         img.add(i + 2);
       }
    }
    
@@ -110,6 +118,12 @@ System.out.println(x);
                   no.setVisible(false);
                   repaint();
                }
+               
+               if (good){
+                  System.out.println("right");
+               }else{
+                  System.out.println("wrong");
+               }
             }
          });
    
@@ -121,6 +135,12 @@ System.out.println(x);
                   yes.setVisible(false);
                   no.setVisible(false);
                   repaint();
+               }
+               
+               if (!good){
+                  System.out.println("right");
+               }else{
+                  System.out.println("wrong");
                }
             }
          });
@@ -152,20 +172,25 @@ System.out.println(x);
          g.setColor(Color.green);
          g.fillRect(y*50+25, x*50+50, 50, 50);
       }else{
+         if (start && count < 12){
+            count++;
+            start = false;
+         }
+      
          g.setColor(Color.green);
          g.fillRect(0, 0, 1000, 680);
          yes.setVisible(true);
          no.setVisible(true);
-         System.out.println(count + " " + Game.images[img.get(count)]);
          Image image = t.getImage(Game.images[img.get(count)]);
-         g.drawImage(image, 400, 70, 200, image.getHeight(this)*200/image.getWidth(this), this); 
-         if (start){
-            count++;
-            start = false;
-         }
+         g.drawImage(image, 400, 150, 200, image.getHeight(this)*200/image.getWidth(this), this);
          
-         g.setFont(new Font("MonoSpaced", Font.BOLD, 20));
-         g.drawString("Is this edible?", 100, 400);
+         g.setColor(Color.black);
+         g.setFont(new Font("MonoSpaced", Font.BOLD, 40));
+         g.drawString(Game.names[img.get(count)], 500-Game.names[img.get(count)].length()*12, 350);
+         g.drawString("Is this edible?", 340, 100);
+         
+         if (img.get(count) < 10) good = true;
+         else good = false;
       }
    }
 }
