@@ -8,7 +8,7 @@ import java.io.*;
 import javax.imageio.ImageIO;
 
 public class Level3 extends JPanel implements Runnable{
-   private Image bg, pcU, pcD, pcL, pcR, charImg, inv, endPlate, redX, checkmark, bush, bigApple, objImage;
+   private Image bg, pcU, pcD, pcL, pcR, charImg, inv, endPlate, redX, bush, objImage;
    private boolean rightHeld, leftHeld, upHeld, downHeld, lockCamX, lockCamY, zHeld, iHeld, inventory, pause, end, run;
    private int charX, charY, charW, buffer, bgX, bgY, leftBound, rightBound, topBound, bottomBound, timer, score;
    private ArrayList<MazeObject> obj = new ArrayList<MazeObject>();
@@ -19,16 +19,13 @@ public class Level3 extends JPanel implements Runnable{
    
    public Level3() throws IOException{
       bg = ImageIO.read(new File("Images/lab bg.png")).getScaledInstance(2000,1360,Image.SCALE_SMOOTH);
-      pcU = ImageIO.read(new File("Images/apple.jpg")).getScaledInstance(20,20,Image.SCALE_SMOOTH);
-      pcD = ImageIO.read(new File("Images/bomb.png")).getScaledInstance(20,20,Image.SCALE_SMOOTH);
-      pcL = ImageIO.read(new File("Images/Cranberry.jpg")).getScaledInstance(20,20,Image.SCALE_SMOOTH);
-      pcR = ImageIO.read(new File("Images/Crown.jpg")).getScaledInstance(20,20,Image.SCALE_SMOOTH);
-      inv = ImageIO.read(new File("Images/inv.png")).getScaledInstance(1000,680,Image.SCALE_SMOOTH);
-      endPlate = ImageIO.read(new File("Images/endPlate.png")).getScaledInstance(1000,680,Image.SCALE_SMOOTH);
-      redX = ImageIO.read(new File("Images/redX.png")).getScaledInstance(200,200,Image.SCALE_SMOOTH);
-      checkmark = ImageIO.read(new File("Images/checkmark.png")).getScaledInstance(200,200,Image.SCALE_SMOOTH);
-      bush = ImageIO.read(new File("Images/bush.png")).getScaledInstance(40,40,Image.SCALE_SMOOTH);
-      bigApple = ImageIO.read(new File("Images/apple.jpg")).getScaledInstance(50,50,Image.SCALE_SMOOTH);
+      pcU = Game.pcU;
+      pcD = Game.pcD;
+      pcL = Game.pcL;
+      pcR = Game.pcR;
+      inv = Game.inv;
+      endPlate = Game.endPlate;
+      bush = Game.bush;
       charImg = pcU;
       end = false;
       run = true;
@@ -43,22 +40,21 @@ public class Level3 extends JPanel implements Runnable{
       topBound = 335;
       bottomBound = -335;
       timer = 0;
-      generateObjects();
+      try{
+         generateObjects();
+      }catch(InterruptedException e){}
       addWalls();
    }
    
    public Level3(int timer, int charX, int charY, int bgX, int bgY, boolean lockCamX, boolean lockCamY, ArrayList<MazeObject> obj, ArrayList<MazeObject> collected ) throws IOException{
       bg = ImageIO.read(new File("Images/lab bg.png")).getScaledInstance(2000,1360,Image.SCALE_SMOOTH);
-      pcU = ImageIO.read(new File("Images/apple.jpg")).getScaledInstance(20,20,Image.SCALE_SMOOTH);
-      pcD = ImageIO.read(new File("Images/bomb.png")).getScaledInstance(20,20,Image.SCALE_SMOOTH);
-      pcL = ImageIO.read(new File("Images/Cranberry.jpg")).getScaledInstance(20,20,Image.SCALE_SMOOTH);
-      pcR = ImageIO.read(new File("Images/Crown.jpg")).getScaledInstance(20,20,Image.SCALE_SMOOTH);
-      inv = ImageIO.read(new File("Images/inv.png")).getScaledInstance(1000,680,Image.SCALE_SMOOTH);
-      endPlate = ImageIO.read(new File("Images/endPlate.png")).getScaledInstance(1000,680,Image.SCALE_SMOOTH);
-      redX = ImageIO.read(new File("Images/redX.png")).getScaledInstance(200,200,Image.SCALE_SMOOTH);
-      checkmark = ImageIO.read(new File("Images/checkmark.png")).getScaledInstance(200,200,Image.SCALE_SMOOTH);
-      bush = ImageIO.read(new File("Images/bush.png")).getScaledInstance(40,40,Image.SCALE_SMOOTH);
-      bigApple = ImageIO.read(new File("Images/apple.jpg")).getScaledInstance(50,50,Image.SCALE_SMOOTH);
+      pcU = Game.pcU;
+      pcD = Game.pcD;
+      pcL = Game.pcL;
+      pcR = Game.pcR;
+      inv = Game.inv;
+      endPlate = Game.endPlate;
+      bush = Game.bush;
       charImg = pcU;
       end = false;
       run = true;
@@ -86,12 +82,13 @@ public class Level3 extends JPanel implements Runnable{
    public void game() throws InterruptedException{
       while(!end){
          if(!pause){
-            timer++;
+            //timer++;
          }
          if(timer>10800){ //3 minutes
             end = true;
             calcScore();
          }
+         System.out.println("x: "+(charX-bgX)+" y: "+(charY-bgY));
          move();
          repaint();
          Thread.sleep(16,666667);
@@ -328,44 +325,44 @@ public class Level3 extends JPanel implements Runnable{
       }
    }
    
-   public void generateObjects() throws IOException{ //
-      int[] tempX = {100,380,720,820,980,1140,1280,1340,1660,1820,180,860,1100,1480,1660,1960,1940,460,1340,1420,1700,320,580,880,1100,1800,1080,840,500,240,360,1340,1740,1360,500,980,1220,1300,1400,1960,1880,1740,1620,1400,1000,880,680,520,340,320,80};
-      int[] tempY = {100,100,60,180,280,360,320,120,200,40,480,400,540,500,520,460,600,620,640,680,740,720,760,740,740,900,880,880,840,900,980,960,1060,1040,1080,1140,1180,1200,1120,1260,1280,1180,1200,1280,1280,1220,1280,1180,1220,1300,1260};
+   public void generateObjects() throws IOException, InterruptedException{ //
+      int[] tempX = {80,380,720,820,940,1140,1260,1300,1660,1820,180,860,1100,1460,1660,1940,1940,460,1340,1400,1700,300,600,900,1100,1780,1100,800,480,220,360,1340,1740,1360,500,980,1280,1300,1400,1940,1840,1720,1620,1400,1000,860,680,500,340};
+      int[] tempY = {100,40,40,180,280,360,320,120,180,40,480,400,540,500,500,460,600,620,620,660,740,720,760,760,760,900,880,880,860,900,980,940,1060,1040,1080,1120,1180,1200,1120,1260,1260,1160,1200,1260,1260,1220,1260,1180,1200};
       ArrayList<Integer> x = new ArrayList<Integer>();
       ArrayList<Integer> y = new ArrayList<Integer>();
       ArrayList<MazeObject> plants = new ArrayList<MazeObject>();
-      plants.add(new MazeObject(0,0,20,20,Game.img[0],"Saskatoon Berries",false));
-      plants.add(new MazeObject(0,0,20,20,Game.img[1],"Dandelion",false));
-      plants.add(new MazeObject(0,0,20,20,Game.img[2],"Crown Tipped Coral",false));
-      plants.add(new MazeObject(0,0,20,20,Game.img[3],"Burdock",false));
-      plants.add(new MazeObject(0,0,20,20,Game.img[4],"Jack Pine",false));
-      plants.add(new MazeObject(0,0,20,20,Game.img[5],"Lobster Mushroom",false));
-      plants.add(new MazeObject(0,0,20,20,Game.img[6],"Morel Mushroom",false));
-      plants.add(new MazeObject(0,0,20,20,Game.img[7],"Cranberry",false));
-      plants.add(new MazeObject(0,0,20,20,Game.img[8],"Raspberry",false));
-      plants.add(new MazeObject(0,0,20,20,Game.img[9],"Cattail",false));
-      plants.add(new MazeObject(0,0,20,20,Game.img[10],"Lily of the Valley",true));
-      plants.add(new MazeObject(0,0,20,20,Game.img[11],"False Morel",true));
-      plants.add(new MazeObject(0,0,20,20,Game.img[12],"Gilled Mushroom",true));
-      plants.add(new MazeObject(0,0,20,20,Game.img[13],"Deadly Galerina",true));
-      plants.add(new MazeObject(0,0,20,20,Game.img[14],"Poison Ivy",true));
-      plants.add(new MazeObject(0,0,20,20,Game.img[15],"Baneberry Red",true));
-      plants.add(new MazeObject(0,0,20,20,Game.img[16],"Blub-bearing Water Hemlock",true));
-      plants.add(new MazeObject(0,0,20,20,Game.img[17],"Poison Hemlock",true));
-      plants.add(new MazeObject(0,0,20,20,Game.img[18],"Water Hemlock",true));
-      plants.add(new MazeObject(0,0,20,20,Game.img[19],"Blue Flag Iris",true));
+      plants.add(new MazeObject(0,0,40,40,Game.img[0],"Saskatoon Berries",false));
+      plants.add(new MazeObject(0,0,40,40,Game.img[1],"Dandelion",false));
+      plants.add(new MazeObject(0,0,40,40,Game.img[2],"Crown Tipped Coral",false));
+      plants.add(new MazeObject(0,0,40,40,Game.img[3],"Burdock",false));
+      plants.add(new MazeObject(0,0,40,40,Game.img[4],"Jack Pine",false));
+      plants.add(new MazeObject(0,0,40,40,Game.img[5],"Lobster Mushroom",false));
+      plants.add(new MazeObject(0,0,40,40,Game.img[6],"Morel Mushroom",false));
+      plants.add(new MazeObject(0,0,40,40,Game.img[7],"Cranberry",false));
+      plants.add(new MazeObject(0,0,40,40,Game.img[8],"Raspberry",false));
+      plants.add(new MazeObject(0,0,40,40,Game.img[9],"Cattail",false));
+      plants.add(new MazeObject(0,0,40,40,Game.img[10],"Lily of the Valley",true));
+      plants.add(new MazeObject(0,0,40,40,Game.img[11],"False Morel",true));
+      plants.add(new MazeObject(0,0,40,40,Game.img[12],"Gilled Mushroom",true));
+      plants.add(new MazeObject(0,0,40,40,Game.img[13],"Deadly Galerina",true));
+      plants.add(new MazeObject(0,0,40,40,Game.img[14],"Poison Ivy",true));
+      plants.add(new MazeObject(0,0,40,40,Game.img[15],"Baneberry Red",true));
+      plants.add(new MazeObject(0,0,40,40,Game.img[16],"Blub-bearing Water Hemlock",true));
+      plants.add(new MazeObject(0,0,40,40,Game.img[17],"Poison Hemlock",true));
+      plants.add(new MazeObject(0,0,40,40,Game.img[18],"Water Hemlock",true));
+      plants.add(new MazeObject(0,0,40,40,Game.img[19],"Blue Flag Iris",true));
+      
       for(int i = 0; i<tempX.length; i++){
          x.add(tempX[i]);
          y.add(tempY[i]);
       }
       for(int i = 0; i < 20; i++){
          int num = (int)(Math.random()*x.size());
-         plants.get(i).setX(x.get(num));
-         plants.get(i).setY(y.get(num));
+         plants.get(i).setX(x.get(num)-500);
+         plants.get(i).setY(y.get(num)-340);
          x.remove(num);
          y.remove(num);
          obj.add(plants.get(i));
-         
       } 
    }
    
@@ -796,7 +793,7 @@ public class Level3 extends JPanel implements Runnable{
          g.drawImage(bg,bgX-500,bgY-340,this);
          
          for(int i = 0; i< obj.size(); i++){
-            g.drawImage(obj.get(i).getImg(), obj.get(i).getX()+bgX, obj.get(i).getY()+bgY,20,20, this);
+            g.drawImage(obj.get(i).getImg(), obj.get(i).getX()+bgX, obj.get(i).getY()+bgY,40,40, this);
          }
          for(int i = 0; i<walls.size(); i++){
             g.drawImage(walls.get(i).getImg(),walls.get(i).getX()+bgX,walls.get(i).getY()+bgY,40,40,this);
@@ -804,7 +801,6 @@ public class Level3 extends JPanel implements Runnable{
          
          g.setColor(Color.blue);
          g.drawImage(charImg,charX,charY,20,20,this);
-         //g.fillRect(charX,charY,charW,charW);
          
          if(inventory){
             g.drawImage(inv,0,0,this);
@@ -828,11 +824,9 @@ public class Level3 extends JPanel implements Runnable{
             g.drawString("You failed to forage a meal. You foraged the "+badItem+", which is inedible.",0,100);
          }
          else if(score ==1){
-            g.drawImage(redX,400,50,this);
             g.drawString("You failed to forage a meal. You did not forage enough food. Forage at least 10 items.", 0,100);
          }
          else{
-            g.drawImage(checkmark,400,50,this);
             g.drawString("You succeeded in foraging a meal!! Good job!!!",0,100);
          }
       }

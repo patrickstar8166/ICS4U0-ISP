@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.io.*;
 import java.util.*;
 public class Game extends JFrame implements Runnable{
-   public static int screenNum = 3;
+   public static int screenNum = 5;
    public boolean running = true;
    private Level3 l3;
    private Minigame mi;
@@ -38,7 +38,18 @@ public class Game extends JFrame implements Runnable{
    "This level involves various a pre-set path to navigate. Through the path, there will be checkpoints to test your knowledge on the different plants to be foraged. A screen will pop up asking for the answer, check means the food is edible and an x means the food is not. The answer can be selected by right clicking the correct option. If a wrong answer is selected, a prompt will indicate to re-select. As well, the maze can be navigated through with the 4 arrow keys! After you reach the end, the third level can be played. This will test you on your forage knowledge, so have fun!",
    "This level involves a free-roam path that you will navigate! On the map there will have randomly spawned items. These items may be dangerous OR safe so choose carefully! Whether the item is safe or not will not be directly prompted until the end screen, which will tell you if what you've chosen is good! During this time, you will have to collect the right items and enough items before the 3 minute timer (right corner) runs out! Afterwards, your results will be disapled. During the game you can view your inventory by pressing \"i\". To pick up an item please press \"z\", a mini-game will be displayed where you will be asked to collect enough of the item while avoiding getting stung by the bees. If you are stung too much, the game will end completely. You will have successfully collected the item if the green bar is full. Then you will be back to the main map. You can navigate through the map using the 4 arrow keys!"};
    public static Image[] imgs = new Image[20];
+   public static Image bee;
+   public static Image pcU;
+   public static Image pcD;
+   public static Image pcR;
+   public static Image pcL;
+   public static Image side1;
+   public static Image side2;
+   public static Image inv;
+   public static Image endPlate;
+   public static Image bush;
    public static int x = 0;
+   
 
    public Game(){
       
@@ -48,6 +59,17 @@ public class Game extends JFrame implements Runnable{
       this.setSize(1000, 680);
    
       this.setVisible(true);
+      
+      bee = t.getImage("Images/bee.png");
+      pcU = t.getImage("Images/charUp.png");
+      pcD = t.getImage("Images/charDown.png");
+      pcR = t.getImage("Images/charRight.png");
+      pcL = t.getImage("Images/charLeft.png");
+      side1 = t.getImage("Images/StandingStillView.png");
+      side2 = t.getImage("Images/WalkingView.png");
+      inv = t.getImage("Images/inv.png");
+      endPlate = t.getImage("Images/endPlate.png");
+      bush = t.getImage("Images/bush.png");
       
       for (int i = 0; i < img.length; i++){
          img[i] = t.getImage(images[i]); 
@@ -182,12 +204,13 @@ public class Game extends JFrame implements Runnable{
                      l3 = new Level3(timer, charX, charY, bgX, bgY, lockCamX, lockCamY, obj, collected);
                   }
                   
-                  l3.setFocusable(true);
-                  l3.requestFocusInWindow();
+                  
                   this.getContentPane().add(l3);
                   Thread level3 = new Thread(l3);
                   level3.start();
                   this.setVisible(true);
+                  l3.setFocusable(true);
+                  l3.requestFocusInWindow();
                   
                   while(l3.isRunning()){
                      try {
