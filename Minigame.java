@@ -69,7 +69,7 @@ public class Minigame extends JPanel implements Runnable{
       else if(win){
           
          super.paintComponent(g);
-         g.drawImage(background,0,0,this);
+         g.drawImage(background,0,0,1000,680,this);
          g.setColor(Color.green);
          g.setFont(new Font("Sans Serif", Font.BOLD, 80));
          g.drawString("You win!", 348,150);
@@ -84,7 +84,7 @@ public class Minigame extends JPanel implements Runnable{
       else{
         
          super.paintComponent(g);
-          g.drawImage(background,0,0,this);
+        g.drawImage(background,0,0,1000,680,this);
          g.setColor(Color.red);
          g.setFont(new Font("Sans Serif", Font.BOLD, 80));
          g.drawString("You lose",350,150);
