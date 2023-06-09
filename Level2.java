@@ -2,6 +2,8 @@ import java.awt.*;
 import java.awt.event.*;  
 import javax.swing.*;
 import java.util.*;
+
+
 public class Level2 extends JPanel implements Runnable{
    private int[][] maze = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},  //19x11
                            {1, 1, 1, 1, 2, 1, 1, 1, 0, 1, 2, 1, 1, 1, 0, 1, 1, 2, 0},
@@ -17,16 +19,18 @@ public class Level2 extends JPanel implements Runnable{
    private ArrayList<Integer> pic = new ArrayList<Integer>();
    private ArrayList<Integer> img = new ArrayList<Integer>();
    private int x = 1, y = 0, count = -1;
-   private boolean running = true, move = true, start = false, good = true;
-   private JButton yes, no;
+   private boolean running = true, move = true, start = false, good = true, finished = false;
+   private JButton yes, no, next;
    private Toolkit t = Toolkit.getDefaultToolkit();
    private Image sprite1 = t.getImage("Images/StandingStillView.png");
    private Image sprite2 = t.getImage("Images/WalkingView.png");
    private Image draw = sprite2;
-                              
-   public Level2(){
+   private Image background = t.getImage("Images/MazeBackground.png");
+                
+   public Level2() {
       yes = new JButton("\u2714");
       no = new JButton("\u03A7");
+      next = new JButton("Next");
       
       this.setLayout(null);
    
@@ -37,10 +41,15 @@ public class Level2 extends JPanel implements Runnable{
       no.setFont(new Font("Sans Serif", Font.BOLD, 20));
       no.setBackground(Color.LIGHT_GRAY);
       no.setBounds(510, 550, 75, 75);
+      
+      next.setFont(new Font("Sans Serif", Font.BOLD, 30));
+      next.setBackground(Color.LIGHT_GRAY);
+      next.setBounds(875, 550, 100, 60);
    
-   
+      this.add(next);
       this.add(yes);
       this.add(no);
+      next.setVisible(false);
       yes.setVisible(false);
       no.setVisible(false);
       
@@ -81,12 +90,11 @@ public class Level2 extends JPanel implements Runnable{
                repaint();
                
                if (y == 18 && x == 9){
-                  running = false;
+                  finished = true;
                   removeKeyListener(this);
-                  Game.screenNum = 5;
-                  
+                  next.setVisible(true);
+                  repaint();                  
                   JOptionPane.showMessageDialog(Level2.this, "Congrats on finishing Level 2! Now you're ready for Level 3.");
-                  try{Thread.sleep(1000);}catch(Exception p){}
                }
                
                for (int i = 0; i < pic.size()-1; i += 2){
@@ -140,6 +148,16 @@ public class Level2 extends JPanel implements Runnable{
                }
             }
          });
+         
+      next.addActionListener(
+         new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+               running = false;
+               Game.screenNum = 5;
+               next.removeActionListener(this);
+               next.setVisible(false);
+            }
+         });
    }
    
    public boolean isRunning(){
@@ -148,7 +166,7 @@ public class Level2 extends JPanel implements Runnable{
    
    public void paintComponent(Graphics g){
       super.paintComponent(g);
-      
+      g.drawImage(background,0, 10, 1000, 680, this);
       if (move){
          for (int i = 0; i < 11; i++){
             for (int j = 0; j < 19; j++){
@@ -188,6 +206,30 @@ public class Level2 extends JPanel implements Runnable{
          
          if (img.get(count) < 10) good = true;
          else good = false;
+      }
+      
+      if (finished){
+         g.setColor(new Color(0, 196, 255));
+         g.fillRect(0, 0, 1000, 680);
+         
+         g.setColor(Color.black);
+         g.setFont(new Font("Sans Serif",Font.BOLD, 40)); 
+         g.drawString("Level 3", 450, 100);
+         
+         g.setFont(new Font("Sans Serif",Font.BOLD, 20)); 
+         String[] words = Game.instructions[3].split("\\s+");
+         StringBuilder line = new StringBuilder(words[0]);
+         int location = 200;
+         for (int i = 1; i < words.length; i++) {
+            if (line.length() + words[i].length() + 1 <= 60) {
+               line.append(" ").append(words[i]);
+            } else {
+               g.drawString(line.toString(), 200, location);
+               location += 30;
+               line = new StringBuilder(words[i]);
+            }
+         }
+         g.drawString(line.toString(), 200, location);
       }
    }
 }
