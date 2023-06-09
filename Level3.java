@@ -82,13 +82,12 @@ public class Level3 extends JPanel implements Runnable{
    public void game() throws InterruptedException{
       while(!end){
          if(!pause){
-            //timer++;
+            timer++;
          }
          if(timer>10800){ //3 minutes
             end = true;
             calcScore();
          }
-         System.out.println("x: "+(charX-bgX)+" y: "+(charY-bgY));
          move();
          repaint();
          Thread.sleep(16,666667);
