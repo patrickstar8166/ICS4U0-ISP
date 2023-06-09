@@ -2,8 +2,6 @@ import java.awt.*;
 import java.awt.event.*;  
 import javax.swing.*;
 import java.util.*;
-
-
 public class Level2 extends JPanel implements Runnable{
    private int[][] maze = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},  //19x11
                            {1, 1, 1, 1, 2, 1, 1, 1, 0, 1, 2, 1, 1, 1, 0, 1, 1, 2, 0},
@@ -217,7 +215,7 @@ public class Level2 extends JPanel implements Runnable{
          g.setFont(new Font("Sans Serif",Font.BOLD, 20)); 
          String[] words = Game.instructions[3].split("\\s+");
          StringBuilder line = new StringBuilder(words[0]);
-         int location = 200;
+         int location = 150;
          for (int i = 1; i < words.length; i++) {
             if (line.length() + words[i].length() + 1 <= 60) {
                line.append(" ").append(words[i]);

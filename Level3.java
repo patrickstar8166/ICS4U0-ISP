@@ -174,7 +174,7 @@ public class Level3 extends JPanel implements Runnable{
          }   
       }
    
-
+   
       if(charX>1000-charW){
          charX = 999-charW;
       }
@@ -232,7 +232,7 @@ public class Level3 extends JPanel implements Runnable{
                   iHeld = true;
                }
             }
-   
+         
             public void keyReleased(KeyEvent e){
             
                if(e.getKeyCode()==e.VK_RIGHT){
@@ -242,7 +242,7 @@ public class Level3 extends JPanel implements Runnable{
                if(e.getKeyCode() == e.VK_LEFT){
                   leftHeld = false;
                }
-         
+            
                if(e.getKeyCode() == e.VK_UP){
                   upHeld = false;
                }
@@ -250,7 +250,7 @@ public class Level3 extends JPanel implements Runnable{
                if(e.getKeyCode() == e.VK_DOWN){
                   downHeld = false;
                }
-         
+            
                if(e.getKeyChar() == 'z' && zHeld){
                   zHeld = false;
                }
@@ -263,7 +263,7 @@ public class Level3 extends JPanel implements Runnable{
             public void keyTyped(KeyEvent e){
             }
          });
-      }
+   }
       
    
    public void interact(){
@@ -818,7 +818,7 @@ public class Level3 extends JPanel implements Runnable{
       if(end){
          g.drawImage(endPlate,0,0,this);
          for(int i = 0; i<collected.size(); i++){
-               g.drawImage(collected.get(i).getImg(),i%8*55+285,i/8*55+245,50,50,this);
+            g.drawImage(collected.get(i).getImg(),i%8*55+285,i/8*55+245,50,50,this);
          }
          if(score==0){
             g.drawImage(redX,400,50,this);

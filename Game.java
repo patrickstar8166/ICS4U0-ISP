@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.io.*;
 import java.util.*;
 public class Game extends JFrame implements Runnable{
-   public static int screenNum = 5;
+   public static int screenNum = 1;
    public boolean running = true;
    private Level3 l3;
    private Minigame mi;
@@ -13,55 +13,37 @@ public class Game extends JFrame implements Runnable{
    public static String[] images = {"Images/Saskatoon.jpg", "Images/Dandelion.jpg", "Images/Crown.jpg", "Images/Burdock.jpg", "Images/Jack.jpg", "Images/Lobster.png", "Images/Morel.jpg", "Images/Cranberry.jpg", "Images/Raspberry.jpg", "Images/Cattail.jpg","Images/LilyValley.jpeg","Images/FalseM.jpeg","Images/DestroyingAngel.jpeg","Images/DeadlyG.jpeg","Images/PoisonIvy.jpeg","Images/BaneBerryREd.jpeg","Images/BulbBearingWater.jpeg", "Images/PoisonHemlock.jpeg", "Images/WaterHemlock.jpeg","Images/BlueF.jpeg"  };
    public static Image[] img = new Image[images.length];
    public static String[] descriptions = {"Large purple-blue berries that grow on trees with gray bark and toothed leaves. Grow to about 5 meters tall and are about 3 meters wide. Berries ripen in June or early June.",
-   "Distributed everywhere from lawns, roadsides, to gardens. Found in May and August. Bright yellow flower with milky white stem. 5 - 45 cm in height.",
-   "Grows on wood. Branch tips have 3-6 points. Resembles sea coral or candelabra. Initially white and then becomes more pale/pink. Found in Spring, Summer, and Fall.",
+   "Distributed everywhere from lawns, roadsides, to gardens. Found in May and August. Bright yellow flower with milky white stem. 5-45 cm in height.",
+   "Grows on wood. Branch tips have 3-6 points. Resembles sea coral or candelabra. Initially white and then becomes more pale/pink. Found in spring, summer, and fall.",
    "0.5 - 1.5 meters. Pink or purple flowers with large burrs (spiky envelopes of fruit). Food in roadsides and disturbed areas. Found during August to October.",
    "Found year-round in boreal forests and open areas. Short needles in clusters of two that are not twisted together, cones are closer and tight to the branch.", 
-   "Bright red/orange mushroom with firm cap/stem. Irregular/deformed appearance. Cap size generally 5-12 cm. Harvested midsummer. Can be found in wooded areas.",
-   "Forests, open meadows, and highly disturbed areas can contain Morel. Long heads with ridges and pitted chambers. Hollow inside from tip of cap to bottom of stalk. Harvested in Spring.",
-   "Mostly under 20cm in height. Flowers are pink with red/purple berries. Found in wet areas near bogs/ponds/lakes. Harversted from September to November.",
-   "Up to 2m in height. Prickly stems with alternate compound leaves with white/green flowers. Found in moist temperate regions. Harvested around summer.",
-   "1 to 3 meters in height. Long, slender, stiff leaves. Flowers form tight cyidnrical clusters. Found in marshes, lakes, streams and calm water. Harvested in spring for flower and pollen, fall to spring for roots/shoots.",
-   "Lily of the vallies have a really good scent but can be easily mistaken for wild garlic, they live in woodlands and appear during April-June. However, they are very toxic and can cause a variety of symptoms, such as vomiting, nausea, blurry vision, and disruptions to the heart beat.",
-   "They consist of many different species but all are lookalikes to edible morels. They mostly appear in the spring and summer growing from the ground. The caps are brown/red-brown and sometimes yellow. The stems have a ligheter colour and the caps are not attached to the stems and caps. As well, a nonedible morel will have a hollow stem instead of an edible Morel's fibrous stem. They are commonly found near man-made disturbancnces and contain a toxic compound which can cause vomiting, dizziness, diarrhea, and death",
-   "The destroying angel is a white mushroom with a 12 cm diameter and 15 cm tall stalk. There is a key cup around the stalk surrounding the base. This type of mushroom is only found in North America, however, is one of the deadliest mushrooms in Canada, with toxins damaging the liver/kidneys.",
-   "Deadly Galerina's are brown little mushrooms which grow on rotting wood. The stalks are small and have a tender ring, while the caps are tan/brown and only about 5 cm in diameter. They are found in fall. Their toxins can damage the liver and kidneys.",
-   "Poison Ivy varies from shrubs to vines and are found in a variety of places such as forests, field, and open areas. They can be found in Ontario and have leaves that are in groups of three. The poison ivy is poisonous to touch and can cause rashes.", 
-   "Baneberry red contains bright red berries with tiny black dots on eahc one, they are found growing under shade within forests. As well, they are found in Ontario and grow to a heigh of 30-60cm. The berries are poisonous and 5-6 berries consumed can cause severe illness, with even more causing death.", 
-   "The Blub-bearing water Hemlock is a spindly plant with narrow/fine leaves. They are generally found in wet areas such as marhes, shores, and swamps in Ontario, growing to a height of 1-2 meters. Flowers are found in the summer and are white with 5 petals in umbrella-like clusters. The stem is also hollow as well with many widely spaced branches coming from the stem. This plant is deadly poisonous.",
-   "The Poison Hemlock is a plant with a spotted stem and white flowers occuring around summer. It contains 5 white petals and are located in fields and open areas in Ontario. Consuming them is deadly, as they are deadly poisonous.",
-   "The Water Hemlock is a plant found in wet areas such as marshes, swamps, and shore lines. They flower during the summer and contain 5 white petals in an umbrella-like cluster. The stem is branched, smooth, and hollow. The leaves are pointed with many teeth, showing occasionally a slight red color. They are a deadly poisonous plant.",
-   "The Blue Flag Iris is a poisonous to eat plant and is found in wet areas around Ontario. They generally grow in the sun, being found in the summer with 3 blue/violet petals. They can grow to about 30-80 cm."
+   "Bright red/orange mushroom with firm cap and stem. Irregular and deformed appearance. Cap size generally 5-12 cm. Harvested midsummer. Can be found in wooded areas.",
+   "Forests, open meadows, and highly disturbed areas can contain Morel. Long heads with ridges and pitted chambers. Hollow inside from tip of cap to bottom of stalk. Harvested in spring.",
+   "Mostly under 20 cm in height. Flowers are pink with red or purple berries. Found in wet areas near bogs, ponds, and lakes. Harversted from September to November.",
+   "Up to 2m in height. Prickly stems with alternate compound leaves with white or green flowers. Found in moist temperate regions. Harvested around summer.",
+   "1 to 3 meters in height. Long, slender, stiff leaves. Flowers form tight cylindrical clusters. Found in marshes, lakes, streams and calm water. Harvested in spring for flower and pollen, fall to spring for roots/shoots.",
+   "Lily of the vallies have a really good scent but can be easily mistaken for wild garlic, they live in woodlands and appear during April to June. However, they are very toxic and can cause a variety of symptoms, such as vomiting, nausea, blurry vision, and disruptions to the heart beat.",
+   "Lookalikes to edible morels. They mostly appear in the spring and summer. The caps are brown and sometimes yellow. Commonly found near man-made disturbances and contain a toxic compound which can cause vomiting, dizziness, diarrhea, and death.",
+   "A white mushroom with a 12 cm diameter and 15 cm tall stalk. There is a key cup around the stalk surrounding the base. Only found in North America, however, is one of the deadliest mushrooms in Canada, with toxins damaging the liver and kidneys.",
+   "Brown mushrooms which grow on rotting wood. The stalks are small and have a tender ring, while the caps are tan/brown and only about 5 cm in diameter. They are found in fall. Their toxins can damage the liver and kidneys.",
+   "Varies from shrubs to vines and are found in a variety of places such as forests, field, and open areas. They can be found in Ontario and have leaves that are in groups of three. It is poisonous to touch and can cause rashes.", 
+   "Bright red berries with tiny black dots. Found growing under shade within forests. As well, they are found in Ontario and grow to a heigh of 30-60 cm. The berries are poisonous and 5-6 berries consumed can cause severe illness, with even more causing death.", 
+   "A spindly plant with narrow/fine leaves. Generally found in wet areas such as marhes, shores, and swamps in Ontario, growing to a height of 1-2 meters. Flowers are found in the summer and are white with 5 petals in umbrella-like clusters. The stem is hollow with many widely spaced branches. This plant is extremely poisonous.",
+   "A plant with a spotted stem and white flowers occuring around summer. It contains 5 white petals and are located in fields and open areas in Ontario. Consuming them is deadly.",
+   "A plant found in wet areas such as marshes, swamps, and shore lines. They flower during the summer and contain 5 white petals in an umbrella-like cluster. The stem is branched, smooth, and hollow. The leaves are pointed with many teeth, showing occasionally a slight red color. A very poisonous plant.",
+   "A poisonous to eat plant and is found in wet areas around Ontario. They generally grow in the sun, being found in  summer with 3 blue or violet petals. They can grow to about 30-80 cm."
    };
-   public static String[] instructions = {"Within this game, you’ll be exposed to three different levels of increasing skill and difficulty. To navigate please follow the instructions. To navigate on this page, please use the arrow buttons by right-clicking with a mouse/trackpad! This single-player game is intended to teach kids aged 5-10 about foraged plants in a fun and engaging way. As the game progresses through the three levels the difficulty increases. As well, all levels must be played in sequential order, where the previous level must be successfully done.", 
-   "This level involves various slides you will navigate through. They will provide detailed information about foods that are edible and inedible (this will be tested in the later levels). The main goal of this level is not to be tested, but to learn. After going through all given slides in this level, users will be given access to the next level in the game. Please navigate through this level simply by right clicking the arrows on the screen. This will change the slides and change the content being displayed. Have fun!",
-   "This level involves various a pre-set path to navigate. Through the path, there will be checkpoints to test your knowledge on the different plants to be foraged. A screen will pop up asking for the answer, check means the food is edible and an x means the food is not. The answer can be selected by right clicking the correct option. If a wrong answer is selected, a prompt will indicate to re-select. As well, the maze can be navigated through with the 4 arrow keys! After you reach the end, the third level can be played. This will test you on your forage knowledge, so have fun!",
-   "This level involves a free-roam path that you will navigate! On the map there will have randomly spawned items. These items may be dangerous OR safe so choose carefully! Whether the item is safe or not will not be directly prompted until the end screen, which will tell you if what you've chosen is good! During this time, you will have to collect the right items and enough items before the 3 minute timer (right corner) runs out! Afterwards, your results will be displayed. During the game you can view your inventory by pressing \"i\". To pick up an item please press \"z\", a mini-game will be displayed where you will be asked to collect enough of the item while avoiding getting stung by the bees. If you are stung too much, the game will end completely. You will have successfully collected the item if the green bar is full. Then you will be back to the main map. You can navigate through the map using the 4 arrow keys!"};
-  public static String[] bib = {"1.https://www.ediblewildfood.com/saskatoon.aspx https://northernontario.travel/outdoor-adventures/beginners-guide-foraging-ontario 2.https://ontarionature.org/wp-content/uploads/2017/10/Ontario_Nature_Forest_Foraging_Guide_official.pdf 3.https://northernbushcraft.com/books/wemon/wemon_spread_p56.png https://www.ontariopoisoncentre.ca/common-poisons/plants/ 4.https://www.wildfooduk.com/edible-wild-plants/lily-of-the-valley/ 5.https://www.mushroom-appreciation.com/false-morel.html 6.https://www.toronto.ca/wp-content/uploads/2020/05/8ef1-City-Planning-Mushrooms-of-Toronto-Biodiversity-Series.pdf 7.http://ontariowildflowers.com/main/species.php?id=2069 8.http://ontariowildflowers.com/main/species.php?id=18 9.http://ontariowildflowers.com/main/species.php?id=116 10.http://ontariowildflowers.com/main/species.php?id=150 9.http://ontariowildflowers.com/main/species.php?id=117 11.http://ontariowildflowers.com/main/species.php?id=508"]; 
+   public static String[] instructions = {"Within this game, you’ll be exposed to three different levels of increasing skill and difficulty. To navigate please follow the instructions. To navigate on this page, please use the arrow buttons by clicking with a mouse/trackpad! This single-player game is intended to teach kids aged 5-10 about foraged plants in a fun and engaging way. As the game progresses through the three levels, the difficulty increases. As well, all levels must be played in sequential order, where the previous level must be successfully done.", 
+   "This level involves various slides you will navigate through. They will provide detailed information about foods that are edible and inedible (this will be tested in the later levels). The main goal of this level is not to be tested, but to learn. After going through all given slides in this level, users will be given access to the next level in the game. Please navigate through this level simply by clicking the arrows on the screen. This will change the slides and change the content being displayed. Have fun!",
+   "This level involves a pre-set path to navigate, using the arrow keys. Through the path, there will be checkpoints to test your knowledge on the different plants to be foraged (red squares). A screen will pop up asking for the answer. The answer can be selected by clicking the correct option. After you reach the end, the third level can be played. This will test you on your forage knowledge, so have fun!",
+   "This level involves a free-roam path that you will navigate, using the arrow keys. On the map, there will be randomly spawned items. These items may be dangerous OR safe, so choose carefully! Whether the item is safe or not will not be directly prompted until the end screen, which will tell you if what you've chosen is good! During this time, you will have to collect the right items and enough items before the 3 minute timer (right corner) runs out! Afterwards, your results will be displayed. During the game you can view your inventory by pressing \"i\". To pick up an item, press \"z\". A mini-game will be displayed where you will be asked to collect enough of the item while avoiding getting stung by the bees. If you are stung too much, you will not be able to collect the item. You will have successfully collected the item if the green bar is full. Collect 6 edible items before the timer runs out! If you collect any inedible plants, you will lose."};
+   public static String[] bib = {"1.https://www.ediblewildfood.com/saskatoon.aspx https://northernontario.travel/outdoor-adventures/beginners-guide-foraging-ontario 2.https://ontarionature.org/wp-content/uploads/2017/10/Ontario_Nature_Forest_Foraging_Guide_official.pdf 3.https://northernbushcraft.com/books/wemon/wemon_spread_p56.png https://www.ontariopoisoncentre.ca/common-poisons/plants/ 4.https://www.wildfooduk.com/edible-wild-plants/lily-of-the-valley/ 5.https://www.mushroom-appreciation.com/false-morel.html 6.https://www.toronto.ca/wp-content/uploads/2020/05/8ef1-City-Planning-Mushrooms-of-Toronto-Biodiversity-Series.pdf 7.http://ontariowildflowers.com/main/species.php?id=2069 8.http://ontariowildflowers.com/main/species.php?id=18 9.http://ontariowildflowers.com/main/species.php?id=116 10.http://ontariowildflowers.com/main/species.php?id=150 9.http://ontariowildflowers.com/main/species.php?id=117 11.http://ontariowildflowers.com/main/species.php?id=508"}; 
    public static Image[] imgs = new Image[20];
-   public static Image bee;
-   public static Image pcU;
-   public static Image pcD;
-   public static Image pcR;
-   public static Image pcL;
-   public static Image side1;
-   public static Image side2;
-   public static Image inv;
-   public static Image endPlate;
-   public static Image bush;
-   public static Image sprite1;
-   public static Image sprite2;
-   public static Image background2;
-   public static Image background3;
-   public static Image minigameChar;
-   public static Image minigameBasket;
-   public static Image minigameBg;
-   public static Image minigameBee;
+   public static Image bee, pcU, pcD, pcR, pcL, side1, side2, inv, endPlate, bush, sprite1, sprite2, background2, background3, minigameChar, minigameBasket, minigameBg, minigameBee;
    public static int x = 0;
    
 
    public Game(){
-      
       this.setTitle("Fresh Forage Adventure");
       this.setResizable(false);
       this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -124,7 +106,7 @@ public class Game extends JFrame implements Runnable{
                this.setVisible(true);
             
                while (m.isRunning()) {
-
+               
                   try {
                      Thread.sleep(100); // Add a small delay to reduce CPU usage
                   } catch (InterruptedException e) {
@@ -200,10 +182,10 @@ public class Game extends JFrame implements Runnable{
                level2.interrupt();
                break;
                
-           case 5:
+            case 5:
                this.getContentPane().removeAll();
                try{
-                  if(l3== null){
+                  if(l3 == null){
                      l3 = new Level3();
                   }
                   else{
@@ -244,7 +226,6 @@ public class Game extends JFrame implements Runnable{
                }
                catch(IOException e){
                }
-               //running = false;
                break;
             case 6:
                this.getContentPane().removeAll();
@@ -270,16 +251,9 @@ public class Game extends JFrame implements Runnable{
                }
                catch(IOException e){
                }
-               //running = false;
                screenNum = 5;
                break;
          }
       }
-   }
-
-   public static void main(String[] args){
-      Game g = new Game();
-      Thread t = new Thread(g);
-      t.start();
    }
 }

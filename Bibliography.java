@@ -19,12 +19,11 @@ public class Bibliography extends JPanel implements Runnable{
    }
 
    public void run(){
-    
       exit.addActionListener(
          new ActionListener(){
             public void actionPerformed(ActionEvent e){
                running = false;
-               Game.screenNum = ;//Insert number
+               Game.screenNum = 1; //Insert number
                exit.removeActionListener(this);
             }
          });
@@ -46,7 +45,7 @@ public class Bibliography extends JPanel implements Runnable{
       g.setFont(new Font("Sans Serif", Font.BOLD, 40));
          g.drawString("Bibliography", 300, 50);
          g.setFont(new Font("Sans Serif",Font.BOLD, 20));           
-         String[] words = Game.bib[count].split("\\s+");
+         String[] words = Game.bib[0].split("\\s+");
          StringBuilder line = new StringBuilder(words[0]);
          int location = 180;
          for (int i = 1; i < words.length; i++) {
