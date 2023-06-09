@@ -7,6 +7,15 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import javax.imageio.ImageIO;
 
+/**
+* Level3 class, player is free-roaming and must apply their knowledge to win
+* <h2>Course Info:</h2>
+* ICS4U0 with Krasteva, V.
+*
+* @version 08-06-2023
+* @author BLD Studios
+*/
+
 public class Level3 extends JPanel implements Runnable{
    private Image bg, pcU, pcD, pcL, pcR, charImg, inv, endPlate, redX, bush, objImage;
    private boolean rightHeld, leftHeld, upHeld, downHeld, lockCamX, lockCamY, zHeld, iHeld, inventory, pause, end, run;
@@ -17,6 +26,9 @@ public class Level3 extends JPanel implements Runnable{
    private String badItem;
    private MazeObject currentObj;
    
+   /**
+   * Class constructor, intializes variables to default values, generates interactable objects and walls
+   */
    public Level3() throws IOException{
       bg = Game.background3;
       pcU = Game.pcU;
@@ -46,7 +58,20 @@ public class Level3 extends JPanel implements Runnable{
       addWalls();
    }
    
-   public Level3(int timer, int charX, int charY, int bgX, int bgY, boolean lockCamX, boolean lockCamY, ArrayList<MazeObject> obj, ArrayList<MazeObject> collected ) throws IOException{
+   
+   /**
+   * Class constructor, used when returning to level 3 from minigame
+   * @param timer The time remaining
+   * @param charX The player's X position
+   * @param charY The player's Y position
+   * @param bgX The background's X position
+   * @param bgY The background's Y position
+   * @param lockCamX Whether the camera's X movement is locked
+   * @param lockCamY Whether the camera's Y movement is locked
+   * @param obj The list of interactable objects
+   * @param collected The list of objects collected
+   */
+   public Level3(int timer, int charX, int charY, int bgX, int bgY, boolean lockCamX, boolean lockCamY, ArrayList<MazeObject> obj, ArrayList<MazeObject> collected) throws IOException{
       bg = Game.background3;
       pcU = Game.pcU;
       pcD = Game.pcD;
@@ -78,13 +103,15 @@ public class Level3 extends JPanel implements Runnable{
       
    }
    
-   
+   /**
+   * Increments timer every loop, calculates score if timer runs out, calls movement and repaint methods every loop
+   */
    public void game() throws InterruptedException{
       while(!end){
          if(!pause){
             timer++;
          }
-         if(timer>60){ //3 minutes
+         if(timer>7200){ //2 minutes
             end = true;
             calcScore();
          }
@@ -93,6 +120,7 @@ public class Level3 extends JPanel implements Runnable{
          Thread.sleep(16,666667);
       }
       Thread.sleep(5000);
+      Game.screenNum = 7;
       run = false;
    }
    
@@ -100,7 +128,9 @@ public class Level3 extends JPanel implements Runnable{
       return run;
    }
    
-   
+   /**
+   * Handles movement of player, scrolls screen if player is not near a wall, moves character if player is near a wall
+   */
    public void move(){
    
       if(!lockCamX){
@@ -189,6 +219,12 @@ public class Level3 extends JPanel implements Runnable{
       }
    }
    
+   /**
+   * Checks if player is colliding with a wall
+   * @param x The x position of the player
+   * @param y The y position of the player
+   * @return Whether the player is colliding with a wall
+   */
    public boolean collision(int x, int y){
       for(int i = 0; i<walls.size(); i++){
          if(x - bgX + charW > walls.get(i).getX() && 
@@ -200,7 +236,9 @@ public class Level3 extends JPanel implements Runnable{
       }
       return true;
    }
-   
+   /**
+   * Adds a KeyListener, handles all input
+   */
    public void keyInput(){
       this.addKeyListener(
          new KeyListener(){
@@ -265,7 +303,9 @@ public class Level3 extends JPanel implements Runnable{
          });
    }
       
-   
+   /**
+   * Called when player hits interact key, checks if player is colliding with an interactable object. Changes screen to minigame if they are
+   */
    public void interact(){
       for(int i = 0; i<obj.size(); i++){
          if(charX - bgX + charW>= obj.get(i).getX()  &&  charX - bgX<= obj.get(i).getX() + obj.get(i).getW() && charY - bgY + charW >= obj.get(i).getY() && charY - bgY <= obj.get(i).getY() + obj.get(i).getW()){
@@ -285,6 +325,10 @@ public class Level3 extends JPanel implements Runnable{
       }
    }
    
+   /**
+   * Called when player hits inventory key, pauses all movement and timer, switches visuals to inventory
+   */
+   
    public void inventory(){
       if(!inventory){
          inventory = true;
@@ -299,6 +343,10 @@ public class Level3 extends JPanel implements Runnable{
          pause = false;
       }
    }
+   
+   /**
+   * Calculates which ending message should be displayed based on collected items
+   */
    
    public void calcScore(){
       int count= 0;
@@ -323,6 +371,10 @@ public class Level3 extends JPanel implements Runnable{
          }
       }
    }
+   
+   /**
+   * Generates object of each type of plant in a random preset position
+   */
    
    public void generateObjects() throws IOException, InterruptedException{ //
       int[] tempX = {80,380,720,820,940,1140,1260,1300,1660,1820,180,860,1100,1460,1660,1940,1940,460,1340,1400,1700,300,600,900,1100,1780,1100,800,480,220,360,1340,1740,1360,500,980,1280,1300,1400,1940,1840,1720,1620,1400,1000,860,680,500,340};
@@ -364,6 +416,10 @@ public class Level3 extends JPanel implements Runnable{
          obj.add(plants.get(i));
       } 
    }
+   
+   /**
+   * Generates walls
+   */
    
    public void addWalls() throws IOException{ 
       //top left corner: -500,-340
@@ -785,7 +841,10 @@ public class Level3 extends JPanel implements Runnable{
       
    }
    
-
+   @Override
+   /**
+   * Displays visuals for level
+   */
    public void paintComponent(Graphics g){
       super.paintComponent(g);
       if(!end){
@@ -874,27 +933,12 @@ public class Level3 extends JPanel implements Runnable{
       collected.add(m);
    }
    
+   /**
+   * Called when Level3 Thread is started, calls keyInput and Game
+   */
+   
    public void run(){
       try{
-         collected.add(new MazeObject(-500+260,-340+780,40,40,bush));
-         collected.add(new MazeObject(-500+260,-340+780,40,40,bush));
-         collected.add(new MazeObject(-500+260,-340+780,40,40,bush));
-         collected.add(new MazeObject(-500+260,-340+780,40,40,bush));
-         collected.add(new MazeObject(-500+260,-340+780,40,40,bush));
-         collected.add(new MazeObject(-500+260,-340+780,40,40,bush));
-         collected.add(new MazeObject(-500+260,-340+780,40,40,bush));
-         collected.add(new MazeObject(-500+260,-340+780,40,40,bush));
-         collected.add(new MazeObject(-500+260,-340+780,40,40,bush));
-         collected.add(new MazeObject(-500+260,-340+780,40,40,bush));
-         collected.add(new MazeObject(-500+260,-340+780,40,40,bush));
-         collected.add(new MazeObject(-500+260,-340+780,40,40,bush));
-         collected.add(new MazeObject(-500+260,-340+780,40,40,bush));
-         collected.add(new MazeObject(-500+260,-340+780,40,40,bush));
-         collected.add(new MazeObject(-500+260,-340+780,40,40,bush));
-         collected.add(new MazeObject(-500+260,-340+780,40,40,bush));
-         collected.add(new MazeObject(-500+260,-340+780,40,40,bush));
-         collected.add(new MazeObject(-500+260,-340+780,40,40,bush));
-         collected.add(new MazeObject(-500+260,-340+780,40,40,bush,"bush",true));
          end = false;
          keyInput();
          game();

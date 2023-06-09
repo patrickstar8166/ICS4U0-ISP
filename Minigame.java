@@ -7,6 +7,15 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import javax.imageio.ImageIO;
 
+/**
+* Minigame class, small game used in Level3 whenever harvest is attempted
+* <h2>Course Info:</h2>
+* ICS4U0 with Krasteva, V.
+*
+* @version 08-06-2023
+* @author BLD Studios
+*/
+
 public class Minigame extends JPanel implements Runnable{
 
    private boolean rightHeld, leftHeld, end, win, run;
@@ -18,7 +27,12 @@ public class Minigame extends JPanel implements Runnable{
    private Toolkit t = Toolkit.getDefaultToolkit();
    private Image bee = Game.minigameBee;
    private Image background = Game.minigameBg;
-
+   
+   /**
+   * Class constructor
+   * @param m The MazeObject representing the plant that the player is harvesting
+   */
+   
    public Minigame(MazeObject m) throws IOException{//constructor, generates frame and initializes variables
       timer = 0;
       rightHeld = false; 
@@ -30,6 +44,10 @@ public class Minigame extends JPanel implements Runnable{
 
    }
 
+   @Override
+   /**
+   * Displays visuals
+   */
    public void paintComponent (Graphics g) //drawing method
    {
       if(!end){
@@ -97,7 +115,9 @@ public class Minigame extends JPanel implements Runnable{
 
       
    }
-   
+   /**
+   * Called when Minigame thread starts, calls keyInput and game
+   */
    public void run(){
       try{
          keyInput();
@@ -108,6 +128,10 @@ public class Minigame extends JPanel implements Runnable{
       }
       
    }
+   
+   /**
+   * Adds KeyListener to handle input
+   */
    
    public void keyInput(){
       this.addKeyListener(
@@ -139,7 +163,9 @@ public class Minigame extends JPanel implements Runnable{
 
    
    
-   //handles updates and display, runs on 60 fps
+   /**
+   * handles updates and display, runs on 60 fps
+   */
    public void game() throws InterruptedException{ 
       
       while(!end){
@@ -199,7 +225,9 @@ public class Minigame extends JPanel implements Runnable{
    }
    
    
-   //generates a new falling object with x coordinate within bounds of the screen
+   /**
+   * generates a new falling object with x coordinate within bounds of the screen
+   */
    public FallingObject generate(){
       return new FallingObject((int)(Math.random()*980));
    }

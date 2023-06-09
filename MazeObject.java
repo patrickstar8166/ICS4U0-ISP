@@ -7,6 +7,15 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import javax.imageio.ImageIO;
 
+/**
+* MazeObject class, used in Level2, Level3, Minigame, to faciliate transfer of several types of information, like position, name, poisonous, etc
+* <h2>Course Info:</h2>
+* ICS4U0 with Krasteva, V.
+*
+* @version 08-06-2023
+* @author BLD Studios
+*/
+
 
 public class MazeObject{
    private int x, y, w, h;
@@ -14,16 +23,15 @@ public class MazeObject{
    private Image img, bigImg;
    private String name;
    
-   /*public MazeObject(int x, int y, int w, int h, String img, boolean poison) throws IOException{
-      this.x = x;
-      this.y = y;
-      this.w = w;
-      this.poison = poison;
-      BufferedImage tempImg = ImageIO.read(new File(img));
-      this.img = tempImg.getScaledInstance(w,h,Image.SCALE_SMOOTH);
-   }*/
    
-   
+   /**
+   * Class constructor, used for walls in level 3
+   * @param x The x position of the object
+   * @param y The y position of the object
+   * @param w The width of the object
+   * @param h The height of the object
+   * @param img The image used for the object
+   */
    public MazeObject(int x, int y, int w, int h, Image img) throws IOException{
       this.x = x;
       this.y = y;
@@ -32,6 +40,16 @@ public class MazeObject{
       this.img = img;
    }
    
+   /**
+   * Class constructor, used for interactable and collected objects in level 3
+   * @param x The x position of the object
+   * @param y The y position of the object
+   * @param w The width of the object
+   * @param h The height of the object
+   * @param img The image of the plant the object represents
+   * @param name The name of the plant the object represents
+   * @param poison Whether or not the plant the object represents is poisonous
+   */
    
    public MazeObject(int x, int y, int w, int h, Image img, String name, boolean poison) throws IOException{
       this.x = x;

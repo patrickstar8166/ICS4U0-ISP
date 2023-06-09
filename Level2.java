@@ -2,6 +2,16 @@ import java.awt.*;
 import java.awt.event.*;  
 import javax.swing.*;
 import java.util.*;
+
+/**
+* Level2 class, Maze level, tests player's knowledge
+* <h2>Course Info:</h2>
+* ICS4U0 with Krasteva, V.
+*
+* @version 08-06-2023
+* @author BLD Studios
+*/
+
 public class Level2 extends JPanel implements Runnable{
    private int[][] maze = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},  //19x11
                            {1, 1, 1, 1, 2, 1, 1, 1, 0, 1, 2, 1, 1, 1, 0, 1, 1, 2, 0},
@@ -21,7 +31,11 @@ public class Level2 extends JPanel implements Runnable{
    private JButton yes, no, next;
    private Image draw = Game.sprite2;
    private Toolkit t = Toolkit.getDefaultToolkit();
-                
+   
+   
+   /**
+   * Class constructor, initializes buttons and chooses a random set of plants to use
+   */
    public Level2() {
       yes = new JButton("\u2714");
       no = new JButton("\u03A7");
@@ -59,6 +73,10 @@ public class Level2 extends JPanel implements Runnable{
          img.add(temp.get(i));
       }
    }
+   
+   /**
+   * Called when Level2 thread is run, adds KeyListener to handle player movement, ActionListener to buttons, and handles object collission + maze exit
+   */
    
    public void run(){
       this.addKeyListener(
@@ -158,7 +176,10 @@ public class Level2 extends JPanel implements Runnable{
    public boolean isRunning(){
       return running;
    }
-   
+   @Override
+   /**
+   * Draws maze and question prompts
+   */
    public void paintComponent(Graphics g){
       super.paintComponent(g);
       g.drawImage(Game.background2,0, 10, 1000, 680, this);
@@ -168,7 +189,6 @@ public class Level2 extends JPanel implements Runnable{
                if (maze[i][j] == 0){
                   g.setColor(Color.black);
                   g.drawImage(Game.bush,j*50+25,i*50+50,50,50,this);
-                  //g.fillRect(j*50+25, i*50+50, 50, 50);
                }
                
                if (maze[i][j] == 2){

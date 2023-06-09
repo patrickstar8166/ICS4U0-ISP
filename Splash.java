@@ -1,6 +1,15 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+/**
+* Splash class, short splashscreen of logo before main menu
+* <h2>Course Info:</h2>
+* ICS4U0 with Krasteva, V.
+*
+* @version 08-06-2023
+* @author BLD Studios
+*/
+
 public class Splash extends JPanel{
    private int i = 0, a = 255;
    private boolean b = false, running = true; 
@@ -10,7 +19,9 @@ public class Splash extends JPanel{
    public boolean isRunning(){
       return running;
    }
-
+   /**
+   * Draws logo, changes transparency over time
+   */
    public void paintComponent(Graphics g){
       super.paintComponent(g);
       
@@ -20,7 +31,7 @@ public class Splash extends JPanel{
       
       //image
       Toolkit t = Toolkit.getDefaultToolkit();  
-      Image img = t.getImage("Images/logo.png");  
+      Image img = t.getImage("logo.png");  
       g.drawImage(img, 250, 75, this); 
       
       g.setColor(new Color(232, 220, 202, a));

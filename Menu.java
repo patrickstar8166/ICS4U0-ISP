@@ -1,11 +1,25 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+
+/**
+* Menu class, main menu of game
+* <h2>Course Info:</h2>
+* ICS4U0 with Krasteva, V.
+*
+* @version 08-06-2023
+* @author BLD Studios
+*/
+
 public class Menu extends JPanel implements Runnable {
    private JButton start, instr;
    private boolean running = true, finished = false;
    private JButton next;
-
+   
+   
+   /**
+   * Class constructor, initalizes buttons
+   */
    public Menu() {
       start = new JButton("Start");
       instr = new JButton("Instructions");
@@ -28,7 +42,11 @@ public class Menu extends JPanel implements Runnable {
       this.add(next);
       next.setVisible(false);
    }
-
+   
+   /**
+   * Called when Menu thread is started, adds ActionListener to buttons
+   */
+   
    public void run() {
       start.addActionListener(
          new ActionListener() {
@@ -64,7 +82,10 @@ public class Menu extends JPanel implements Runnable {
    public boolean isRunning() {
       return running;
    }
-      
+   @Override
+   /**
+   * Displays visuals
+   */   
    public void paintComponent(Graphics g){
       super.paintComponent(g); 
                 

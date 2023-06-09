@@ -1,10 +1,25 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+
+/**
+* Instructions class, informs user on how to play the game
+* <h2>Course Info:</h2>
+* ICS4U0 with Krasteva, V.
+*
+* @version 08-06-2023
+* @author BLD Studios
+*/
+
+
 public class Instructions extends JPanel implements Runnable{
    private int count = 0; 
    private JButton left, right, exit;
    private boolean running = true;
+   
+   /**
+   * Class constructor, configures buttons
+   */
 
    public Instructions(){ 
       left = new JButton("\u2190");
@@ -32,6 +47,10 @@ public class Instructions extends JPanel implements Runnable{
       right.setVisible(true);
       exit.setVisible(false);
    }
+   
+   /**
+   * Called when Instructions thread is started, adds ActionListeners to buttons, which increment screen counter
+   */
 
    public void run(){
       left.addActionListener(
@@ -65,7 +84,11 @@ public class Instructions extends JPanel implements Runnable{
    public boolean isRunning(){
       return running;
    }
-  
+   
+   @Override
+   /**
+   * Displays different instructions based on screen counter
+   */
    public void paintComponent(Graphics g){
       super.paintComponent(g);    
    

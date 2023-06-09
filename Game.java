@@ -3,14 +3,24 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.io.*;
 import java.util.*;
+
+/**
+* Game class, handles switching of screens and contains global variables used by screens
+* <h2>Course Info:</h2>
+* ICS4U0 with Krasteva, V.
+*
+* @version 08-06-2023
+* @author BLD Studios
+*/
+
 public class Game extends JFrame implements Runnable{
-   public static int screenNum = 7;
+   public static int screenNum = 0;
    public boolean running = true;
    private Level3 l3;
    private Minigame mi;
    private Toolkit t = Toolkit.getDefaultToolkit();
    public static String[] names = {"Saskatoon Berries", "Dandelion", "Crown Tipped Coral", "Burdock", "Jack Pine", "Lobster Mushroom", "Morel Mushroom", "Cranberry", "Raspberry", "Cattail", "Lily of the Valley", "False Morel", "Gilled Mushroom", "Deadly Galerina", "Poison Ivy", "Baneberry Red", " Blub-bearing Water Hemlock", "Poison Hemlock", "Water Hemlock", "Blue Flag Iris"};
-   public static String[] images = {"Images/Saskatoon.jpg", "Images/Dandelion.jpg", "Images/Crown.jpg", "Images/Burdock.jpg", "Images/Jack.jpg", "Images/Lobster.png", "Images/Morel.jpg", "Images/Cranberry.jpg", "Images/Raspberry.jpg", "Images/Cattail.jpg","Images/LilyValley.jpeg","Images/FalseM.jpeg","Images/DestroyingAngel.jpeg","Images/DeadlyG.jpeg","Images/PoisonIvy.jpeg","Images/BaneBerryREd.jpeg","Images/BulbBearingWater.jpeg", "Images/PoisonHemlock.jpeg", "Images/WaterHemlock.jpeg","Images/BlueF.jpeg"  };
+   public static String[] images = {"Saskatoon.jpg", "Dandelion.jpg", "Crown.jpg", "Burdock.jpg", "Jack.jpg", "Lobster.png", "Morel.jpg", "Cranberry.jpg", "Raspberry.jpg", "Cattail.jpg","LilyValley.jpeg","FalseM.jpeg","DestroyingAngel.jpeg","DeadlyG.jpeg","PoisonIvy.jpeg","BaneBerryREd.jpeg","BulbBearingWater.jpeg", "PoisonHemlock.jpeg", "WaterHemlock.jpeg","BlueF.jpeg"  };
    public static Image[] img = new Image[images.length];
    public static String[] descriptions = {"Large purple-blue berries that grow on trees with gray bark and toothed leaves. Grow to about 5 meters tall and are about 3 meters wide. Berries ripen in June or early June.",
    "Distributed everywhere from lawns, roadsides, to gardens. Found in May and August. Bright yellow flower with milky white stem. 5-45 cm in height.",
@@ -36,13 +46,15 @@ public class Game extends JFrame implements Runnable{
    public static String[] instructions = {"Within this game, you’ll be exposed to three different levels of increasing skill and difficulty. To navigate please follow the instructions. To navigate on this page, please use the arrow buttons by clicking with a mouse/trackpad! This single-player game is intended to teach kids aged 5-10 about foraged plants in a fun and engaging way. As the game progresses through the three levels, the difficulty increases. As well, all levels must be played in sequential order, where the previous level must be successfully done.", 
    "This level involves various slides you will navigate through. They will provide detailed information about foods that are edible and inedible (this will be tested in the later levels). The main goal of this level is not to be tested, but to learn. After going through all given slides in this level, users will be given access to the next level in the game. Please navigate through this level simply by clicking the arrows on the screen. This will change the slides and change the content being displayed. Have fun!",
    "This level involves a pre-set path to navigate, using the arrow keys. Through the path, there will be checkpoints to test your knowledge on the different plants to be foraged (red squares). A screen will pop up asking for the answer. The answer can be selected by clicking the correct option. After you reach the end, the third level can be played. This will test you on your forage knowledge, so have fun!",
-   "This level involves a free-roam path that you will navigate, using the arrow keys. On the map, there will be randomly spawned items. These items may be dangerous OR safe, so choose carefully! Whether the item is safe or not will not be directly prompted until the end screen, which will tell you if what you've chosen is good! During this time, you will have to collect the right items and enough items before the 3 minute timer (right corner) runs out! Afterwards, your results will be displayed. During the game you can view your inventory by pressing \"i\". To pick up an item, press \"z\". A mini-game will be displayed where you will be asked to collect enough of the item while avoiding getting stung by the bees. If you are stung too much, you will not be able to collect the item. You will have successfully collected the item if the green bar is full. Collect 6 edible items before the timer runs out! If you collect any inedible plants, you will lose."};
+   "This level involves a free-roam path that you will navigate, using the arrow keys. On the map, there will be randomly spawned items. These items may be dangerous OR safe, so choose carefully! Whether the item is safe or not will not be directly prompted until the end screen, which will tell you if what you've chosen is good! During this time, you will have to collect the right items and enough items before the 2 minute timer (right corner) runs out! Afterwards, your results will be displayed. During the game you can view your inventory by pressing \"i\". To pick up an item, press \"z\". A mini-game will be displayed where you will be asked to collect enough of the item while avoiding getting stung by the bees. If you are stung too much, you will not be able to collect the item. You will have successfully collected the item if the green bar is full. Collect 6 edible items before the timer runs out! If you collect any inedible plants, you will lose."};
    public static String bib = "1.https://www.ediblewildfood.com/saskatoon.aspx https://northernontario.travel/outdoor-adventures/beginners-guide-foraging-ontario 2.https://ontarionature.org/wp-content/uploads/2017/10/Ontario_Nature_Forest_Foraging_Guide_official.pdf 3.https://northernbushcraft.com/books/wemon/wemon_spread_p56.png https://www.ontariopoisoncentre.ca/common-poisons/plants/ 4.https://www.wildfooduk.com/edible-wild-plants/lily-of-the-valley/ 5.https://www.mushroom-appreciation.com/false-morel.html 6.https://www.toronto.ca/wp-content/uploads/2020/05/8ef1-City-Planning-Mushrooms-of-Toronto-Biodiversity-Series.pdf 7.http://ontariowildflowers.com/main/species.php?id=2069 8.http://ontariowildflowers.com/main/species.php?id=18 9.http://ontariowildflowers.com/main/species.php?id=116 10.http://ontariowildflowers.com/main/species.php?id=150 9.http://ontariowildflowers.com/main/species.php?id=117 11.http://ontariowildflowers.com/main/species.php?id=508"; 
    public static Image[] imgs = new Image[20];
-   public static Image bee, pcU, pcD, pcR, pcL, side1, side2, inv, endPlate, bush, sprite1, sprite2, background2, background3, minigameChar, minigameBasket, minigameBg, minigameBee;
+   public static Image bee, pcU, pcD, pcR, pcL, side1, side2, inv, endPlate, bush, sprite1, sprite2, background1, background2, background3, minigameChar, minigameBasket, minigameBg, minigameBee;
    public static int x = 0;
    
-
+   /**
+   * Class constructor, configures settings of JFrame, intializes images
+   */
    public Game(){
       this.setTitle("Fresh Forage Adventure");
       this.setResizable(false);
@@ -51,30 +63,34 @@ public class Game extends JFrame implements Runnable{
    
       this.setVisible(true);
       
-      bee = t.getImage("Images/bee.png");
-      pcU = t.getImage("Images/charUp.png");
-      pcD = t.getImage("Images/charDown.png");
-      pcR = t.getImage("Images/charRight.png");
-      pcL = t.getImage("Images/charLeft.png");
-      side1 = t.getImage("Images/StandingStillView.png");
-      side2 = t.getImage("Images/WalkingView.png");
-      inv = t.getImage("Images/inv.png");
-      endPlate = t.getImage("Images/endPlate.png");
-      bush = t.getImage("Images/bush.png");
-      sprite1 = t.getImage("Images/StandingStillView.png");
-      sprite2 = t.getImage("Images/WalkingView.png");
-      background2 = t.getImage("Images/MazeBackground.png");
-      background3 = t.getImage("Images/level3bg.png");
-      minigameChar = t.getImage("Images/MinigameView.png");
-      minigameBasket = t.getImage("Images/MinigameBasket.png");
-      minigameBg = t.getImage("Images/MinigameBackground.png");
-      minigameBee = t.getImage("Images/MinigameB.png");
+      bee = t.getImage("bee.png");
+      pcU = t.getImage("charUp.png");
+      pcD = t.getImage("charDown.png");
+      pcR = t.getImage("charRight.png");
+      pcL = t.getImage("charLeft.png");
+      side1 = t.getImage("StandingStillView.png");
+      side2 = t.getImage("WalkingView.png");
+      inv = t.getImage("inv.png");
+      endPlate = t.getImage("endPlate.png");
+      bush = t.getImage("bush.png");
+      sprite1 = t.getImage("StandingStillView.png");
+      sprite2 = t.getImage("WalkingView.png");
+      background1 = t.getImage("Background 1.png");
+      background2 = t.getImage("MazeBackground.png");
+      background3 = t.getImage("level3bg.png");
+      minigameChar = t.getImage("MinigameView.png");
+      minigameBasket = t.getImage("MinigameBasket.png");
+      minigameBg = t.getImage("MinigameBackground.png");
+      minigameBee = t.getImage("MinigameB.png");
       
       for (int i = 0; i < img.length; i++){
          img[i] = t.getImage(images[i]); 
       }
    }
-
+   /**
+   * Called when game thread is started, handles navigation of screens
+   */
+   
    public void run() {     
       while (running) {
          switch (screenNum) {

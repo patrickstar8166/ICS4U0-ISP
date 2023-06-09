@@ -1,3 +1,13 @@
+
+/**
+* Falling Object class, used in Minigame
+* <h2>Course Info:</h2>
+* ICS4U0 with Krasteva, V.
+*
+* @version 08-06-2023
+* @author BLD Studios
+*/
+
 public class FallingObject{
    
    //coordinates
@@ -7,7 +17,10 @@ public class FallingObject{
    //marked for deletion
    private boolean delete;
    
-   //constructor, sets x coordinate
+   /**
+   * class constructor
+   * @param x The x coordinate of the falling object
+   */
    public FallingObject(int x){
       this.x = x;
       y = -20;
@@ -31,7 +44,9 @@ public class FallingObject{
       return delete;
    }  
    
-   //increases y, if object falls out of bounds mark for deletion
+   /**
+   * Increase y of object, if object falls out of bounds mark for deletion
+   */
    public void fall(){
       y+=8;
       if(y>680){

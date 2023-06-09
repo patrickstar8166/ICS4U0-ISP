@@ -1,6 +1,16 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+
+/**
+* Level1 class, teaching level of game
+* <h2>Course Info:</h2>
+* ICS4U0 with Krasteva, V.
+*
+* @version 08-06-2023
+* @author BLD Studios
+*/
+
 public class Level1 extends JPanel implements Runnable{
    private Toolkit t = Toolkit.getDefaultToolkit();
    private int count = -1;
@@ -8,6 +18,9 @@ public class Level1 extends JPanel implements Runnable{
    private boolean running = true, finished = false;
 
       
+   /**
+   * Class constructor, initializes buttons
+   */   
    public Level1(){
       left = new JButton("\u2190");
       right = new JButton("\u2192");
@@ -35,6 +48,9 @@ public class Level1 extends JPanel implements Runnable{
       exit.setVisible(false);
    }
       
+   /**
+   * Called when Level1 thread is called, adds ActionListener to buttons, which allow for navigation between slides
+   */   
    public void run(){
       left.addActionListener(
          new ActionListener(){
@@ -78,6 +94,10 @@ public class Level1 extends JPanel implements Runnable{
    public boolean isRunning(){
       return running;
    }
+   @Override
+   /**
+   * Displays learning slides for each plant used in the game
+   */
       
    public void paintComponent(Graphics g){
       super.paintComponent(g);    
@@ -109,7 +129,7 @@ public class Level1 extends JPanel implements Runnable{
       }
             
       if (count != -1 && count != 10){     
-         Image image = t.getImage("Images/Background 1.png");
+         Image image = Game.background1;
          g.drawImage(image, 0, 0, 1000, image.getHeight(this)*1000/image.getWidth(this), this); 
          g.drawString(Game.names[count], 500-Game.names[count].length()*12, 40);
          g.drawImage(Game.img[count], 400, 70, 200, Game.img[count].getHeight(this)*200/Game.img[count].getWidth(this), this); 

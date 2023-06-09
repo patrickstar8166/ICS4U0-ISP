@@ -1,3 +1,13 @@
+
+/**
+* Player class, used in Minigame for hit detection, movement, etc
+* <h2>Course Info:</h2>
+* ICS4U0 with Krasteva, V.
+*
+* @version 08-06-2023
+* @author BLD Studios
+*/
+
 public class Player{
    
    //coordinate position
@@ -7,19 +17,21 @@ public class Player{
    //player health
    private int health;
    
-   public Player(){//constructor, intializes starting values
+   /**
+   * constructor, intializes starting values
+   */
+   public Player(){
       x = 490;
       y = 420;
       caught = 0;
       health = 10;
    }
    
-   public Player(int x, int y){ //alternate constructor with specific coordinates
-      this.x = x;
-      this.y = y;
-      caught = 0;
-      health = 10;
-   }
+   /**
+   * Updates position of player
+   * @param right Whether right is held
+   * @param left Whether left is held
+   */
    
    public void move(boolean right, boolean left){ //movement method, updates x coordinate
       
@@ -40,7 +52,9 @@ public class Player{
       }
    }
    
-   //checks if player hitbox is intersecting with object
+   /**
+   * checks if player hitbox is intersecting with object
+   */
    public void hitDetect(FallingObject f){
       
       //coordinates intersect
