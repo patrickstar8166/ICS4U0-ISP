@@ -1,7 +1,8 @@
 # ICS4U0-ISP
 Instructions Manual:
 
-Overall:
+1. Overall:
+
 Our game will implement our theme of foraging by teaching children which plants are safe to pick and eat, and which are not. 
 We then simulate the experience of foraging in the wild to further the user’s understanding by having them act out the proper procedures. 
 A heavy emphasis will be placed on safe identification through simple visual cues, as this will be most pertinent to children. 
@@ -35,7 +36,8 @@ Players are required to complete the learning level and test level before moving
 All levels must be played in sequential order, the option to play the next successive level will be only displayed once all the content in the level is completed
 
 
-Objective: 
+2. Objective: 
+
 Our game focuses on teaching safe foraging for childrens aged 5-10. 
 This game will not only educate users about safe foraging practices and identification, but also tests users in a fun and engaging way. 
 Foraging has become an increasingly popular pastime, with many children participating in foraging with their parents. 
@@ -44,7 +46,8 @@ There has been multiple cases in the past of children eating poisonous mushrooms
 For children, it's easy to mistake a toxic species for an edible one. Statistics show that out of all the mushroom-ingestion cases of hospitalization, the majority of the reported cases are children under six years old eating everything they can get their hands on, not understanding the consequences. 
 As such, this game focuses on teaching children about safe foraging from a young age to ensure their safety. 
 
-Relevant Info:
+3. Relevant Info:
+
 Software name: Fresh Forage Adventure
 Target audience: Children ages 5-10
 Project lead: Nia Decaire
@@ -55,7 +58,13 @@ Client Company: VK Enterprises
 Client Representative: V.Krasteva, CEO
 Required device to play: Functional computer
 
-Specific Details:
+4. Running the game: 
+
+To  play the game please run the Main.java class or the ISP Executable.exe. This will prompt a splash screen to open and the game to begin. 
+
+
+5. Specific Details:
+
 
 Splash Screen:
 Main Goal: Display the company logo and transition into the main menu
@@ -108,4 +117,8 @@ A onscreen notification will confirm this, later placing the user back into the 
 Miscellaneous: 
 Main Goal: N/A
 Controls: Mouse clicks. Any pop ups or buttons can be clicked using the mouse/keypad, they will perform the action being attempted. 
+
+
+
+
 
