@@ -18,7 +18,7 @@ public class Level3 extends JPanel implements Runnable{
    private MazeObject currentObj;
    
    public Level3() throws IOException{
-      bg = ImageIO.read(new File("Images/lab bg.png")).getScaledInstance(2000,1360,Image.SCALE_SMOOTH);
+      bg = Game.background3;
       pcU = Game.pcU;
       pcD = Game.pcD;
       pcL = Game.pcL;
@@ -47,7 +47,7 @@ public class Level3 extends JPanel implements Runnable{
    }
    
    public Level3(int timer, int charX, int charY, int bgX, int bgY, boolean lockCamX, boolean lockCamY, ArrayList<MazeObject> obj, ArrayList<MazeObject> collected ) throws IOException{
-      bg = ImageIO.read(new File("Images/lab bg.png")).getScaledInstance(2000,1360,Image.SCALE_SMOOTH);
+      bg = Game.background3;
       pcU = Game.pcU;
       pcD = Game.pcD;
       pcL = Game.pcL;
@@ -789,10 +789,12 @@ public class Level3 extends JPanel implements Runnable{
    public void paintComponent(Graphics g){
       super.paintComponent(g);
       if(!end){
-         g.drawImage(bg,bgX-500,bgY-340,this);
+         g.drawImage(bg,bgX-500,bgY-340,2000,1360,this);
          
          for(int i = 0; i< obj.size(); i++){
             g.drawImage(obj.get(i).getImg(), obj.get(i).getX()+bgX, obj.get(i).getY()+bgY,40,40, this);
+            g.setColor(Color.red);
+            g.drawRect(obj.get(i).getX()+bgX,obj.get(i).getY()+bgY,40,40);
          }
          for(int i = 0; i<walls.size(); i++){
             g.drawImage(walls.get(i).getImg(),walls.get(i).getX()+bgX,walls.get(i).getY()+bgY,40,40,this);

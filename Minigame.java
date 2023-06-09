@@ -16,8 +16,8 @@ public class Minigame extends JPanel implements Runnable{
    private Image plantImg;
    private MazeObject obj;
    private Toolkit t = Toolkit.getDefaultToolkit();
-   private Image sprite1 = t.getImage("Images/MinigameB.png");
-   private Image background = ImageIO.read(new File("Images/MinigameBackground.png")).getScaledInstance(1000,680,Image.SCALE_SMOOTH);
+   private Image bee = Game.minigameBee;
+   private Image background = Game.minigameBg;
 
    public Minigame(MazeObject m) throws IOException{//constructor, generates frame and initializes variables
       timer = 0;
@@ -34,13 +34,13 @@ public class Minigame extends JPanel implements Runnable{
    {
       if(!end){
          super.paintComponent(g);
-         g.drawImage(background,0,0,this);
+         g.drawImage(background,0,0,1000,680,this);
 
          //draws all falling objects in the array list
          //checks what falling object type it is before displaying   
          for(int i = 0; i<f.size(); i++){
             if(f.get(i).getBad()){
-               g.drawImage(sprite1,f.get(i).getX(),f.get(i).getY(),40,40,this); 
+               g.drawImage(bee,f.get(i).getX(),f.get(i).getY(),40,40,this); 
             }
             else{
                g.drawImage(plantImg,f.get(i).getX(),f.get(i).getY(),40,40,this);
@@ -49,10 +49,8 @@ public class Minigame extends JPanel implements Runnable{
          }
          
          //player entity
-         g.setColor(Color.blue);
-         g.fillRect(p.getX(),p.getY(),50,100);
-         g.setColor(Color.red);
-         g.fillRect(p.getX()-50,p.getY()-30,150,30);
+         g.drawImage(Game.minigameChar,p.getX(),p.getY(),50,100,this);
+         g.drawImage(Game.minigameBasket,p.getX()-50,p.getY()-30,150,30,this);
          
          
          //health bar

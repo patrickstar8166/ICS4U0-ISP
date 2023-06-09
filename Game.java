@@ -48,6 +48,14 @@ public class Game extends JFrame implements Runnable{
    public static Image inv;
    public static Image endPlate;
    public static Image bush;
+   public static Image sprite1;
+   public static Image sprite2;
+   public static Image background2;
+   public static Image background3;
+   public static Image minigameChar;
+   public static Image minigameBasket;
+   public static Image minigameBg;
+   public static Image minigameBee;
    public static int x = 0;
    
 
@@ -70,6 +78,14 @@ public class Game extends JFrame implements Runnable{
       inv = t.getImage("Images/inv.png");
       endPlate = t.getImage("Images/endPlate.png");
       bush = t.getImage("Images/bush.png");
+      sprite1 = t.getImage("Images/StandingStillView.png");
+      sprite2 = t.getImage("Images/WalkingView.png");
+      background2 = t.getImage("Images/MazeBackground.png");
+      background3 = t.getImage("Images/level3bg.png");
+      minigameChar = t.getImage("Images/MinigameView.png");
+      minigameBasket = t.getImage("Images/MinigameBasket.png");
+      minigameBg = t.getImage("Images/MinigameBackground.png");
+      minigameBee = t.getImage("Images/MinigameB.png");
       
       for (int i = 0; i < img.length; i++){
          img[i] = t.getImage(images[i]); 

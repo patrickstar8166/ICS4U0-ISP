@@ -21,11 +21,8 @@ public class Level2 extends JPanel implements Runnable{
    private int x = 1, y = 0, count = -1;
    private boolean running = true, move = true, start = false, good = true, finished = false;
    private JButton yes, no, next;
+   private Image draw = Game.sprite2;
    private Toolkit t = Toolkit.getDefaultToolkit();
-   private Image sprite1 = t.getImage("Images/StandingStillView.png");
-   private Image sprite2 = t.getImage("Images/WalkingView.png");
-   private Image draw = sprite2;
-   private Image background = t.getImage("Images/MazeBackground.png");
                 
    public Level2() {
       yes = new JButton("\u2714");
@@ -166,13 +163,14 @@ public class Level2 extends JPanel implements Runnable{
    
    public void paintComponent(Graphics g){
       super.paintComponent(g);
-      g.drawImage(background,0, 10, 1000, 680, this);
+      g.drawImage(Game.background2,0, 10, 1000, 680, this);
       if (move){
          for (int i = 0; i < 11; i++){
             for (int j = 0; j < 19; j++){
                if (maze[i][j] == 0){
                   g.setColor(Color.black);
-                  g.fillRect(j*50+25, i*50+50, 50, 50);
+                  g.drawImage(Game.bush,j*50+25,i*50+50,50,50,this);
+                  //g.fillRect(j*50+25, i*50+50, 50, 50);
                }
                
                if (maze[i][j] == 2){
@@ -184,8 +182,8 @@ public class Level2 extends JPanel implements Runnable{
          }
          
          g.drawImage(draw, y*50+25, x*50+50, 50, 50, this);
-         if (draw == sprite1) draw = sprite2;
-         else draw = sprite1;
+         if (draw == Game.sprite1) draw = Game.sprite2;
+         else draw = Game.sprite1;
       }else{
          if (start && count < 12){
             count++;

@@ -41,9 +41,6 @@ public class MazeObject{
       this.poison = poison;
       this.img = img;
    }
-   public String toString(){
-      return ""+name+" x: "+x+" y "+y;
-   }
    public int getX(){
       return x;  
    }
