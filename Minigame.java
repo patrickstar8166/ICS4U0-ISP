@@ -17,7 +17,7 @@ public class Minigame extends JPanel implements Runnable{
    private MazeObject obj;
    private Toolkit t = Toolkit.getDefaultToolkit();
    private Image sprite1 = t.getImage("Images/MinigameB.png");
-
+   private Image background = ImageIO.read(new File("Images/MinigameBackground.png")).getScaledInstance(1000,680,Image.SCALE_SMOOTH);
 
    public Minigame(MazeObject m) throws IOException{//constructor, generates frame and initializes variables
       timer = 0;
@@ -33,10 +33,11 @@ public class Minigame extends JPanel implements Runnable{
    public void paintComponent (Graphics g) //drawing method
    {
       if(!end){
-         
          super.paintComponent(g);
+         g.drawImage(background,0,0,this);
+
          //draws all falling objects in the array list
-         //checks what falling object type it is before displaying
+         //checks what falling object type it is before displaying   
          for(int i = 0; i<f.size(); i++){
             if(f.get(i).getBad()){
                g.drawImage(sprite1,f.get(i).getX(),f.get(i).getY(),40,40,this); 

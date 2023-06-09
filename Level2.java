@@ -2,6 +2,8 @@ import java.awt.*;
 import java.awt.event.*;  
 import javax.swing.*;
 import java.util.*;
+
+
 public class Level2 extends JPanel implements Runnable{
    private int[][] maze = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},  //19x11
                            {1, 1, 1, 1, 2, 1, 1, 1, 0, 1, 2, 1, 1, 1, 0, 1, 1, 2, 0},
@@ -23,8 +25,9 @@ public class Level2 extends JPanel implements Runnable{
    private Image sprite1 = t.getImage("Images/StandingStillView.png");
    private Image sprite2 = t.getImage("Images/WalkingView.png");
    private Image draw = sprite2;
-                              
-   public Level2(){
+   private Image background = t.getImage("Images/MazeBackground.png");
+                
+   public Level2() {
       yes = new JButton("\u2714");
       no = new JButton("\u03A7");
       next = new JButton("Next");
@@ -163,7 +166,7 @@ public class Level2 extends JPanel implements Runnable{
    
    public void paintComponent(Graphics g){
       super.paintComponent(g);
-      
+      g.drawImage(background,0, 10, 1000, 680, this);
       if (move){
          for (int i = 0; i < 11; i++){
             for (int j = 0; j < 19; j++){
