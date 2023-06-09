@@ -61,7 +61,7 @@ Required device to play: Functional computer
 4. Running the game: 
 
 To  play the game please run the Main.java class or the ISP Executable.exe. This will prompt a splash screen to open and the game to begin. 
-
+Open the java doc by opening the index.html file. 
 
 5. Specific Details:
 
