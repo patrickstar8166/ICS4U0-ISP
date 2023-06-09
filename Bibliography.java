@@ -1,18 +1,16 @@
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import java.util.*;
-
 /**
 * Bibliography + Ending Screen class
+* Code completed by Jonathan Liu and Patrick Bian
 * <h2>Course Info:</h2>
 * ICS4U0 with Krasteva, V.
 *
 * @version 08-06-2023
 * @author BLD Studios
 */
-
-
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import java.util.*;
 public class Bibliography extends JPanel implements Runnable{ 
    private boolean running = true, finished = false;;
    private Toolkit t = Toolkit.getDefaultToolkit();
@@ -68,7 +66,7 @@ public class Bibliography extends JPanel implements Runnable{
       
          g.setColor(Color.black);
          g.setFont(new Font("Sans Serif", Font.BOLD, 40));
-         g.drawString("Bibliography", 300, 50);
+         g.drawString("Bibliography", 400, 50);
          g.setFont(new Font("Sans Serif",Font.BOLD, 10));           
          String[] words = Game.bib.split("\\s+");
          StringBuilder line = new StringBuilder(words[0]);
@@ -89,11 +87,13 @@ public class Bibliography extends JPanel implements Runnable{
       if (finished){
          super.paintComponent(g);
          g.setColor(Color.black);
-         g.setFont(new Font("Sans Serif", Font.BOLD, 40));
+         g.setFont(new Font("Sans Serif", Font.BOLD, 30));
          g.drawImage(bg,0,0,1000,680,this);
-         g.drawString("Thank you for playing! We hope you enjoyed!!",100,100);
+         g.drawString("Thank you for playing! We hope you enjoyed!",200,100);
+         g.setFont(new Font("Sans Serif", Font.BOLD, 10));
+         g.drawString("Game developed by Nia Decaire, Patrick Bian, and Jonathan Liu for ICS4U0 with Ms. Krasteva",300,600);
          g.setFont(new Font("Sans Serif", Font.BOLD, 20));
-         g.drawString("Press any key to exit the game.",100,450);
+         g.drawString("Press any key to exit the game.",50,550);
       }
    }
 }

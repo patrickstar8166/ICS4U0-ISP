@@ -1,20 +1,19 @@
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import java.io.*;
-import java.util.*;
-
 /**
 * Game class, handles switching of screens and contains global variables used by screens
+* Code completed by Patrick Bian and Nia Decaire. Arrays made by Jonathan Liu
 * <h2>Course Info:</h2>
 * ICS4U0 with Krasteva, V.
 *
 * @version 08-06-2023
 * @author BLD Studios
 */
-
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import java.io.*;
+import java.util.*;
 public class Game extends JFrame implements Runnable{
-   public static int screenNum = 0;
+   public static int screenNum = 5;
    public boolean running = true;
    private Level3 l3;
    private Minigame mi;
@@ -47,7 +46,7 @@ public class Game extends JFrame implements Runnable{
    "This level involves various slides you will navigate through. They will provide detailed information about foods that are edible and inedible (this will be tested in the later levels). The main goal of this level is not to be tested, but to learn. After going through all given slides in this level, users will be given access to the next level in the game. Please navigate through this level simply by clicking the arrows on the screen. This will change the slides and change the content being displayed. Have fun!",
    "This level involves a pre-set path to navigate, using the arrow keys. Through the path, there will be checkpoints to test your knowledge on the different plants to be foraged (red squares). A screen will pop up asking for the answer. The answer can be selected by clicking the correct option. After you reach the end, the third level can be played. This will test you on your forage knowledge, so have fun!",
    "This level involves a free-roam path that you will navigate, using the arrow keys. On the map, there will be randomly spawned items. These items may be dangerous OR safe, so choose carefully! Whether the item is safe or not will not be directly prompted until the end screen, which will tell you if what you've chosen is good! During this time, you will have to collect the right items and enough items before the 2 minute timer (right corner) runs out! Afterwards, your results will be displayed. During the game you can view your inventory by pressing \"i\". To pick up an item, press \"z\". A mini-game will be displayed where you will be asked to collect enough of the item while avoiding getting stung by the bees. If you are stung too much, you will not be able to collect the item. You will have successfully collected the item if the green bar is full. Collect 6 edible items before the timer runs out! If you collect any inedible plants, you will lose."};
-   public static String bib = "1.https://www.ediblewildfood.com/saskatoon.aspx https://northernontario.travel/outdoor-adventures/beginners-guide-foraging-ontario 2.https://ontarionature.org/wp-content/uploads/2017/10/Ontario_Nature_Forest_Foraging_Guide_official.pdf 3.https://northernbushcraft.com/books/wemon/wemon_spread_p56.png https://www.ontariopoisoncentre.ca/common-poisons/plants/ 4.https://www.wildfooduk.com/edible-wild-plants/lily-of-the-valley/ 5.https://www.mushroom-appreciation.com/false-morel.html 6.https://www.toronto.ca/wp-content/uploads/2020/05/8ef1-City-Planning-Mushrooms-of-Toronto-Biodiversity-Series.pdf 7.http://ontariowildflowers.com/main/species.php?id=2069 8.http://ontariowildflowers.com/main/species.php?id=18 9.http://ontariowildflowers.com/main/species.php?id=116 10.http://ontariowildflowers.com/main/species.php?id=150 9.http://ontariowildflowers.com/main/species.php?id=117 11.http://ontariowildflowers.com/main/species.php?id=508"; 
+   public static String bib = "1.https://www.ediblewildfood.com/saskatoon.aspx 2.https://ontarionature.org/wp-content/uploads/2017/10/Ontario_Nature_Forest_Foraging_Guide_official.pdf 3.https://northernbushcraft.com/books/wemon/wemon_spread_p56.png 4.https://www.wildfooduk.com/edible-wild-plants/lily-of-the-valley/ 5.https://www.mushroom-appreciation.com/false-morel.html 6.https://www.toronto.ca/wp-content/uploads/2020/05/8ef1-City-Planning-Mushrooms-of-Toronto-Biodiversity-Series.pdf 7.http://ontariowildflowers.com/main/species.php?id=2069 8.http://ontariowildflowers.com/main/species.php?id=18 9.http://ontariowildflowers.com/main/species.php?id=116 10.http://ontariowildflowers.com/main/species.php?id=150 11.http://ontariowildflowers.com/main/species.php?id=508 12.https://northernontario.travel/outdoor-adventures/beginners-guide-foraging-ontario 13.https://www.ontariopoisoncentre.ca/common-poisons/plants/ 14.http://ontariowildflowers.com/main/species.php?id=117"; 
    public static Image[] imgs = new Image[20];
    public static Image bee, pcU, pcD, pcR, pcL, side1, side2, inv, endPlate, bush, sprite1, sprite2, background1, background2, background3, minigameChar, minigameBasket, minigameBg, minigameBee;
    public static int x = 0;

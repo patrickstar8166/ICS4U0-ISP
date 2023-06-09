@@ -1,6 +1,6 @@
-
 /**
 * Falling Object class, used in Minigame
+* Code completed by Nia Decaire
 * <h2>Course Info:</h2>
 * ICS4U0 with Krasteva, V.
 *

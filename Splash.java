@@ -1,15 +1,15 @@
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
 /**
 * Splash class, short splashscreen of logo before main menu
+* Code completed by Patrick Bian
 * <h2>Course Info:</h2>
 * ICS4U0 with Krasteva, V.
 *
 * @version 08-06-2023
 * @author BLD Studios
 */
-
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 public class Splash extends JPanel{
    private int i = 0, a = 255;
    private boolean b = false, running = true; 

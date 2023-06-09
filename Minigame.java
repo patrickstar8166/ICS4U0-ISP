@@ -1,3 +1,12 @@
+/**
+* Minigame class, small game used in Level3 whenever harvest is attempted
+* Code completed by Nia Decaire with edits by Jonathan Liu
+* <h2>Course Info:</h2>
+* ICS4U0 with Krasteva, V.
+*
+* @version 08-06-2023
+* @author BLD Studios
+*/
 import java.awt.*;    
 import java.awt.event.*;  
 import javax.swing.*;
@@ -6,15 +15,6 @@ import java.lang.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import javax.imageio.ImageIO;
-
-/**
-* Minigame class, small game used in Level3 whenever harvest is attempted
-* <h2>Course Info:</h2>
-* ICS4U0 with Krasteva, V.
-*
-* @version 08-06-2023
-* @author BLD Studios
-*/
 
 public class Minigame extends JPanel implements Runnable{
 

@@ -1,17 +1,15 @@
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-
 /**
 * Instructions class, informs user on how to play the game
+* Code completed by Patrick Bian
 * <h2>Course Info:</h2>
 * ICS4U0 with Krasteva, V.
 *
 * @version 08-06-2023
 * @author BLD Studios
 */
-
-
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 public class Instructions extends JPanel implements Runnable{
    private int count = 0; 
    private JButton left, right, exit;

@@ -1,6 +1,6 @@
-
 /**
 * Player class, used in Minigame for hit detection, movement, etc
+* Code completed by Nia Decaire
 * <h2>Course Info:</h2>
 * ICS4U0 with Krasteva, V.
 *
@@ -58,7 +58,7 @@ public class Player{
    public void hitDetect(FallingObject f){
       
       //coordinates intersect
-      if(f.getX() >= x-75 && f.getX() <= x+110 && f.getY() >= y-75 && f.getY() <= y){
+      if(f.getX() >= x-80 && f.getX() <= x+90 && f.getY() >= y-75 && f.getY() <= y){
          //bad object, decrement health
          if(f.getBad()){
             health --;

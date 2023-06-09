@@ -1,3 +1,12 @@
+/**
+* Level3 class, player is free-roaming and must apply their knowledge to win
+* Code completed bty Nia Decaire with edits by Patrick Bian. Background and sprited done by Jonathan Liu
+* <h2>Course Info:</h2>
+* ICS4U0 with Krasteva, V.
+*
+* @version 08-06-2023
+* @author BLD Studios
+*/
 import java.awt.*;    
 import java.awt.event.*;  
 import javax.swing.*;
@@ -6,16 +15,6 @@ import java.lang.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import javax.imageio.ImageIO;
-
-/**
-* Level3 class, player is free-roaming and must apply their knowledge to win
-* <h2>Course Info:</h2>
-* ICS4U0 with Krasteva, V.
-*
-* @version 08-06-2023
-* @author BLD Studios
-*/
-
 public class Level3 extends JPanel implements Runnable{
    private Image bg, pcU, pcD, pcL, pcR, charImg, inv, endPlate, redX, bush, objImage;
    private boolean rightHeld, leftHeld, upHeld, downHeld, lockCamX, lockCamY, zHeld, iHeld, inventory, pause, end, run;
@@ -25,6 +24,7 @@ public class Level3 extends JPanel implements Runnable{
    private ArrayList<MazeObject> walls = new ArrayList<MazeObject>();
    private String badItem;
    private MazeObject currentObj;
+   private JButton quit, restart;
    
    /**
    * Class constructor, intializes variables to default values, generates interactable objects and walls
@@ -56,6 +56,22 @@ public class Level3 extends JPanel implements Runnable{
          generateObjects();
       }catch(InterruptedException e){}
       addWalls();
+      
+      quit = new JButton("Quit");
+      restart = new JButton("Restart");
+      
+      this.setLayout(null);
+   
+      quit.setBackground(Color.LIGHT_GRAY);
+      quit.setBounds(850, 530, 100, 60);
+   
+      restart.setBackground(Color.LIGHT_GRAY);
+      restart.setBounds(850, 455, 100, 60);
+      
+      this.add(quit);
+      this.add(restart);
+      quit.setVisible(false);
+      restart.setVisible(false);
    }
    
    
@@ -100,7 +116,21 @@ public class Level3 extends JPanel implements Runnable{
       this.obj = obj;
       this.collected = collected;
       
+      quit = new JButton("Quit");
+      restart = new JButton("Restart");
       
+      this.setLayout(null);
+   
+      quit.setBackground(Color.LIGHT_GRAY);
+      quit.setBounds(850, 530, 100, 60);
+   
+      restart.setBackground(Color.LIGHT_GRAY);
+      restart.setBounds(850, 455, 100, 60);
+      
+      this.add(quit);
+      this.add(restart);
+      quit.setVisible(false);
+      restart.setVisible(false);
    }
    
    /**
@@ -119,9 +149,6 @@ public class Level3 extends JPanel implements Runnable{
          repaint();
          Thread.sleep(16,666667);
       }
-      Thread.sleep(5000);
-      Game.screenNum = 7;
-      run = false;
    }
    
    public boolean isRunning(){
@@ -135,38 +162,38 @@ public class Level3 extends JPanel implements Runnable{
    
       if(!lockCamX){
          if(rightHeld){
-            if(collision(charX+4,charY))
+            if(collision(charX+5,charY))
                bgX-=5;
          }
          if(leftHeld){
-            if(collision(charX-4,charY))
+            if(collision(charX-5,charY))
                bgX+=5;
          }
       }
       else{
          if(rightHeld){
-            if(collision(charX+4,charY))
+            if(collision(charX+5,charY))
                charX+=5;
          }
          if(leftHeld){
-            if(collision(charX-4,charY))
+            if(collision(charX-5,charY))
                charX-=5;
          }
       }
       
       if(!lockCamY){
          if(downHeld){
-            if(collision(charX,charY+4))
+            if(collision(charX,charY+5))
                bgY-=5;
          }
          if(upHeld){
-            if(collision(charX,charY-4))
+            if(collision(charX,charY-5))
                bgY+=5;
          }
       }
       else{
          if(downHeld){
-            if(collision(charX,charY+4))
+            if(collision(charX,charY+5))
                charY+=5;
          }
          if(upHeld){
@@ -836,9 +863,6 @@ public class Level3 extends JPanel implements Runnable{
          walls.add(new MazeObject(-500, -340+i*40,40,40,bush));
          walls.add(new MazeObject(1480, -340+i*40,40,40,bush));
       }
-      
-      
-      
    }
    
    @Override
@@ -869,7 +893,7 @@ public class Level3 extends JPanel implements Runnable{
             }
          }
          g.setColor(Color.orange);
-         g.fillRect(875,25,0+(10800-timer)/108,40);
+         g.fillRect(875,25,0+(7200-timer)/72,40);
          g.setColor(Color.black);
          g.drawRect(875,25,100,40);
       }
@@ -879,11 +903,11 @@ public class Level3 extends JPanel implements Runnable{
          for(int i = 0; i<collected.size(); i++){
             g.drawImage(collected.get(i).getImg(),i%8*55+285,i/8*55+340,50,50,this);
          }
-         g.setFont(new Font("Sans Serif", Font.BOLD, 40));
+         g.setFont(new Font("Sans Serif", Font.BOLD, 30));
          if(score==0){
             g.drawImage(redX,400,50,this);
-            g.drawString("You failed to forage a meal. You foraged ",100,100);
-            g.drawString("the "+badItem+", which is inedible.",100,200);
+            g.drawString("You failed to forage a meal. You foraged the ",120,100);
+            g.drawString(badItem+ ", which is inedible.",100,200);
          }
          else if(score ==1){
             g.drawString("You failed to forage a meal. You did not", 100,100);
@@ -892,6 +916,8 @@ public class Level3 extends JPanel implements Runnable{
          else{
             g.drawString("You succeeded in foraging a meal!! Good job!!!",100,100);
          }
+         quit.setVisible(true);
+         restart.setVisible(true);
       }
    }
    
@@ -942,7 +968,28 @@ public class Level3 extends JPanel implements Runnable{
          end = false;
          keyInput();
          game();
-         
+         quit.addActionListener(
+            new ActionListener(){
+               public void actionPerformed(ActionEvent e){
+                  quit.removeActionListener(this);
+                  quit.setVisible(false);
+                  restart.setVisible(false);
+                  Game.screenNum = 7;
+                  run = false;
+               }
+            });
+      
+         restart.addActionListener(
+            new ActionListener(){
+               public void actionPerformed(ActionEvent e){
+                  restart.removeActionListener(this);
+                  quit.setVisible(false);
+                  restart.setVisible(false);
+                  Game.screenNum = 1;
+                  run = false;
+               }
+            });
+      
       }
       catch(Exception e){
       }
