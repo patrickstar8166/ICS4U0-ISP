@@ -44,7 +44,7 @@ public class Player{
    public void hitDetect(FallingObject f){
       
       //coordinates intersect
-      if(f.getX() >= x-60 && f.getX() <= x+110 && f.getY() >= y-60 && f.getY() <= y){
+      if(f.getX() >= x-75 && f.getX() <= x+110 && f.getY() >= y-75 && f.getY() <= y){
          //bad object, decrement health
          if(f.getBad()){
             health --;

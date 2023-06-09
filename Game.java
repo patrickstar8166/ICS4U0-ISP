@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.io.*;
 import java.util.*;
 public class Game extends JFrame implements Runnable{
-   public static int screenNum = 1;
+   public static int screenNum = 5;
    public boolean running = true;
    private Level3 l3;
    private Minigame mi;
@@ -253,6 +253,7 @@ public class Game extends JFrame implements Runnable{
                }
                screenNum = 5;
                break;
+            
          }
       }
    }

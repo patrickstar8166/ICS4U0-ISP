@@ -194,7 +194,6 @@ public class Minigame extends JPanel implements Runnable{
          Thread.sleep(16,666667);
          //Thread and runnable learned from https://www.geeksforgeeks.org/runnable-interface-in-java/
       }
-      System.out.println(win);
       Thread.sleep(1000);
       run = false;
    }

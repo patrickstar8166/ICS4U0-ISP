@@ -84,7 +84,7 @@ public class Level3 extends JPanel implements Runnable{
          if(!pause){
             timer++;
          }
-         if(timer>10800){ //3 minutes
+         if(timer>60){ //3 minutes
             end = true;
             calcScore();
          }
@@ -315,7 +315,7 @@ public class Level3 extends JPanel implements Runnable{
          }
       }
       if(!badFound){
-         if(count<10){
+         if(count<6){
             score = 1;
          }
          else{
@@ -365,7 +365,7 @@ public class Level3 extends JPanel implements Runnable{
       } 
    }
    
-   public void addWalls() throws IOException{ //im so fuckin sorry man. 
+   public void addWalls() throws IOException{ 
       //top left corner: -500,-340
       walls.add(new MazeObject(-420,-320,40,40,bush));
       walls.add(new MazeObject(-400,-310+30,40,40,bush));
@@ -804,7 +804,7 @@ public class Level3 extends JPanel implements Runnable{
          g.drawImage(charImg,charX,charY,20,20,this);
          
          if(inventory){
-            g.drawImage(inv,0,0,this);
+            g.drawImage(inv,0,0,1000,680,this);
             for(int i = 0; i<collected.size(); i++){
                g.drawImage(collected.get(i).getImg(),i%8*55+285,i/8*55+245,50,50,this);
             }
@@ -816,19 +816,22 @@ public class Level3 extends JPanel implements Runnable{
       }
       
       if(end){
-         g.drawImage(endPlate,0,0,this);
+         g.drawImage(endPlate,0,0,1000,680,this);
          for(int i = 0; i<collected.size(); i++){
-            g.drawImage(collected.get(i).getImg(),i%8*55+285,i/8*55+245,50,50,this);
+            g.drawImage(collected.get(i).getImg(),i%8*55+285,i/8*55+340,50,50,this);
          }
+         g.setFont(new Font("Sans Serif", Font.BOLD, 40));
          if(score==0){
             g.drawImage(redX,400,50,this);
-            g.drawString("You failed to forage a meal. You foraged the "+badItem+", which is inedible.",0,100);
+            g.drawString("You failed to forage a meal. You foraged ",100,100);
+            g.drawString("the "+badItem+", which is inedible.",100,200);
          }
          else if(score ==1){
-            g.drawString("You failed to forage a meal. You did not forage enough food. Forage at least 10 items.", 0,100);
+            g.drawString("You failed to forage a meal. You did not", 100,100);
+            g.drawString("forage enough food. Forage at least 6 items.", 100,200);
          }
          else{
-            g.drawString("You succeeded in foraging a meal!! Good job!!!",0,100);
+            g.drawString("You succeeded in foraging a meal!! Good job!!!",100,100);
          }
       }
    }
@@ -873,7 +876,25 @@ public class Level3 extends JPanel implements Runnable{
    
    public void run(){
       try{
-         
+         collected.add(new MazeObject(-500+260,-340+780,40,40,bush));
+         collected.add(new MazeObject(-500+260,-340+780,40,40,bush));
+         collected.add(new MazeObject(-500+260,-340+780,40,40,bush));
+         collected.add(new MazeObject(-500+260,-340+780,40,40,bush));
+         collected.add(new MazeObject(-500+260,-340+780,40,40,bush));
+         collected.add(new MazeObject(-500+260,-340+780,40,40,bush));
+         collected.add(new MazeObject(-500+260,-340+780,40,40,bush));
+         collected.add(new MazeObject(-500+260,-340+780,40,40,bush));
+         collected.add(new MazeObject(-500+260,-340+780,40,40,bush));
+         collected.add(new MazeObject(-500+260,-340+780,40,40,bush));
+         collected.add(new MazeObject(-500+260,-340+780,40,40,bush));
+         collected.add(new MazeObject(-500+260,-340+780,40,40,bush));
+         collected.add(new MazeObject(-500+260,-340+780,40,40,bush));
+         collected.add(new MazeObject(-500+260,-340+780,40,40,bush));
+         collected.add(new MazeObject(-500+260,-340+780,40,40,bush));
+         collected.add(new MazeObject(-500+260,-340+780,40,40,bush));
+         collected.add(new MazeObject(-500+260,-340+780,40,40,bush));
+         collected.add(new MazeObject(-500+260,-340+780,40,40,bush));
+         collected.add(new MazeObject(-500+260,-340+780,40,40,bush,"bush",true));
          end = false;
          keyInput();
          game();
