@@ -1,3 +1,12 @@
+
+import java.awt.*;    
+import java.awt.event.*;  
+import javax.swing.*;
+import java.util.*;
+import java.lang.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import javax.imageio.ImageIO;
 /**
 * Minigame class, small game used in Level3 whenever harvest is attempted
 * Code completed by Nia Decaire with edits by Jonathan Liu
@@ -7,15 +16,6 @@
 * @version 08-06-2023
 * @author BLD Studios
 */
-import java.awt.*;    
-import java.awt.event.*;  
-import javax.swing.*;
-import java.util.*;
-import java.lang.*;
-import java.awt.image.BufferedImage;
-import java.io.*;
-import javax.imageio.ImageIO;
-
 public class Minigame extends JPanel implements Runnable{
 
    private boolean rightHeld, leftHeld, end, win, run;

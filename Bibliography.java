@@ -1,3 +1,8 @@
+
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import java.util.*;
 /**
 * Bibliography + Ending Screen class
 * Code completed by Jonathan Liu and Patrick Bian
@@ -7,10 +12,6 @@
 * @version 08-06-2023
 * @author BLD Studios
 */
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import java.util.*;
 public class Bibliography extends JPanel implements Runnable{ 
    private boolean running = true, finished = false;;
    private Toolkit t = Toolkit.getDefaultToolkit();

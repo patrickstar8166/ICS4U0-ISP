@@ -1,3 +1,7 @@
+
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 /**
 * Instructions class, informs user on how to play the game
 * Code completed by Patrick Bian
@@ -7,9 +11,6 @@
 * @version 08-06-2023
 * @author BLD Studios
 */
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
 public class Instructions extends JPanel implements Runnable{
    private int count = 0; 
    private JButton left, right, exit;
@@ -107,15 +108,15 @@ public class Instructions extends JPanel implements Runnable{
          StringBuilder line = new StringBuilder(words[0]);
          int location = 180;
          for (int i = 1; i < words.length; i++) {
-            if (line.length() + words[i].length() + 1 <= 70) {
+            if (line.length() + words[i].length() + 1 <= 65) {
                line.append(" ").append(words[i]);
             } else {
-               g.drawString(line.toString(), 120, location);
+               g.drawString(line.toString(), 140, location);
                location += 30;
                line = new StringBuilder(words[i]);
             }
          }
-         g.drawString(line.toString(), 120, location);
+         g.drawString(line.toString(), 140, location);
        
          left.setVisible(false);
       }else if (count == 1){
@@ -127,15 +128,15 @@ public class Instructions extends JPanel implements Runnable{
          StringBuilder line = new StringBuilder(words[0]);
          int location = 180;
          for (int i = 1; i < words.length; i++) {
-            if (line.length() + words[i].length() + 1 <= 70) {
+            if (line.length() + words[i].length() + 1 <= 65) {
                line.append(" ").append(words[i]);
             } else {
-               g.drawString(line.toString(), 120, location);
+               g.drawString(line.toString(), 140, location);
                location += 30;
                line = new StringBuilder(words[i]);
             }
          }
-         g.drawString(line.toString(), 120, location);
+         g.drawString(line.toString(), 140, location);
          
          left.setVisible(true);
       }else if (count == 2){
@@ -147,15 +148,15 @@ public class Instructions extends JPanel implements Runnable{
          StringBuilder line = new StringBuilder(words[0]);
          int location = 180;
          for (int i = 1; i < words.length; i++) {
-            if (line.length() + words[i].length() + 1 <= 70) {
+            if (line.length() + words[i].length() + 1 <= 65) {
                line.append(" ").append(words[i]);
             } else {
-               g.drawString(line.toString(), 120, location);
+               g.drawString(line.toString(), 140, location);
                location += 30;
                line = new StringBuilder(words[i]);
             }
          }
-         g.drawString(line.toString(), 120, location);         
+         g.drawString(line.toString(), 140, location);         
          right.setVisible(true);
          exit.setVisible(false);
       }else{            
@@ -167,15 +168,15 @@ public class Instructions extends JPanel implements Runnable{
          StringBuilder line = new StringBuilder(words[0]);
          int location = 180;
          for (int i = 1; i < words.length; i++) {
-            if (line.length() + words[i].length() + 1 <= 70) {
+            if (line.length() + words[i].length() + 1 <= 65) {
                line.append(" ").append(words[i]);
             } else {
-               g.drawString(line.toString(), 120, location);
+               g.drawString(line.toString(), 140, location);
                location += 30;
                line = new StringBuilder(words[i]);
             }
          }
-         g.drawString(line.toString(), 120, location);
+         g.drawString(line.toString(), 140, location);
                 
          right.setVisible(false);
          exit.setVisible(true);

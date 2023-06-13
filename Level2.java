@@ -1,3 +1,8 @@
+
+import java.awt.*;    
+import java.awt.event.*;  
+import javax.swing.*;
+import java.util.*;
 /**
 * Level2 class, Maze level, tests player's knowledge
 * Code completed by Patrick Bian with graphics and sprites done by Jonathan Liu
@@ -7,10 +12,6 @@
 * @version 08-06-2023
 * @author BLD Studios
 */
-import java.awt.*;    
-import java.awt.event.*;  
-import javax.swing.*;
-import java.util.*;
 public class Level2 extends JPanel implements Runnable{
    private int[][] maze = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},  //19x11
                            {1, 1, 1, 1, 2, 1, 1, 1, 0, 1, 2, 1, 1, 1, 0, 1, 1, 2, 0},
@@ -84,10 +85,12 @@ public class Level2 extends JPanel implements Runnable{
                if (move){
                   if(e.getKeyCode() == e.VK_RIGHT && maze[x][y+1] != 0 && y+1 < 19){
                      y++;
+                     if (draw == Game.sprite3 || draw == Game.sprite4) draw = Game.sprite1;
                   }
                   
                   if(e.getKeyCode() == e.VK_LEFT && maze[x][y-1] != 0 && y-1 > 0){
                      y--;
+                     if (draw == Game.sprite2 || draw == Game.sprite1) draw = Game.sprite3;
                   }
                   
                   if(e.getKeyCode() == e.VK_DOWN && maze[x+1][y] != 0 && x+1 < 11){
@@ -200,7 +203,9 @@ public class Level2 extends JPanel implements Runnable{
          
          g.drawImage(draw, y*50+25, x*50+50, 50, 50, this);
          if (draw == Game.sprite1) draw = Game.sprite2;
-         else draw = Game.sprite1;
+         else if (draw == Game.sprite2) draw = Game.sprite1;
+         else if (draw == Game.sprite3) draw = Game.sprite4; 
+         else draw = Game.sprite3;
       }else{
          if (start && count < 12){
             count++;

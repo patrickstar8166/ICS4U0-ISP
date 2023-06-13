@@ -1,3 +1,7 @@
+
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 /**
 * Menu class, main menu of game
 * Code completed by Patrick Bian
@@ -8,9 +12,6 @@
 * @version 08-06-2023
 * @author BLD Studios
 */
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
 public class Menu extends JPanel implements Runnable {
    private JButton start, instr;
    private boolean running = true, finished = false;

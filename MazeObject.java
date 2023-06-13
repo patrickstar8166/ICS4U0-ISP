@@ -1,3 +1,12 @@
+
+import java.awt.*;    
+import java.awt.event.*;  
+import javax.swing.*;
+import java.util.*;
+import java.lang.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import javax.imageio.ImageIO;
 /**
 * MazeObject class, used in Level2, Level3, Minigame, to faciliate transfer of several types of information, like position, name, poisonous, etc
 * Code Completed by Nia Decaire
@@ -7,14 +16,6 @@
 * @version 08-06-2023
 * @author BLD Studios
 */
-import java.awt.*;    
-import java.awt.event.*;  
-import javax.swing.*;
-import java.util.*;
-import java.lang.*;
-import java.awt.image.BufferedImage;
-import java.io.*;
-import javax.imageio.ImageIO;
 public class MazeObject{
    private int x, y, w, h;
    private boolean poison;

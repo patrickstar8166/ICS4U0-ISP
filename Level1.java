@@ -1,3 +1,7 @@
+
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 /**
 * Level1 class, teaching level of game
 * Code completed by Patrick Bian
@@ -7,9 +11,6 @@
 * @version 08-06-2023
 * @author BLD Studios
 */
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
 public class Level1 extends JPanel implements Runnable{
    private Toolkit t = Toolkit.getDefaultToolkit();
    private int count = -1;

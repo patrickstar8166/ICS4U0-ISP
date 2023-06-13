@@ -1,3 +1,12 @@
+
+import java.awt.*;    
+import java.awt.event.*;  
+import javax.swing.*;
+import java.util.*;
+import java.lang.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import javax.imageio.ImageIO;
 /**
 * Level3 class, player is free-roaming and must apply their knowledge to win
 * Code completed bty Nia Decaire with edits by Patrick Bian. Background and sprited done by Jonathan Liu
@@ -7,14 +16,6 @@
 * @version 08-06-2023
 * @author BLD Studios
 */
-import java.awt.*;    
-import java.awt.event.*;  
-import javax.swing.*;
-import java.util.*;
-import java.lang.*;
-import java.awt.image.BufferedImage;
-import java.io.*;
-import javax.imageio.ImageIO;
 public class Level3 extends JPanel implements Runnable{
    private Image bg, pcU, pcD, pcL, pcR, charImg, inv, endPlate, redX, bush, objImage;
    private boolean rightHeld, leftHeld, upHeld, downHeld, lockCamX, lockCamY, zHeld, iHeld, inventory, pause, end, run;
@@ -971,6 +972,19 @@ public class Level3 extends JPanel implements Runnable{
          quit.addActionListener(
             new ActionListener(){
                public void actionPerformed(ActionEvent e){
+                  end = false;
+                  charW = 20;
+                  charX = 500 - charW/2;
+                  charY = 340 - charW/2;
+                  buffer = 50;
+                  bgX = 0;
+                  bgY = 0;
+                  leftBound = 495;
+                  rightBound = -495;
+                  topBound = 335;
+                  bottomBound = -335;
+                  timer = 0;
+
                   quit.removeActionListener(this);
                   quit.setVisible(false);
                   restart.setVisible(false);
@@ -982,6 +996,18 @@ public class Level3 extends JPanel implements Runnable{
          restart.addActionListener(
             new ActionListener(){
                public void actionPerformed(ActionEvent e){
+                  end = false;
+                  charW = 20;
+                  charX = 500 - charW/2;
+                  charY = 340 - charW/2;
+                  buffer = 50;
+                  bgX = 0;
+                  bgY = 0;
+                  leftBound = 495;
+                  rightBound = -495;
+                  topBound = 335;
+                  bottomBound = -335;
+                  timer = 0;
                   restart.removeActionListener(this);
                   quit.setVisible(false);
                   restart.setVisible(false);

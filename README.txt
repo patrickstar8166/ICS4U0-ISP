@@ -82,7 +82,7 @@ which slide to be displayed. If the right arrow is pressed, the slide moves to t
 is pressed the slides move to the previous instruction slides. An exit button will be at the end to return to the main menu.
 
 Level 1 (Learning):
-Main Goal: Provide information about foraging plants and whihc ones are safe and dangerous
+Main Goal: Provide information about foraging plants and which ones are safe and dangerous
 Controls: Only mouse clicking to change the information displayed on the screen to the one after or the one before. Information
 is automatically displayed on the screen after a click. The option of Next will be displayed on the last plant, this will move the
 user to the next level and can be selected with a mouse click. 
@@ -90,7 +90,7 @@ user to the next level and can be selected with a mouse click.
 Level 2 (Testing):
 Main Goal: Provide a pre-set path for the player to access and use while testing their knowledge
 Controls: Mouse clicking and 4 arrow keys. Mouse clicking will be used after stepping on a red square which will prompt the user 
-to answer a question. The options are avalible to be selected by a mouse click. As well, a pop up will occur after the input telling
+to answer a question. The options are available to be selected by a mouse click. As well, a pop up will occur after the input telling
 if you selected the correct answer or not. You will be able to exit the pop up with a mouse click of "Ok". After the player moves through 
 to the end of the maze, a similar pop up will occur to move to the next level. Movement through the maze is controlled with the 4 arrow keys
 each corresponding to the associated action on screen. (Right arrow moves character right, up arrow moves character up, etc...).
@@ -98,11 +98,11 @@ each corresponding to the associated action on screen. (Right arrow moves charac
 Level 3 (Escape):
 Main Goal: To fully test the user and allow the user to freely roam and test their new found abilities. The user has to "escape" the forest by
 selecting the correct foods to eat.
-Controls: Keyboard input is required. The user will be freely able to move, with certain obstacles blockign the path such as trees. The goal is to
+Controls: Keyboard input is required. The user will be freely able to move, with certain obstacles blocking the path such as trees. The goal is to
 collect the correct items before the 2 minute timer (far right corner) is up. Poisonous items at the end of 2 minutes will be an automatic loss. Enough
 edible items is also required to win (6 edible items collected). All items are highlighted red regardless of edibility. To move around the map, the character
 is controlled with the 4 arrow keys each corresponding to the associated action on screen. (Right arrow moves character right, up arrow moves character up, etc...).
-As well, to collect an item the z key must be pressed. This will initiate a minigame which will be discuessed below. To view your currently collected items
+As well, to collect an item the z key must be pressed. This will initiate a minigame which will be discussed below. To view your currently collected items
 the user will press i to view what is in their inventory. The user cannot get rid of their inventory. After the 2 minutes is up, the game brings you to a new 
 graphic which will display if you collected the edible items and if you collected enough. The user will then be prompted to exit to the end cards which will be confirmed
 through mouse clicks on the on-screen buttons.
